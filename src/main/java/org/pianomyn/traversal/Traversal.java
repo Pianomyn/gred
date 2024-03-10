@@ -5,13 +5,13 @@ import java.util.Queue;
 import java.util.LinkedList;
 
 public class Traversal {
-    private Queue<String> queue;
+    private Queue<String> bfsQueue;
     private Queue<String> result;
     private String root;
 
     public Traversal(String root) {
         this.root = root;
-        this.queue = new LinkedList<>();
+        this.bfsQueue = new LinkedList<>();
         this.result = new LinkedList<>();
     }
 
@@ -34,30 +34,30 @@ public class Traversal {
         this.result.clear();
         File currentFile = new File(this.root);
         if (currentFile.exists()) {
-            this.queue.offer(this.root);
+            this.bfsQueue.offer(this.root);
         }
 
-        while (!this.queue.isEmpty()) {
+        while (!this.bfsQueue.isEmpty()) {
             this.exploreCurrentDepth();
         }
     }
 
     private void exploreCurrentDepth() {
-        int n = this.queue.size();
+        int n = this.bfsQueue.size();
         String currentName;
         File currentFile;
         while (n > 0) {
-            currentName = this.queue.poll();
-            this.enqueueChildren(currentName);
+            currentName = this.bfsQueue.poll();
+            this.enbfsQueueChildren(currentName);
             n--;
         }
     }
 
-    private void enqueueChildren(String currentName) {
+    private void enbfsQueueChildren(String currentName) {
         File currentFile = new File(currentName);
         if (currentFile.isDirectory()) {
             for (File child : currentFile.listFiles()) {
-                this.queue.offer(currentName + "/" + child.getName());
+                this.bfsQueue.offer(currentName + "/" + child.getName());
             }
         } else if (currentFile.isFile()) {
             this.result.offer(currentName);
