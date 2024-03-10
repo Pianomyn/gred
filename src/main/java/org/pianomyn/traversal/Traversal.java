@@ -16,19 +16,28 @@ public class Traversal {
     }
 
     // Getters
-    public String getRoot() { return this.root; }
-    public Queue<String> getResult() { return this.result; }
+    public String getRoot() {
+        return this.root;
+    }
+
+    public Queue<String> getResult() {
+        return this.result;
+    }
 
     // Setters
-    public void setRoot(String newRoot) { this.root = newRoot; }
+    public void setRoot(String newRoot) {
+        this.root = newRoot;
+    }
 
     // Instance methods
     public void traverse(String root) {
         this.result.clear();
         File currentFile = new File(this.root);
-        if(currentFile.exists()) { this.queue.offer(this.root); }
+        if (currentFile.exists()) {
+            this.queue.offer(this.root);
+        }
 
-        while(!this.queue.isEmpty()) {
+        while (!this.queue.isEmpty()) {
             this.exploreCurrentDepth();
         }
     }
@@ -37,7 +46,7 @@ public class Traversal {
         int n = this.queue.size();
         String currentName;
         File currentFile;
-        while(n > 0) {
+        while (n > 0) {
             currentName = this.queue.poll();
             this.enqueueChildren(currentName);
             n--;
@@ -46,22 +55,22 @@ public class Traversal {
 
     private void enqueueChildren(String currentName) {
         File currentFile = new File(currentName);
-        if(currentFile.isDirectory()) {
-            for(File child : currentFile.listFiles()) {
+        if (currentFile.isDirectory()) {
+            for (File child : currentFile.listFiles()) {
                 this.queue.offer(currentName + "/" + child.getName());
             }
-        } else if(currentFile.isFile()) {
+        } else if (currentFile.isFile()) {
             this.result.offer(currentName);
         }
     }
 
     public static void main(String[] args) {
-    Traversal t = new Traversal("/home/andi/mydir");
-    System.out.println("Started");
-    t.traverse(t.getRoot());
-    while (!t.getResult().isEmpty()) {
-        System.out.println(t.getResult().poll());
-    }
+        Traversal t = new Traversal("/home/andi/mydir");
+        System.out.println("Started");
+        t.traverse(t.getRoot());
+        while (!t.getResult().isEmpty()) {
+            System.out.println(t.getResult().poll());
+        }
         System.out.println("Ended");
     }
 }
