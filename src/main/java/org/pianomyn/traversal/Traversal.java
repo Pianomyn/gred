@@ -1,7 +1,8 @@
 package org.pianomyn.traversal;
 
 import java.io.File;
-import java.util.*;
+import java.util.Queue;
+import java.util.LinkedList;
 
 public class Traversal {
     private Queue<String> queue;
