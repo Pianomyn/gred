@@ -6,13 +6,13 @@ import java.util.LinkedList;
 
 public class BFS {
     private Queue<String> bfsQueue;
-    private Queue<String> result;
+    private Queue<String> filePaths;
     private String root;
 
     public BFS(String root) {
         this.root = root;
         this.bfsQueue = new LinkedList<>();
-        this.result = new LinkedList<>();
+        this.filePaths = new LinkedList<>();
     }
 
     // Getters
@@ -20,8 +20,8 @@ public class BFS {
         return this.root;
     }
 
-    public Queue<String> getResult() {
-        return this.result;
+    public Queue<String> getFilePaths() {
+        return this.filePaths;
     }
 
     // Setters
@@ -31,7 +31,7 @@ public class BFS {
 
     // Instance methods
     public void traverse(String root) {
-        this.result.clear();
+        this.clearFilePaths();
         File currentFile = new File(this.root);
         if (currentFile.exists()) {
             this.bfsQueue.offer(this.root);
@@ -48,28 +48,32 @@ public class BFS {
         File currentFile;
         while (n > 0) {
             currentName = this.bfsQueue.poll();
-            this.enbfsQueueChildren(currentName);
+            this.enqueueChildren(currentName);
             n--;
         }
     }
 
-    private void enbfsQueueChildren(String currentName) {
+    private void enqueueChildren(String currentName) {
         File currentFile = new File(currentName);
         if (currentFile.isDirectory()) {
             for (File child : currentFile.listFiles()) {
                 this.bfsQueue.offer(currentName + "/" + child.getName());
             }
         } else if (currentFile.isFile()) {
-            this.result.offer(currentName);
+            this.filePaths.offer(currentName);
         }
+    }
+
+    public void clearFilePaths() {
+        this.filePaths.clear();
     }
 
     public static void main(String[] args) {
         BFS t = new BFS("/home/andi/mydir");
         System.out.println("Started");
         t.traverse(t.getRoot());
-        while (!t.getResult().isEmpty()) {
-            System.out.println(t.getResult().poll());
+        while (!t.getFilePaths().isEmpty()) {
+            System.out.println(t.getFilePaths().poll());
         }
         System.out.println("Ended");
     }
