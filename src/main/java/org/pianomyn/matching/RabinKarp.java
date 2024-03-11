@@ -10,9 +10,11 @@ public class RabinKarp extends MatchingAlgorithm {
     //private String pattern;
     private int BASE = 256;  // Size of alphabet
     private int PRIME = 101;  // Close to size of alphabet (ASCII-256 in this instance).
+
     public RabinKarp(String filePath, String pattern) {
         super(filePath, pattern);
     }
+
     public RabinKarp(String filePath, String pattern, int base, int prime) {
         super(filePath, pattern);
         this.BASE = base;
@@ -26,16 +28,14 @@ public class RabinKarp extends MatchingAlgorithm {
     @Override
     public List<List<Integer>> findMatches() {
         List<List<Integer>> result = new ArrayList<List<Integer>>();
-        if(!this.fileExists()) {
+        if (!this.fileExists()) {
             return result;
         }
 
-        BufferedReader br;
-        try  {
-            br = new BufferedReader(new FileReader(this.filePath));
+        try (BufferedReader br = new BufferedReader(new FileReader(this.filePath))) {
             String line;
             int lineNumber = 1;
-            while((line = br.readLine()) != null) {
+            while ((line = br.readLine()) != null) {
                 // Rabin Karp here;
                 // TODO: Case where line shorter than pattern?
                 int m = this.pattern.length();
@@ -87,8 +87,8 @@ public class RabinKarp extends MatchingAlgorithm {
 
     public static void main(String[] args) throws FileNotFoundException {
         RabinKarp r = new RabinKarp(System.getProperty("user.home") + "/mydir/a.py", "if");
-        for(List<Integer> match: r.findMatches()) {
-            for(int i : match) {
+        for (List<Integer> match : r.findMatches()) {
+            for (int i : match) {
                 System.out.print(i + " ");
             }
             System.out.println();
