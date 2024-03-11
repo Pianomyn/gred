@@ -69,9 +69,9 @@ public class RabinKarp extends MatchingAlgorithm {
     }
 
     private int recomputeHash(String str, int oldIndex, int newIndex, int oldHash, int patternLength) {
-        int newHash = oldHash - str.charAt(oldIndex) * (int) Math.pow(BASE, patternLength - 1);
-        newHash = (newHash * BASE + str.charAt(newIndex)) % PRIME;
-        return (newHash < 0) ? (newHash + PRIME) : newHash; // Ensure the hash value is positive
+        int newHash = oldHash - str.charAt(oldIndex) * (int) Math.pow(this.BASE, patternLength - 1);
+        newHash = (newHash * this.BASE + str.charAt(newIndex)) % this.PRIME;
+        return (newHash < 0) ? (newHash + this.PRIME) : newHash; // Ensure the hash value is positive
     }
 
 
