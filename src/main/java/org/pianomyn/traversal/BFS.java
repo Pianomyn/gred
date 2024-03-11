@@ -4,12 +4,12 @@ import java.io.File;
 import java.util.Queue;
 import java.util.LinkedList;
 
-public class Traversal {
+public class BFS {
     private Queue<String> bfsQueue;
     private Queue<String> result;
     private String root;
 
-    public Traversal(String root) {
+    public BFS(String root) {
         this.root = root;
         this.bfsQueue = new LinkedList<>();
         this.result = new LinkedList<>();
@@ -65,7 +65,7 @@ public class Traversal {
     }
 
     public static void main(String[] args) {
-        Traversal t = new Traversal("/home/andi/mydir");
+        BFS t = new BFS("/home/andi/mydir");
         System.out.println("Started");
         t.traverse(t.getRoot());
         while (!t.getResult().isEmpty()) {
