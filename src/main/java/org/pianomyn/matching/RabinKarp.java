@@ -9,7 +9,7 @@ public class RabinKarp extends MatchingAlgorithm {
     //private String filePath;
     //private String pattern;
     private int BASE = 256;  // Size of alphabet
-    private int PRIME = 101;  // Close to size of alphabet (ASCII-256 in this instance).
+    private int PRIME = 101;  // Prime number close to size of alphabet (ASCII-256 in this instance).
 
     public RabinKarp(String filePath, String pattern) {
         super(filePath, pattern);
