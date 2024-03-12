@@ -54,16 +54,13 @@ public class BFSTest {
                 deleteDirectoriesRecursive(subFile);
             }
         }
-        if (!file.delete()) {
-            System.err.println("Failed to delete: " + file);
-        }
+        file.delete();
     }
 
     @BeforeEach
     public void setup() {
         createUniqueTestDirectory();
         this.b = new BFS(this.directoryPath.toString());
-        System.out.println(this.directoryPath.toString());
     }
 
     @AfterEach
@@ -120,7 +117,6 @@ public class BFSTest {
         Queue<String> result = this.b.traverse(this.directoryPath.toString());
 
         // Assert
-        System.out.println(result.size());
         assert result.size() == 4;
         for(int i = 0; i < 2; i++) {
             assert result.poll().equals(this.directoryPath + "/" + fileNames[i]);
