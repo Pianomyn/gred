@@ -19,10 +19,6 @@ public class RabinKarp extends MatchingAlgorithm {
         this.PRIME = prime;
     }
 
-    public String getFilePath() {
-        return this.filePath;
-    }
-
     @Override
     public List<List<Integer>> findMatches() {
         List<List<Integer>> result = new ArrayList<List<Integer>>();

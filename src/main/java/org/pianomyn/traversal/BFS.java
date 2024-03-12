@@ -7,10 +7,12 @@ import java.util.LinkedList;
 public class BFS {
     private Queue<String> bfsQueue;
     private String root;
+    private File file;
 
     public BFS(String root) {
         this.root = root;
         this.bfsQueue = new LinkedList<>();
+        this.file = this.createFileWrapper();
     }
 
     // Getters
@@ -24,25 +26,25 @@ public class BFS {
     }
 
     // Instance methods
+    public File createFileWrapper() {
+        return new File(this.root);
+    }
     public Queue<String> traverse(String root) {
         Queue<String> filePaths = new LinkedList<String>();
-        File currentFile = new File(this.root);
-        if (currentFile.exists()) {
+        //File currentFile = new File(this.root);
+        if (this.file.exists()) {
             this.bfsQueue.offer(this.root);
         }
 
         while (!this.bfsQueue.isEmpty()) {
             this.exploreCurrentDepth(filePaths);
         }
-        //Queue<String> result = this.filePaths;
-        //this.filePaths.clear();
         return filePaths;
     }
 
     private void exploreCurrentDepth(Queue<String> filePaths) {
         int n = this.bfsQueue.size();
         String currentName;
-        File currentFile;
         while (n > 0) {
             currentName = this.bfsQueue.poll();
             this.enqueueChildren(filePaths, currentName);
