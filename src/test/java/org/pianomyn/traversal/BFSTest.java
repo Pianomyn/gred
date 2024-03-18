@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Objects;
 import java.util.Queue;
 
 public class BFSTest {
@@ -60,7 +61,7 @@ public class BFSTest {
     @BeforeEach
     public void setup() {
         createUniqueTestDirectory();
-        this.b = new BFS(this.directoryPath.toString());
+        this.b = new BFS(this.directoryPath);
     }
 
     @AfterEach
@@ -70,7 +71,7 @@ public class BFSTest {
 
     @Test
     public void testTraverseEmpty() {
-        Queue<String> result = this.b.traverse(this.directoryPath.toString());
+        Queue<Path> result = this.b.traverse();
         assert result.isEmpty();
     }
 
@@ -88,12 +89,12 @@ public class BFSTest {
         }
 
         // Act
-        Queue<String> result = this.b.traverse(this.directoryPath.toString());
+        Queue<Path> result = this.b.traverse();
 
         // Assert
         assert result.size() == 2;
-        assert result.poll().equals(this.directoryPath + "/" + fileNames[0]);
-        assert result.poll().equals(this.directoryPath + "/" + fileNames[1]);
+        assert Objects.equals(result.poll(), this.directoryPath.resolve(fileNames[0]));
+        assert Objects.equals(result.poll(), this.directoryPath.resolve(fileNames[1]));
     }
 
     @Test
@@ -114,15 +115,15 @@ public class BFSTest {
         }
 
         // Act
-        Queue<String> result = this.b.traverse(this.directoryPath.toString());
+        Queue<Path> result = this.b.traverse();
 
         // Assert
         assert result.size() == 4;
-        for(int i = 0; i < 2; i++) {
-            assert result.poll().equals(this.directoryPath + "/" + fileNames[i]);
+        for (int i = 0; i < 2; i++) {
+            assert Objects.equals(result.poll(), this.directoryPath.resolve(fileNames[i]));
         }
-        for(int i = 0; i < 2; i++) {
-            assert result.poll().equals(nestedDirectory + "/" + fileNames[i]);
+        for (int i = 0; i < 2; i++) {
+            assert Objects.equals(result.poll(), (nestedDirectory.resolve(fileNames[i])));
         }
     }
 }

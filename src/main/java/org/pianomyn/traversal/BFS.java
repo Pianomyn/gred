@@ -1,38 +1,38 @@
 package org.pianomyn.traversal;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Queue;
 import java.util.LinkedList;
+import java.util.stream.Stream;
 
 public class BFS {
-    private Queue<String> bfsQueue;
-    private String root;
-    private File file;
+    private Queue<Path> bfsQueue;
+    private Path root;
 
-    public BFS(String root) {
+    public BFS(Path root) {
         this.root = root;
         this.bfsQueue = new LinkedList<>();
-        this.file = this.createFileWrapper();
     }
 
     // Getters
-    public String getRoot() {
+    public Path getRoot() {
         return this.root;
     }
 
     // Setters
-    public void setRoot(String newRoot) {
+    public void setRoot(Path newRoot) {
         this.root = newRoot;
     }
 
     // Instance methods
-    public File createFileWrapper() {
-        return new File(this.root);
-    }
-    public Queue<String> traverse(String root) {
-        Queue<String> filePaths = new LinkedList<String>();
+    public Queue<Path> traverse() {
+        Queue<Path> filePaths = new LinkedList<Path>();
         //File currentFile = new File(this.root);
-        if (this.file.exists()) {
+        if (Files.exists(this.root)) {
             this.bfsQueue.offer(this.root);
         }
 
@@ -42,33 +42,38 @@ public class BFS {
         return filePaths;
     }
 
-    private void exploreCurrentDepth(Queue<String> filePaths) {
+    private void exploreCurrentDepth(Queue<Path> filePaths) {
         int n = this.bfsQueue.size();
-        String currentName;
+        Path currentPath;
         while (n > 0) {
-            currentName = this.bfsQueue.poll();
-            this.enqueueChildren(filePaths, currentName);
+            currentPath = this.bfsQueue.poll();
+            this.enqueueChildren(filePaths, currentPath);
             n--;
         }
     }
 
-    private void enqueueChildren(Queue<String> filePaths, String currentName) {
-        File currentFile = new File(currentName);
-        if (currentFile.isDirectory()) {
-            for (File child : currentFile.listFiles()) {
-                this.bfsQueue.offer(currentName + "/" + child.getName());
+    private void enqueueChildren(Queue<Path> filePaths, Path currentPath) {
+        if (Files.isDirectory(currentPath)) {
+            Stream<Path> children;
+            try {
+                children = Files.list(currentPath);
+                children.forEach(child -> {
+                    this.bfsQueue.offer(child);
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } else if (currentFile.isFile()) {
-            filePaths.offer(currentName);
+        } else if (Files.isRegularFile(currentPath)) {
+            filePaths.offer(currentPath);
         }
     }
 
     public static void main(String[] args) {
-        BFS t = new BFS("/home/andi/mydir");
+        BFS t = new BFS(Paths.get("/home/andi/mydir"));
         System.out.println("Started");
-        Queue<String> filePaths = t.traverse(t.getRoot());
+        Queue<Path> filePaths = t.traverse();
         while (!filePaths.isEmpty()) {
-            System.out.println(filePaths.poll());
+            System.out.println(filePaths.poll().toString());
         }
         System.out.println("Ended");
     }

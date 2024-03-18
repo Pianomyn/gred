@@ -1,19 +1,20 @@
 package org.pianomyn.matching;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class MatchingAlgorithm {
-    protected String filePath;
+    protected Path filePath;
     protected String pattern;
-    public MatchingAlgorithm(String filePath, String pattern) {
+    public MatchingAlgorithm(Path filePath, String pattern) {
         this.filePath = filePath;
         this.pattern = pattern;
     }
     public abstract List<List<Integer>> findMatches();  // [[line, starting index]]
     public boolean fileExists() {
-        File file = new File(this.filePath);
-        return file.exists();
+        return Files.exists(this.filePath);
     }
 }

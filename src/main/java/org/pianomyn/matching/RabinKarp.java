@@ -1,6 +1,9 @@
 package org.pianomyn.matching;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -9,11 +12,11 @@ public class RabinKarp extends MatchingAlgorithm {
     private int BASE = 256;  // Size of alphabet
     private int PRIME = 101;  // Prime number close to size of alphabet (ASCII-256 in this instance).
 
-    public RabinKarp(String filePath, String pattern) {
+    public RabinKarp(Path filePath, String pattern) {
         super(filePath, pattern);
     }
 
-    public RabinKarp(String filePath, String pattern, int base, int prime) {
+    public RabinKarp(Path filePath, String pattern, int base, int prime) {
         super(filePath, pattern);
         this.BASE = base;
         this.PRIME = prime;
@@ -26,7 +29,8 @@ public class RabinKarp extends MatchingAlgorithm {
             return result;
         }
 
-        try (BufferedReader br = new BufferedReader(new FileReader(this.filePath))) {
+        try (BufferedReader br = Files.newBufferedReader(this.filePath)) {
+
             String line;
             int lineNumber = 1;
             while ((line = br.readLine()) != null) {
@@ -83,7 +87,7 @@ public class RabinKarp extends MatchingAlgorithm {
     }
 
     public static void main(String[] args) throws FileNotFoundException {
-        RabinKarp r = new RabinKarp(System.getProperty("user.home") + "/mydir/a.py", "if");
+        RabinKarp r = new RabinKarp(Paths.get(System.getProperty("user.home"), "/mydir/a.py"), "if");
         for (List<Integer> match : r.findMatches()) {
             for (int i : match) {
                 System.out.print(i + " ");
