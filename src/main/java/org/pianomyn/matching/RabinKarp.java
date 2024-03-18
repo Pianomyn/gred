@@ -30,9 +30,13 @@ public class RabinKarp extends MatchingAlgorithm {
             String line;
             int lineNumber = 1;
             while ((line = br.readLine()) != null) {
-                // TODO: Case where line shorter than pattern?
                 int m = this.pattern.length();
                 int n = line.length();
+
+                if(m > n) {
+                    continue;
+                }
+
                 int patternHash = hash(pattern, m);
                 int textHash = hash(line.substring(0, m), m);
 
