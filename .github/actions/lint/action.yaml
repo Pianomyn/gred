@@ -17,4 +17,4 @@ runs:
         # Run Checkstyle against Java code
     - name: Run Checkstyle
       shell: bash
-      run: java -jar checkstyle.jar -c ./.github/actions/lint/checkstyle/google_checks.xml .
+      run: java -jar checkstyle.jar .
