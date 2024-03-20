@@ -10,69 +10,70 @@ import java.util.LinkedList;
 import java.util.stream.Stream;
 
 public class BFS {
-    private Queue<Path> bfsQueue;
-    private Path root;
+  private Queue<Path> bfsQueue;
+  private Path root;
 
-    public BFS(Path root) {
-        this.root = root;
-        this.bfsQueue = new LinkedList<>();
+  public BFS(Path root) {
+    this.root = root;
+    this.bfsQueue = new LinkedList<>();
+  }
+
+  // Getters
+  public Path getRoot() {
+    return this.root;
+  }
+
+  // Setters
+  public void setRoot(Path newRoot) {
+    this.root = newRoot;
+  }
+
+  // Instance methods
+  public Queue<Path> traverse() {
+    Queue<Path> filePaths = new LinkedList<Path>();
+    if (Files.exists(this.root)) {
+      this.bfsQueue.offer(this.root);
     }
 
-    // Getters
-    public Path getRoot() {
-        return this.root;
+    while (!this.bfsQueue.isEmpty()) {
+      this.exploreCurrentDepth(filePaths);
     }
+    return filePaths;
+  }
 
-    // Setters
-    public void setRoot(Path newRoot) {
-        this.root = newRoot;
+  private void exploreCurrentDepth(Queue<Path> filePaths) {
+    int n = this.bfsQueue.size();
+    Path currentPath;
+    while (n > 0) {
+      currentPath = this.bfsQueue.poll();
+      this.enqueueChildren(filePaths, currentPath);
+      n--;
     }
+  }
 
-    // Instance methods
-    public Queue<Path> traverse() {
-        Queue<Path> filePaths = new LinkedList<Path>();
-        if (Files.exists(this.root)) {
-            this.bfsQueue.offer(this.root);
-        }
-
-        while (!this.bfsQueue.isEmpty()) {
-            this.exploreCurrentDepth(filePaths);
-        }
-        return filePaths;
+  private void enqueueChildren(Queue<Path> filePaths, Path currentPath) {
+    if (Files.isDirectory(currentPath)) {
+      try {
+        Stream<Path> children = Files.list(currentPath);
+        children.forEach(
+            child -> {
+              this.bfsQueue.offer(child);
+            });
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    } else if (Files.isRegularFile(currentPath)) {
+      filePaths.offer(currentPath);
     }
+  }
 
-    private void exploreCurrentDepth(Queue<Path> filePaths) {
-        int n = this.bfsQueue.size();
-        Path currentPath;
-        while (n > 0) {
-            currentPath = this.bfsQueue.poll();
-            this.enqueueChildren(filePaths, currentPath);
-            n--;
-        }
+  public static void main(String[] args) {
+    BFS t = new BFS(Paths.get("/home/andi/mydir"));
+    System.out.println("Started");
+    Queue<Path> filePaths = t.traverse();
+    while (!filePaths.isEmpty()) {
+      System.out.println(filePaths.poll().toString());
     }
-
-    private void enqueueChildren(Queue<Path> filePaths, Path currentPath) {
-        if (Files.isDirectory(currentPath)) {
-            try {
-                Stream<Path> children = Files.list(currentPath);
-                children.forEach(child -> {
-                    this.bfsQueue.offer(child);
-                });
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else if (Files.isRegularFile(currentPath)) {
-            filePaths.offer(currentPath);
-        }
-    }
-
-    public static void main(String[] args) {
-        BFS t = new BFS(Paths.get("/home/andi/mydir"));
-        System.out.println("Started");
-        Queue<Path> filePaths = t.traverse();
-        while (!filePaths.isEmpty()) {
-            System.out.println(filePaths.poll().toString());
-        }
-        System.out.println("Ended");
-    }
+    System.out.println("Ended");
+  }
 }
