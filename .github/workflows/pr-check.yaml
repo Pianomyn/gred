@@ -18,6 +18,6 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
       - name: Lint
-        uses: ./.github/lint.yaml
+        uses: ./.github/lint
       - name: Run tests
-        uses: ./.github/run-tests.yaml
+        uses: ./.github/run-tests
