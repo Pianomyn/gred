@@ -1,0 +1,15 @@
+name: Run Tests
+description: Runs tests using Gradle
+
+runs:
+  using: composite
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Set up JDK
+      uses: actions/setup-java@v1
+      with:
+        java-version: 17
+    - name: Run Gradle Tests
+      shell: bash
+      run: ./gradlew test

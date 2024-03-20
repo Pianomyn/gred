@@ -1,0 +1,19 @@
+name: Checkstyle Lint
+description: Runs 'Checkstyle', a popular Java linter
+
+runs:
+  using: composite
+  steps:
+    - name: Checkout correct commit
+      uses: actions/checkout@v4
+    - name: Setup JDK
+      uses: actions/setup-java@v1
+      with:
+        java-version: 17
+    - name: Install Checkstyle
+      shell: bash
+      run: |
+        curl -L -o checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.14.2/checkstyle-10.14.2-all.jar
+    - name: Run Checkstyle
+      shell: bash
+      run: java -jar checkstyle.jar -c ./.github/actions/lint/checkstyle/google_checks.xml .
