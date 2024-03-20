@@ -1,0 +1,23 @@
+name: PR Check
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - master
+
+jobs:
+  lint:
+    name: PR Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout correct commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Lint
+        uses: ./.github/lint.yaml
+      - name: Run tests
+        uses: ./.github/run-tests.yaml
