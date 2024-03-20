@@ -8,7 +8,13 @@
     <!-- General -->
     <module name="FileTabCharacter"/>
 
-    <!-- TreeWalker module containing all checks -->
+    <!-- LineLength check -->
+    <module name="LineLength">
+        <property name="max" value="100"/>
+        <property name="ignorePattern" value="^package.*|^import.*|.*src/test/.*"/>
+    </module>
+
+    <!-- TreeWalker module containing all other checks -->
     <module name="TreeWalker">
         <!-- Javadoc checks -->
         <module name="JavadocMethod"/>
@@ -22,10 +28,6 @@
             <property name="throwsIndent" value="4"/>
             <property name="lineWrappingIndentation" value="4"/>
             <property name="arrayInitIndent" value="4"/>
-        </module>
-        <module name="LineLength">
-            <property name="max" value="100"/>
-            <property name="ignorePattern" value="^package.*|^import.*|.*src/test/.*"/>
         </module>
 
         <!-- Naming checks -->
