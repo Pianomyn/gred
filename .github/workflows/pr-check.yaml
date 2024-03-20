@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: Checkout correct commit
         uses: actions/checkout@v4
-      - name: Lint
-        uses: ./.github/actions/lint
       - name: Run tests
         uses: ./.github/actions/run-tests
+      - name: Lint
+        uses: ./.github/actions/lint
