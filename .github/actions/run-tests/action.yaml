@@ -1,6 +1,9 @@
 name: Run tests
+description: Runs tests using Gradle
 
-jobs:
+runs:
+  using: shell
+  shell: bash
   steps:
     - name: Checkout code
       uses: actions/checkout@v4
