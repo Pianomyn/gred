@@ -57,5 +57,7 @@
     <module name="RequireThis"/>
     <module name="StringLiteralEquality"/>
     <module name="SuperClone"/>
-    <module name="AvoidStat
+    <module name="AvoidStaticImport"/>
+    <module name="UnnecessaryParentheses"/>
+</module>
 
