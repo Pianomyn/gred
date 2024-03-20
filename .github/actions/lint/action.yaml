@@ -13,7 +13,7 @@ runs:
     - name: Install Checkstyle
       shell: bash
       run: |
-        curl -L -o checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-8.44/checkstyle-8.44-all.jar
+        curl -L -o checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.14.2/checkstyle-10.14.2-all.jar
     - name: Run Checkstyle
       shell: bash
       run: java -jar checkstyle.jar -c ./.github/actions/lint/checkstyle/google_checks.xml .
