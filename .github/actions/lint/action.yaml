@@ -17,4 +17,4 @@ runs:
         # Run Checkstyle against Java code
     - name: Run Checkstyle
       shell: bash
-      run: java -jar checkstyle.jar -c configs/checkstyle/sun_checks.xml src/main/java/**/*.java
+      run: java -jar checkstyle.jar -c ./.github/actions/lint/checkstyle/sun_checks.xml
