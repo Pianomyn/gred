@@ -7,57 +7,55 @@
 
     <!-- General -->
     <module name="FileTabCharacter"/>
+
+    <!-- TreeWalker module containing all checks -->
     <module name="TreeWalker">
+        <!-- Javadoc checks -->
         <module name="JavadocMethod"/>
         <module name="JavadocType"/>
         <module name="JavadocVariable"/>
         <module name="JavadocStyle"/>
-        <module name="FileTabCharacter"/>
+
+        <!-- Formatting checks -->
+        <module name="Indentation">
+            <property name="caseIndent" value="4"/>
+            <property name="throwsIndent" value="4"/>
+            <property name="lineWrappingIndentation" value="4"/>
+            <property name="arrayInitIndent" value="4"/>
+        </module>
+        <module name="LineLength">
+            <property name="max" value="100"/>
+            <property name="ignorePattern" value="^package.*|^import.*|.*src/test/.*"/>
+        </module>
+
+        <!-- Naming checks -->
+        <module name="AbbreviationAsWordInName"/>
+        <module name="LocalFinalVariableName"/>
+        <module name="MemberName"/>
+        <module name="MethodName"/>
+        <module name="ParameterName"/>
+        <module name="TypeName"/>
+
+        <!-- Comments checks -->
+        <module name="JavadocPackage"/>
+        <module name="JavadocMethod"/>
+        <module name="JavadocType"/>
+        <module name="JavadocVariable"/>
+        <module name="JavadocStyle"/>
+
+        <!-- Miscellaneous checks -->
+        <module name="EmptyBlock"/>
+        <module name="FallThrough"/>
+        <module name="ModifierOrder"/>
+        <module name="NeedBraces"/>
+        <module name="OuterTypeFilename"/>
+        <module name="PackageName"/>
+        <module name="RedundantImport"/>
+        <module name="RequireThis"/>
+        <module name="StringLiteralEquality"/>
+        <module name="SuperClone"/>
+        <module name="AvoidStaticImport"/>
+        <module name="UnnecessaryParentheses"/>
     </module>
-
-    <!-- Imports -->
-    <module name="AvoidStarImport"/>
-    <module name="IllegalImport"/>
-
-    <!-- Formatting -->
-    <module name="Indentation">
-        <property name="caseIndent" value="4"/>
-        <property name="throwsIndent" value="4"/>
-        <property name="lineWrappingIndentation" value="4"/>
-        <property name="arrayInitIndent" value="4"/>
-    </module>
-    <module name="LineLength">
-        <property name="max" value="100"/>
-        <property name="ignorePattern" value="^package.*|^import.*|.*src/test/.*"/>
-    </module>
-
-    <!-- Naming -->
-    <module name="AbbreviationAsWordInName"/>
-    <module name="LocalFinalVariableName"/>
-    <module name="MemberName"/>
-    <module name="MethodName"/>
-    <module name="ParameterName"/>
-    <module name="TypeName"/>
-
-    <!-- Comments -->
-    <module name="JavadocPackage"/>
-    <module name="JavadocMethod"/>
-    <module name="JavadocType"/>
-    <module name="JavadocVariable"/>
-    <module name="JavadocStyle"/>
-
-    <!-- Miscellaneous -->
-    <module name="EmptyBlock"/>
-    <module name="FallThrough"/>
-    <module name="ModifierOrder"/>
-    <module name="NeedBraces"/>
-    <module name="OuterTypeFilename"/>
-    <module name="PackageName"/>
-    <module name="RedundantImport"/>
-    <module name="RequireThis"/>
-    <module name="StringLiteralEquality"/>
-    <module name="SuperClone"/>
-    <module name="AvoidStaticImport"/>
-    <module name="UnnecessaryParentheses"/>
 </module>
 
