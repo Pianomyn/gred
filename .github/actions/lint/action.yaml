@@ -3,17 +3,18 @@ description: Runs 'Checkstyle', a popular Java linter
 
 runs:
   using: shell
-  shell: bash
   steps:
     - name: Checkout correct commit
       uses: actions/checkout@v4
     - name: Setup JDK
-      uses: actions/setup-java
+      uses: actions/setup-java@2
       with:
         java-version: 17
     - name: Install Checkstyle
+      shell: bash
       run: |
         curl -L -o checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-8.44/checkstyle-8.44-all.jar
         # Run Checkstyle against Java code
     - name: Run Checkstyle
+      shell: bash
       run: java -jar checkstyle.jar src/main/java/**/*.java
