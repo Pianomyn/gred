@@ -31,7 +31,6 @@ public class BFS {
     // Instance methods
     public Queue<Path> traverse() {
         Queue<Path> filePaths = new LinkedList<Path>();
-        //File currentFile = new File(this.root);
         if (Files.exists(this.root)) {
             this.bfsQueue.offer(this.root);
         }
@@ -54,9 +53,8 @@ public class BFS {
 
     private void enqueueChildren(Queue<Path> filePaths, Path currentPath) {
         if (Files.isDirectory(currentPath)) {
-            Stream<Path> children;
             try {
-                children = Files.list(currentPath);
+                Stream<Path> children = Files.list(currentPath);
                 children.forEach(child -> {
                     this.bfsQueue.offer(child);
                 });
