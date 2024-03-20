@@ -7,10 +7,9 @@ runs:
     - name: Checkout code
       uses: actions/checkout@v4
     - name: Set up JDK
-      shell: bash
-      uses: actions/setup-java
+      uses: actions/setup-java@v1
       with:
-        java-version: '17'
+        java-version: 17
     - name: Run Gradle Tests
       shell: bash
       run: ./gradlew test
