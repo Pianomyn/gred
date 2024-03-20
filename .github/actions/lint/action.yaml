@@ -2,6 +2,7 @@ name: Checkstyle Lint
 description: Runs 'Checkstyle', a popular Java linter
 
 runs:
+  using: composite
   steps:
     - name: Checkout correct commit
       uses: actions/checkout@v4

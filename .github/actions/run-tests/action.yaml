@@ -2,8 +2,7 @@ name: Run tests
 description: Runs tests using Gradle
 
 runs:
-  using: shell
-  shell: bash
+  using: composite
   steps:
     - name: Checkout code
       uses: actions/checkout@v4
