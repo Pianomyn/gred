@@ -15,8 +15,6 @@ jobs:
     steps:
       - name: Checkout correct commit
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
       - name: Lint
         uses: ./.github/actions/lint
       - name: Run tests
