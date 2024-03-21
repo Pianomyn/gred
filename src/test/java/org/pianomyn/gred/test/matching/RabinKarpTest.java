@@ -25,6 +25,15 @@ public class RabinKarpTest {
   }
 
   @Test
+  public void testFileDoesntExist() {
+    // Arrange
+    this.directoryPath = this.directoryPath.resolve("non_existant_file.txt");
+
+    // Act and Assert
+    assert(this.rk.findMatches().isEmpty());
+  }
+
+  @Test
   public void testPatternNull() {
     // Arrange
     this.rk.setPattern(null);
