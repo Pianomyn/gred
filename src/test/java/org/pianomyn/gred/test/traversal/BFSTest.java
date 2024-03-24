@@ -1,4 +1,4 @@
-package org.pianomyn.gred.test.matching;
+package org.pianomyn.gred.test.traversal;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
