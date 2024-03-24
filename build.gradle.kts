@@ -22,3 +22,9 @@ tasks.test {
     }
 }
 
+tasks.jar {
+    manifest {
+        attributes["Main-Class"] = "org.pianoyn.gred.Main" // Replace com.example.Main with your main class
+    }
+}
+

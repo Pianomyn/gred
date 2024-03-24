@@ -18,4 +18,8 @@ public abstract class MatchingAlgorithm {
   public boolean fileExists() {
     return Files.exists(this.filePath);
   }
+
+  public void setPathToSearch(Path newPath) {
+    this.filePath = newPath;
+  }
 }
