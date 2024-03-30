@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Observable;
 
 public class RabinKarp extends MatchingAlgorithm {
   private int BASE = 256; // Size of alphabet
