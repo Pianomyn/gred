@@ -1,2 +1,3 @@
-- Github Actions
-- Gradle
+- Github Actions (Lint, tests on PR)
+- Gradle (Lint, format)
+- Docker
