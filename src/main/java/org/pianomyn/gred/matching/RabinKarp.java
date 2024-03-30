@@ -30,7 +30,7 @@ public class RabinKarp extends MatchingAlgorithm {
     }
 
     int m = this.pattern.length();
-    if(m == 0) {
+    if (m == 0) {
       return result;
     }
 
@@ -47,10 +47,7 @@ public class RabinKarp extends MatchingAlgorithm {
         int textHash = this.hash(line.substring(0, m), m);
 
         for (int i = 0; i <= n - m; i++) {
-          if (
-            patternHash == textHash
-            && RabinKarp.checkEqual(line, pattern, i, i + m - 1)
-          ) {
+          if (patternHash == textHash && RabinKarp.checkEqual(line, pattern, i, i + m - 1)) {
             result.add(Arrays.asList(lineNumber, i));
           }
           if (i < n - m) {
@@ -74,9 +71,9 @@ public class RabinKarp extends MatchingAlgorithm {
     return hashValue;
   }
 
-  private int recomputeHash(
-      String text, int oldIndex, int oldTextHash, int patternLength) {
-    int newHash = oldTextHash - text.charAt(oldIndex) * (int) Math.pow(this.BASE, patternLength - 1);
+  private int recomputeHash(String text, int oldIndex, int oldTextHash, int patternLength) {
+    int newHash =
+        oldTextHash - text.charAt(oldIndex) * (int) Math.pow(this.BASE, patternLength - 1);
     newHash = (newHash * this.BASE + text.charAt(oldIndex + patternLength)) % this.PRIME;
     return (newHash < 0) ? (newHash + this.PRIME) : newHash; // Integer overflow
   }

@@ -1,4 +1,3 @@
 package org.pianomyn.gred.matching;
 
-public class BoyerMoore {
-}
+public class BoyerMoore {}

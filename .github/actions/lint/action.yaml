@@ -16,4 +16,4 @@ runs:
         curl -L -o checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.14.2/checkstyle-10.14.2-all.jar
     - name: Run Checkstyle
       shell: bash
-      run: java -jar checkstyle.jar -c ./.github/actions/lint/checkstyle/google_checks.xml .
+      run: java -jar checkstyle.jar -c ./config/checkstyle/checkstyle.xml .

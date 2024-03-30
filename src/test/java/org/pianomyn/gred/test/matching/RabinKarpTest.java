@@ -1,5 +1,10 @@
 package org.pianomyn.gred.test.matching;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Queue;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,16 +13,11 @@ import org.pianomyn.gred.matching.RabinKarp;
 import org.pianomyn.gred.test.Utility;
 import org.pianomyn.gred.traversal.BFS;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Queue;
-
 public class RabinKarpTest {
   private Path directoryPath;
   private RabinKarp rk;
   private Naive naive;
+
   @BeforeEach
   public void setup() {
     this.directoryPath = Utility.createUniqueTestDirectory();
@@ -40,7 +40,7 @@ public class RabinKarpTest {
     List<List<Integer>> result = this.rk.findMatches();
 
     // Assert
-    assert(result.isEmpty());
+    assert (result.isEmpty());
   }
 
   @Test
@@ -50,8 +50,9 @@ public class RabinKarpTest {
     Utility.appendToFile(this.directoryPath, Paths.get("testFile.txt"), "asdf");
 
     // Act and Assert
-    assert(this.rk.findMatches().isEmpty());
+    assert (this.rk.findMatches().isEmpty());
   }
+
   @Test
   public void testPatternLengthZero() {
     // Arrange
@@ -59,8 +60,9 @@ public class RabinKarpTest {
     Utility.appendToFile(this.directoryPath, Paths.get("testFile.txt"), "asdf");
 
     // Act and Assert
-    assert(this.rk.findMatches().isEmpty());
+    assert (this.rk.findMatches().isEmpty());
   }
+
   @Test
   public void testPatternLongerThanText() {
     // Arrange
@@ -68,7 +70,7 @@ public class RabinKarpTest {
     Utility.appendToFile(this.directoryPath, Paths.get("testFile.txt"), "a");
 
     // Act and Assert
-    assert(this.rk.findMatches().isEmpty());
+    assert (this.rk.findMatches().isEmpty());
   }
 
   @Test
@@ -84,7 +86,7 @@ public class RabinKarpTest {
 
     List<List<Integer>> rkResult = new ArrayList<List<Integer>>();
     List<List<Integer>> naiveResult = new ArrayList<List<Integer>>();
-    for(Path file : files) {
+    for (Path file : files) {
       this.naive.setPathToSearch(file);
       this.rk.setPathToSearch(file);
 
@@ -93,6 +95,6 @@ public class RabinKarpTest {
     }
 
     // Assert
-    assert(rkResult.equals(naiveResult));
+    assert (rkResult.equals(naiveResult));
   }
 }
