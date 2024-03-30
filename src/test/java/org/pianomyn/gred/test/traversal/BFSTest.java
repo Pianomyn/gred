@@ -1,22 +1,20 @@
 package org.pianomyn.gred.test.traversal;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.pianomyn.gred.test.Utility;
-import org.pianomyn.gred.traversal.BFS;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Objects;
 import java.util.Queue;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.pianomyn.gred.test.Utility;
+import org.pianomyn.gred.traversal.BFS;
 
 public class BFSTest {
   private Path directoryPath;
   private BFS b;
-
 
   public void deleteTestDirectory() {
     File directory = new File(this.directoryPath.toString());

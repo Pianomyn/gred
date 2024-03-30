@@ -55,11 +55,23 @@ tasks.named<Checkstyle>("checkstyleTest") {
 spotless {
   java {
     target("**/*.java")
+
+    googleJavaFormat()
+    removeUnusedImports()
   }
 }
 
-tasks.named("spotlessJava") {
+tasks.register("lint") {
   group = "format"
-  description = "Format Java code"
+  description = "Root lifecycle task for linting"
+
+  dependsOn("checkstyleMain", "checkstyleTest", "spotlessJavaCheck")
+}
+
+tasks.register("format") {
+  group = "format"
+  description = "Root lifecycle task for formatting"
+
+  dependsOn("spotlessApply")
 }
 
