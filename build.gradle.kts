@@ -1,6 +1,5 @@
 plugins {
     id("java")
-    //id("checkstyle")
     id("checkstyle")
     id("com.diffplug.spotless") version "6.25.0"
 }
@@ -27,7 +26,7 @@ tasks.test {
 
 tasks.jar {
     manifest {
-        attributes["Main-Class"] = "org.pianoyn.gred.Main" // Replace com.example.Main with your main class
+        attributes["Main-Class"] = "org.pianoyn.gred.Main"
     }
 }
 
