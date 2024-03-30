@@ -22,10 +22,6 @@ public class RabinKarp extends MatchingAlgorithm {
     this.PRIME = prime;
   }
 
-  public void setPattern(String pattern) {
-    this.pattern = pattern;
-  }
-
   @Override
   public List<List<Integer>> findMatches() {
     List<List<Integer>> result = new ArrayList<List<Integer>>();

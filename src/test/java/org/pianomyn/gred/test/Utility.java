@@ -37,9 +37,6 @@ public class Utility {
   public static void deleteDirectoriesRecursive(File file) {
     if (file.isDirectory()) {
       File[] files = file.listFiles();
-      if (files == null) {
-        return;
-      }
       for (File subFile : files) {
         deleteDirectoriesRecursive(subFile);
       }

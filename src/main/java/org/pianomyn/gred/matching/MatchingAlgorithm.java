@@ -22,4 +22,8 @@ public abstract class MatchingAlgorithm {
   public void setPathToSearch(Path newPath) {
     this.filePath = newPath;
   }
+
+  public void setPattern(String pattern) {
+    this.pattern = pattern;
+  }
 }
