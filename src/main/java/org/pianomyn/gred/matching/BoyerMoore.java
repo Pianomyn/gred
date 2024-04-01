@@ -1,5 +1,8 @@
 package org.pianomyn.gred.matching;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,6 +30,24 @@ public class BoyerMoore extends MatchingAlgorithm {
      *    For both, consult bad char table
      */
     List<List<Integer>> result = new ArrayList<List<Integer>>();
+    if (pattern == null || !this.fileExists()) {
+      return result;
+    }
+
+    int m = this.pattern.length();
+    if (m == 0) {
+      return result;
+    }
+
+    try (BufferedReader br = Files.newBufferedReader(this.filePath)) {
+      String line;
+      int lineNumber = 1;
+      while ((line = br.readLine()) != null) {
+        // Logic here
+      }
+    } catch(IOException e) {
+      e.printStackTrace();
+    }
     return result;
   }
 
