@@ -10,7 +10,9 @@ import java.util.List;
 
 public class RabinKarp extends MatchingAlgorithm {
   private int BASE = 256; // Size of alphabet
-  private int PRIME = 101; // Prime number close to size of alphabet (ASCII-256 in this instance).
+  private int PRIME = 101; // Prime number close to size of alphabet (ASCII-256
+
+  // in this instance).
 
   public RabinKarp(Path filePath, String pattern) {
     super(filePath, pattern);

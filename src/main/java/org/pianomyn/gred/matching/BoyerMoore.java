@@ -2,7 +2,9 @@ package org.pianomyn.gred.matching;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BoyerMoore extends MatchingAlgorithm {
   public BoyerMoore(Path filePath, String pattern) {
@@ -27,5 +29,28 @@ public class BoyerMoore extends MatchingAlgorithm {
     List<List<Integer>> result = new ArrayList<List<Integer>>();
     return result;
   }
-}
 
+  int[][] createBadCharTable() {
+    int patternLength = this.pattern.length();
+    int[][] badCharTable = new int[128][patternLength]; // ASCII 128
+    Map<Character, Integer> lastSeenIndex = new HashMap<>();
+
+    for (int r = 0; r < 128; r++) {
+      lastSeenIndex.clear();
+      for (int c = 0; c < patternLength; c++) {
+        char currentChar = (char) r;
+
+        if (this.pattern.charAt(c) == currentChar) {
+          badCharTable[r][c] = 0;
+        } else if (lastSeenIndex.containsKey(currentChar)) {
+          badCharTable[r][c] = c - lastSeenIndex.get(currentChar);
+        } else {
+          badCharTable[r][c] = c + 1;
+        }
+
+        lastSeenIndex.put(currentChar, c);
+      }
+    }
+    return badCharTable;
+  }
+}
