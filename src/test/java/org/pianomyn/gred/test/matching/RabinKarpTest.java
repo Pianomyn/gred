@@ -95,6 +95,8 @@ public class RabinKarpTest {
     }
 
     // Assert
+    assert (rkResult.size() == 1);
+    assert (naiveResult.size() == 1);
     assert (rkResult.equals(naiveResult));
   }
 }

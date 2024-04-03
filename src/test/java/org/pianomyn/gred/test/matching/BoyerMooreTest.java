@@ -96,6 +96,8 @@ public class BoyerMooreTest {
     }
 
     // Assert
+    assert (bmResult.size() == 1);
+    assert (naiveResult.size() == 1);
     assert (bmResult.equals(naiveResult));
   }
 }

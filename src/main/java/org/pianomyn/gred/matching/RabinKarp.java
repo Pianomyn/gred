@@ -49,11 +49,6 @@ public class RabinKarp extends MatchingAlgorithm {
         long textHash = this.hash(line.substring(0, m), m);
 
         for (int i = 0; i <= n - m; i++) {
-            System.out.println(patternHash);
-            System.out.println(textHash);
-            System.out.println(pattern);
-            System.out.println(line.substring(i, i+m));
-            System.out.println(line);
           if (patternHash == textHash && RabinKarp.checkEqual(line, pattern, i, i + m - 1)) {
             result.add(Arrays.asList(lineNumber, i));
           }
