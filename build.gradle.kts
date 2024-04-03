@@ -26,7 +26,7 @@ tasks.test {
 
 tasks.jar {
     manifest {
-        attributes["Main-Class"] = "org.pianoyn.gred.Main"
+        attributes["Main-Class"] = "org.pianomyn.gred.Main"
     }
 }
 

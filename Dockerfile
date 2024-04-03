@@ -8,4 +8,4 @@ WORKDIR ./
 COPY ./build/libs/gred-1.0-SNAPSHOT.jar ./
 
 # Run the application when the container launches
-CMD ["java", "-jar", "gred-1.0-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "gred-1.0-SNAPSHOT.jar"]
