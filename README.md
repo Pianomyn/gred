@@ -5,7 +5,7 @@ Unix command-line tool "grep".
 It will traverse the file system starting at a particular directory
 and search all descendent files for matches with the specified pattern.
 
-Searching is done with either the Rabin-Karp algorithm or the Boyer-Moore algorithm (Also used by grep).
+Searching is done with either the Rabin-Karp algorithm or the Boyer-Moore algorithm (also used by grep).
 
 The returned output will be formatted like
 
