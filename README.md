@@ -33,8 +33,8 @@ docker run -v DIRECTORY:/MOUNTED_DIR IMAGE_NAME PATTERN MOUNTED_DIR
     - Run all tests
     - Run lint checks using checkstyle
 - Gradle tasks exist for linting and formatting locally
-    - `gradlew lint` Uses checkstyle and spotless
-    - `gradlew format` Uses spotless
+    - `./gradlew lint` Uses checkstyle and spotless
+    - `./gradlew format` Uses spotless
 
 ## Future Work
 - Multi-threading
