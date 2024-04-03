@@ -11,7 +11,8 @@ The returned output will be formatted like
 /path/to/match2 lineNumber columnNumber
 ...
 
-IMAGE
+![image](https://github.com/Pianomyn/gred/assets/61450295/ae0049a4-eac0-46dc-b34d-af1b4e26d09a)
+
 
 ## Usage
 ### Using Java
