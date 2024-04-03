@@ -9,8 +9,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class RabinKarp extends MatchingAlgorithm {
-  private int BASE = 256; // Size of alphabet
-  private int PRIME = 101; // Prime number close to size of alphabet (ASCII-256
+  private long BASE = 128; // Size of alphabet
+  private long PRIME = 131; // Prime number close to size of alphabet (ASCII-128
 
   // in this instance).
 
@@ -18,7 +18,7 @@ public class RabinKarp extends MatchingAlgorithm {
     super(filePath, pattern);
   }
 
-  public RabinKarp(Path filePath, String pattern, int base, int prime) {
+  public RabinKarp(Path filePath, String pattern, long base, long prime) {
     super(filePath, pattern);
     this.BASE = base;
     this.PRIME = prime;
@@ -45,10 +45,15 @@ public class RabinKarp extends MatchingAlgorithm {
           continue;
         }
 
-        int patternHash = this.hash(pattern, m);
-        int textHash = this.hash(line.substring(0, m), m);
+        long patternHash = this.hash(pattern, m);
+        long textHash = this.hash(line.substring(0, m), m);
 
         for (int i = 0; i <= n - m; i++) {
+            System.out.println(patternHash);
+            System.out.println(textHash);
+            System.out.println(pattern);
+            System.out.println(line.substring(i, i+m));
+            System.out.println(line);
           if (patternHash == textHash && RabinKarp.checkEqual(line, pattern, i, i + m - 1)) {
             result.add(Arrays.asList(lineNumber, i));
           }
@@ -65,18 +70,18 @@ public class RabinKarp extends MatchingAlgorithm {
     return result;
   }
 
-  private int hash(String str, int length) {
-    int hashValue = 0;
+  private long hash(String str, int length) {
+    long hashValue = 0;
     for (int i = 0; i < length; i++) {
-      hashValue = (hashValue * this.BASE + str.charAt(i)) % this.PRIME;
+      hashValue = (hashValue * this.BASE + str.charAt(i)) ;  // Modulo?
     }
     return hashValue;
   }
 
-  private int recomputeHash(String text, int oldIndex, int oldTextHash, int patternLength) {
-    int newHash =
-        oldTextHash - text.charAt(oldIndex) * (int) Math.pow(this.BASE, patternLength - 1);
-    newHash = (newHash * this.BASE + text.charAt(oldIndex + patternLength)) % this.PRIME;
+  private long recomputeHash(String text, int oldIndex, long oldTextHash, int patternLength) {
+    long newHash =
+        oldTextHash - text.charAt(oldIndex) * (long) Math.pow(this.BASE, patternLength - 1);
+    newHash = (newHash * this.BASE + text.charAt(oldIndex + patternLength)) ;  // Modulo?
     return (newHash < 0) ? (newHash + this.PRIME) : newHash; // Integer overflow
   }
 

@@ -8,20 +8,21 @@ import java.util.Queue;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.pianomyn.gred.matching.BoyerMoore;
 import org.pianomyn.gred.matching.Naive;
 import org.pianomyn.gred.matching.RabinKarp;
 import org.pianomyn.gred.test.Utility;
 import org.pianomyn.gred.traversal.BFS;
 
-public class RabinKarpTest {
+public class BoyerMooreTest {
   private Path directoryPath;
-  private RabinKarp rk;
+  private BoyerMoore bm;
   private Naive naive;
 
   @BeforeEach
   public void setup() {
     this.directoryPath = Utility.createUniqueTestDirectory();
-    this.rk = new RabinKarp(this.directoryPath, "abc");
+    this.bm = new BoyerMoore(this.directoryPath, "abc");
     this.naive = new Naive(this.directoryPath, "abc");
   }
 
@@ -34,10 +35,10 @@ public class RabinKarpTest {
   public void testFileDoesntExist() {
     // Arrange
     this.directoryPath = this.directoryPath.resolve("non_existant_file.txt");
-    this.rk.setPathToSearch(this.directoryPath);
+    this.bm.setPathToSearch(this.directoryPath);
 
     // Act
-    List<List<Integer>> result = this.rk.findMatches();
+    List<List<Integer>> result = this.bm.findMatches();
 
     // Assert
     assert (result.isEmpty());
@@ -46,37 +47,37 @@ public class RabinKarpTest {
   @Test
   public void testPatternNull() {
     // Arrange
-    this.rk.setPattern(null);
+    this.bm.setPattern(null);
     Utility.appendToFile(this.directoryPath, Paths.get("testFile.txt"), "asdf");
 
     // Act and Assert
-    assert (this.rk.findMatches().isEmpty());
+    assert (this.bm.findMatches().isEmpty());
   }
 
   @Test
   public void testPatternLengthZero() {
     // Arrange
-    this.rk.setPattern(null);
+    this.bm.setPattern(null);
     Utility.appendToFile(this.directoryPath, Paths.get("testFile.txt"), "asdf");
 
     // Act and Assert
-    assert (this.rk.findMatches().isEmpty());
+    assert (this.bm.findMatches().isEmpty());
   }
 
   @Test
   public void testPatternLongerThanText() {
     // Arrange
-    this.rk.setPattern(null);
+    this.bm.setPattern(null);
     Utility.appendToFile(this.directoryPath, Paths.get("testFile.txt"), "a");
 
     // Act and Assert
-    assert (this.rk.findMatches().isEmpty());
+    assert (this.bm.findMatches().isEmpty());
   }
 
   @Test
   public void testSingleFileMatch() {
     // Arrange
-    this.rk.setPattern("GCAGAGAG");
+    this.bm.setPattern("GCAGAGAG");
     this.naive.setPattern("GCAGAGAG");
     Utility.appendToFile(this.directoryPath, Paths.get("testFile.txt"), "GCATCGCAGAGAGTATACAGTACG");
 
@@ -88,9 +89,9 @@ public class RabinKarpTest {
     List<List<Integer>> naiveResult = new ArrayList<List<Integer>>();
     for (Path file : files) {
       this.naive.setPathToSearch(file);
-      this.rk.setPathToSearch(file);
+      this.bm.setPathToSearch(file);
 
-      rkResult.addAll(this.rk.findMatches());
+      rkResult.addAll(this.bm.findMatches());
       naiveResult.addAll(this.naive.findMatches());
     }
 
@@ -98,4 +99,3 @@ public class RabinKarpTest {
     assert (rkResult.equals(naiveResult));
   }
 }
-

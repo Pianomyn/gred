@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,16 +38,47 @@ public class BoyerMoore extends MatchingAlgorithm {
       return result;
     }
 
+    int[][] badCharTable = this.createBadCharTable();
+
     try (BufferedReader br = Files.newBufferedReader(this.filePath)) {
       String line;
       int lineNumber = 1;
       while ((line = br.readLine()) != null) {
-        // Logic here
+        int n = line.length();
+        int textIndex = m - 1;
+
+        while (textIndex < n) {
+          int shift = this.checkMatch(line, this.pattern, this.pattern.length(),
+                                      textIndex, badCharTable);
+          if (shift == 0) {
+            result.add(Arrays.asList(lineNumber, textIndex - m + 1));
+            textIndex++;
+          } else {
+            textIndex += shift;
+          }
+        }
+        lineNumber++;
       }
     } catch (IOException e) {
       e.printStackTrace();
     }
     return result;
+  }
+
+  int checkMatch(String text, String pattern, int patternLength,
+                 int textIndex, int[][] badCharTable) {
+    int patternIndex = patternLength - 1;
+    while (patternLength > 0) {
+      if (text.charAt(textIndex) != pattern.charAt(patternIndex)) {
+        return badCharTable[(int)text.charAt(textIndex)][patternIndex];
+      }
+
+      patternLength--;
+      textIndex--;
+      patternIndex--;
+    }
+    // Uses 0 to signify a match. Only shift by 1 because matches could be overlapping.
+    return 0;
   }
 
   int[][] createBadCharTable() {
@@ -73,3 +105,4 @@ public class BoyerMoore extends MatchingAlgorithm {
     return badCharTable;
   }
 }
+

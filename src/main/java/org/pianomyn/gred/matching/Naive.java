@@ -35,8 +35,8 @@ public class Naive extends MatchingAlgorithm {
           continue;
         }
 
-        for (int i = 0; i < n - m; i++) {
-          if (pattern.equals(line.substring(i, i + m - 1))) {
+        for (int i = 0; i <= n - m; i++) {
+          if (pattern.equals(line.substring(i, i + m))) {
             result.add(Arrays.asList(lineNumber, i));
           }
         }
