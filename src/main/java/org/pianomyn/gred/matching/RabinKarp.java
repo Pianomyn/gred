@@ -68,7 +68,7 @@ public class RabinKarp extends MatchingAlgorithm {
   private long hash(String str, int length) {
     long hashValue = 0;
     for (int i = 0; i < length; i++) {
-      hashValue = (hashValue * this.BASE + str.charAt(i)) ;  // Modulo?
+      hashValue = (hashValue * this.BASE + str.charAt(i)); // Modulo?
     }
     return hashValue;
   }
@@ -76,7 +76,7 @@ public class RabinKarp extends MatchingAlgorithm {
   private long recomputeHash(String text, int oldIndex, long oldTextHash, int patternLength) {
     long newHash =
         oldTextHash - text.charAt(oldIndex) * (long) Math.pow(this.BASE, patternLength - 1);
-    newHash = (newHash * this.BASE + text.charAt(oldIndex + patternLength)) ;  // Modulo?
+    newHash = (newHash * this.BASE + text.charAt(oldIndex + patternLength)); // Modulo?
     return (newHash < 0) ? (newHash + this.PRIME) : newHash; // Integer overflow
   }
 

@@ -10,7 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.pianomyn.gred.matching.BoyerMoore;
 import org.pianomyn.gred.matching.Naive;
-import org.pianomyn.gred.matching.RabinKarp;
 import org.pianomyn.gred.test.Utility;
 import org.pianomyn.gred.traversal.BFS;
 

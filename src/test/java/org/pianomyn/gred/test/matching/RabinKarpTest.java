@@ -100,4 +100,3 @@ public class RabinKarpTest {
     assert (rkResult.equals(naiveResult));
   }
 }
-

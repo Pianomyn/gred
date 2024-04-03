@@ -11,7 +11,9 @@ import java.util.List;
 import java.util.Map;
 
 public class BoyerMoore extends MatchingAlgorithm {
-  public BoyerMoore(Path filePath, String pattern) { super(filePath, pattern); }
+  public BoyerMoore(Path filePath, String pattern) {
+    super(filePath, pattern);
+  }
 
   @Override
   public List<List<Integer>> findMatches() {
@@ -48,8 +50,8 @@ public class BoyerMoore extends MatchingAlgorithm {
         int textIndex = m - 1;
 
         while (textIndex < n) {
-          int shift = this.checkMatch(line, this.pattern, this.pattern.length(),
-                                      textIndex, badCharTable);
+          int shift =
+              this.checkMatch(line, this.pattern, this.pattern.length(), textIndex, badCharTable);
           if (shift == 0) {
             result.add(Arrays.asList(lineNumber, textIndex - m + 1));
             textIndex++;
@@ -65,12 +67,12 @@ public class BoyerMoore extends MatchingAlgorithm {
     return result;
   }
 
-  int checkMatch(String text, String pattern, int patternLength,
-                 int textIndex, int[][] badCharTable) {
+  int checkMatch(
+      String text, String pattern, int patternLength, int textIndex, int[][] badCharTable) {
     int patternIndex = patternLength - 1;
     while (patternLength > 0) {
       if (text.charAt(textIndex) != pattern.charAt(patternIndex)) {
-        return badCharTable[(int)text.charAt(textIndex)][patternIndex];
+        return badCharTable[(int) text.charAt(textIndex)][patternIndex];
       }
 
       patternLength--;
@@ -89,7 +91,7 @@ public class BoyerMoore extends MatchingAlgorithm {
     for (int r = 0; r < 128; r++) {
       lastSeenIndex.clear();
       for (int c = 0; c < patternLength; c++) {
-        char currentChar = (char)r;
+        char currentChar = (char) r;
 
         if (this.pattern.charAt(c) == currentChar) {
           badCharTable[r][c] = 0;
@@ -105,4 +107,3 @@ public class BoyerMoore extends MatchingAlgorithm {
     return badCharTable;
   }
 }
-
