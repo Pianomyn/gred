@@ -85,17 +85,17 @@ public class BoyerMooreTest {
     BFS traversal = new BFS(this.directoryPath);
     Queue<Path> files = traversal.traverse();
 
-    List<List<Integer>> rkResult = new ArrayList<List<Integer>>();
+    List<List<Integer>> bmResult = new ArrayList<List<Integer>>();
     List<List<Integer>> naiveResult = new ArrayList<List<Integer>>();
     for (Path file : files) {
       this.naive.setPathToSearch(file);
       this.bm.setPathToSearch(file);
 
-      rkResult.addAll(this.bm.findMatches());
+      bmResult.addAll(this.bm.findMatches());
       naiveResult.addAll(this.naive.findMatches());
     }
 
     // Assert
-    assert (rkResult.equals(naiveResult));
+    assert (bmResult.equals(naiveResult));
   }
 }
