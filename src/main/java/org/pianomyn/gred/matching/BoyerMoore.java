@@ -84,6 +84,7 @@ public class BoyerMoore extends MatchingAlgorithm {
   }
 
   int[][] createBadCharTable() {
+    // Alphabet size * pattern length
     int patternLength = this.pattern.length();
     int[][] badCharTable = new int[128][patternLength]; // ASCII 128
     Map<Character, Integer> lastSeenIndex = new HashMap<>();
@@ -105,5 +106,11 @@ public class BoyerMoore extends MatchingAlgorithm {
       }
     }
     return badCharTable;
+  }
+
+  int[][] createGoodSuffixTable() {
+    int patternLength = this.pattern.length();
+    int[][] goodSuffixTable = new int[patternLength][patternLength];
+    return goodSuffixTable;
   }
 }
