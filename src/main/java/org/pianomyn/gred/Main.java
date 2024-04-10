@@ -3,6 +3,8 @@ package org.pianomyn.gred;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Queue;
 import org.pianomyn.gred.matching.MatchingAlgorithm;
@@ -10,6 +12,8 @@ import org.pianomyn.gred.matching.RabinKarp;
 import org.pianomyn.gred.traversal.BFS;
 
 public class Main {
+  private String currentFlag;
+
   public static void main(String[] args) {
     int n = args.length;
     Path pathToSearch = null;
@@ -31,7 +35,10 @@ public class Main {
 
       if (expectingFlagValue) {
       } else if (arg.charAt(0) == '-') {
-        // Handle flag
+          if(arg.equals("-rk")) {
+
+          }
+          // Handle flag
       } else if (pattern == null) {
         pattern = arg;
       } else if (pathToSearch == null) {
