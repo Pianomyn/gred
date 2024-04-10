@@ -3,25 +3,21 @@ package org.pianomyn.gred;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Queue;
+
+import org.pianomyn.gred.matching.BoyerMoore;
 import org.pianomyn.gred.matching.MatchingAlgorithm;
 import org.pianomyn.gred.matching.RabinKarp;
 import org.pianomyn.gred.traversal.BFS;
 
 public class Main {
-  private String currentFlag;
-
   public static void main(String[] args) {
     int n = args.length;
     Path pathToSearch = null;
     MatchingAlgorithm matchingAlgorithm = null;
     String pattern = null;
     BFS traversal = null;
-
-    boolean expectingFlagValue = false;
 
     if (n < 2) {
       Main.printHelpMessage();
@@ -33,12 +29,10 @@ public class Main {
         break;
       }
 
-      if (expectingFlagValue) {
-      } else if (arg.charAt(0) == '-') {
-          if(arg.equals("-rk")) {
-
+      if (arg.charAt(0) == '-') {
+          if(arg.equals("-rk") || arg.equals("--rabin-karp")) {
+            matchingAlgorithm = new RabinKarp(pathToSearch, pattern);
           }
-          // Handle flag
       } else if (pattern == null) {
         pattern = arg;
       } else if (pathToSearch == null) {
@@ -53,7 +47,9 @@ public class Main {
 
     if (pathToSearch != null && pattern != null) {
       traversal = new BFS(pathToSearch);
-      matchingAlgorithm = new RabinKarp(pathToSearch, pattern);
+      if(matchingAlgorithm == null) {
+        matchingAlgorithm = new BoyerMoore(pathToSearch, pattern);
+      }
 
       Queue<Path> files = traversal.traverse();
 
@@ -66,7 +62,7 @@ public class Main {
             // Should use custom exception
             System.out.println(
                 String.format(
-                    "Something went wrong. Path to Search %s match %s",
+                    "Something went wrong, missing a line or column value. Path to Search %s match %s",
                     pathToSearch.toString(), match));
             break;
           }
