@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Queue;
 import java.util.Set;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -85,14 +84,14 @@ public class BoyerMooreTest {
     this.bm.setPattern(pattern);
 
     // Act
-    for(int i = 1; i < 6; i++){
-      suffixIndices.add(m-i);
+    for (int i = 1; i < 6; i++) {
+      suffixIndices.add(m - i);
     }
-    int [] goodSuffixTable = this.bm.createGoodSuffixTable();
+    int[] goodSuffixTable = this.bm.createGoodSuffixTable();
 
     // Assert
-    for(int i = m - 1; i > -1; i--) {
-      if(suffixIndices.contains(i)) {
+    for (int i = m - 1; i > -1; i--) {
+      if (suffixIndices.contains(i)) {
         assert goodSuffixTable[i] == 8;
       } else {
         assert goodSuffixTable[i] == -1;

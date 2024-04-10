@@ -5,7 +5,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Queue;
-
 import org.pianomyn.gred.matching.BoyerMoore;
 import org.pianomyn.gred.matching.MatchingAlgorithm;
 import org.pianomyn.gred.matching.RabinKarp;
@@ -30,9 +29,9 @@ public class Main {
       }
 
       if (arg.charAt(0) == '-') {
-          if(arg.equals("-rk") || arg.equals("--rabin-karp")) {
-            matchingAlgorithm = new RabinKarp(pathToSearch, pattern);
-          }
+        if (arg.equals("-rk") || arg.equals("--rabin-karp")) {
+          matchingAlgorithm = new RabinKarp(pathToSearch, pattern);
+        }
       } else if (pattern == null) {
         pattern = arg;
       } else if (pathToSearch == null) {
@@ -47,7 +46,7 @@ public class Main {
 
     if (pathToSearch != null && pattern != null) {
       traversal = new BFS(pathToSearch);
-      if(matchingAlgorithm == null) {
+      if (matchingAlgorithm == null) {
         matchingAlgorithm = new BoyerMoore(pathToSearch, pattern);
       }
 

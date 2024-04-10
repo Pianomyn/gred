@@ -52,7 +52,13 @@ public class BoyerMoore extends MatchingAlgorithm {
 
         while (textIndex < n) {
           int shift =
-              this.checkMatch(line, this.pattern, this.pattern.length(), textIndex, badCharTable, goodSuffixTable);
+              this.checkMatch(
+                  line,
+                  this.pattern,
+                  this.pattern.length(),
+                  textIndex,
+                  badCharTable,
+                  goodSuffixTable);
           if (shift == 0) {
             result.add(Arrays.asList(lineNumber, textIndex - m + 1));
             textIndex++;
@@ -69,19 +75,21 @@ public class BoyerMoore extends MatchingAlgorithm {
   }
 
   int checkMatch(
-      String text, String pattern, int m, int textIndex, int[][] badCharTable, int[] goodSuffixTable) {
+      String text,
+      String pattern,
+      int m,
+      int textIndex,
+      int[][] badCharTable,
+      int[] goodSuffixTable) {
     int patternIndex = m - 1;
     while (m > 0) {
       if (text.charAt(textIndex) != pattern.charAt(patternIndex)) {
         int badCharSuggestion = badCharTable[(int) text.charAt(textIndex)][patternIndex];
         int goodSuffixSuggestion = 1;
-        if(patternIndex+1 < m) {
-          goodSuffixSuggestion = goodSuffixTable[patternIndex+1];
+        if (patternIndex + 1 < m) {
+          goodSuffixSuggestion = goodSuffixTable[patternIndex + 1];
         }
-        return Math.max(
-          badCharSuggestion,
-          goodSuffixSuggestion
-        );
+        return Math.max(badCharSuggestion, goodSuffixSuggestion);
       }
 
       m--;
@@ -123,15 +131,15 @@ public class BoyerMoore extends MatchingAlgorithm {
     Arrays.fill(goodSuffixTable, -1);
 
     // Iterate over all suffixes
-    for(int i = m - 1; i > -1; i--) {
+    for (int i = m - 1; i > -1; i--) {
       String suffix = this.pattern.substring(i);
       int suffixLength = m - i;
 
       // Sliding window to find the first occurrence of the suffix to the left
       int left = i - suffixLength;
 
-      while(left > -1) {
-        if(this.pattern.substring(left, left + suffixLength).equals(suffix)) {
+      while (left > -1) {
+        if (this.pattern.substring(left, left + suffixLength).equals(suffix)) {
           goodSuffixTable[i] = i - left;
           break;
         }
