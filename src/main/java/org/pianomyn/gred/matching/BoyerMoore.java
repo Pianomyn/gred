@@ -73,9 +73,14 @@ public class BoyerMoore extends MatchingAlgorithm {
     int patternIndex = m - 1;
     while (m > 0) {
       if (text.charAt(textIndex) != pattern.charAt(patternIndex)) {
+        int badCharSuggestion = badCharTable[(int) text.charAt(textIndex)][patternIndex];
+        int goodSuffixSuggestion = 1;
+        if(patternIndex+1 < m) {
+          goodSuffixSuggestion = goodSuffixTable[patternIndex+1];
+        }
         return Math.max(
-          badCharTable[(int) text.charAt(textIndex)][patternIndex],
-          goodSuffixTable[patternIndex]
+          badCharSuggestion,
+          goodSuffixSuggestion
         );
       }
 
@@ -112,7 +117,7 @@ public class BoyerMoore extends MatchingAlgorithm {
     return badCharTable;
   }
 
-  int[] createGoodSuffixTable() {
+  public int[] createGoodSuffixTable() {
     int m = this.pattern.length();
     int[] goodSuffixTable = new int[m];
     Arrays.fill(goodSuffixTable, -1);
@@ -120,8 +125,7 @@ public class BoyerMoore extends MatchingAlgorithm {
     // Iterate over all suffixes
     for(int i = m - 1; i > -1; i--) {
       String suffix = this.pattern.substring(i);
-      int suffixLength = m - i - 1;
-
+      int suffixLength = m - i;
 
       // Sliding window to find the first occurrence of the suffix to the left
       int left = i - suffixLength;
