@@ -1,6 +1,7 @@
 package org.pianomyn.gred.matching;
 
 import java.io.*;
+import java.nio.charset.MalformedInputException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -58,6 +59,11 @@ public class RabinKarp extends MatchingAlgorithm {
         }
         lineNumber++;
       }
+    } catch (MalformedInputException e) {
+      System.out.println(
+          String.format(
+              "It seems like %s contains binary data instead of text. Skipping this file.",
+              this.filePath.toString()));
     } catch (IOException e) {
       e.printStackTrace();
     }

@@ -2,6 +2,7 @@ package org.pianomyn.gred.matching;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.nio.charset.MalformedInputException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -68,6 +69,11 @@ public class BoyerMoore extends MatchingAlgorithm {
         }
         lineNumber++;
       }
+    } catch (MalformedInputException e) {
+      System.out.println(
+          String.format(
+              "It seems like %s contains binary data instead of text. Skipping this file.",
+              this.filePath.toString()));
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -96,7 +102,8 @@ public class BoyerMoore extends MatchingAlgorithm {
       textIndex--;
       patternIndex--;
     }
-    // Uses 0 to signify a match. Only shift by 1 because matches could be overlapping.
+    // Uses 0 to signify a match. Only shift by 1 because matches could be
+    // overlapping.
     return 0;
   }
 
