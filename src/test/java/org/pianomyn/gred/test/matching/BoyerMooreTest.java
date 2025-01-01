@@ -12,7 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.pianomyn.gred.matching.BoyerMoore;
 import org.pianomyn.gred.matching.Naive;
-import org.pianomyn.gred.test.Utility;
+import org.pianomyn.gred.test.FileSystemUtility;
 import org.pianomyn.gred.traversal.BFS;
 
 public class BoyerMooreTest {
@@ -22,14 +22,14 @@ public class BoyerMooreTest {
 
   @BeforeEach
   public void setup() {
-    this.directoryPath = Utility.createUniqueTestDirectory();
+    this.directoryPath = FileSystemUtility.createUniqueTestDirectory();
     this.bm = new BoyerMoore(this.directoryPath, "abc");
     this.naive = new Naive(this.directoryPath, "abc");
   }
 
   @AfterEach
   public void teardown() {
-    Utility.deleteDirectoriesRecursive(this.directoryPath.toFile());
+    FileSystemUtility.deleteDirectoriesRecursive(this.directoryPath.toFile());
   }
 
   @Test
@@ -49,7 +49,7 @@ public class BoyerMooreTest {
   public void testPatternNull() {
     // Arrange
     this.bm.setPattern(null);
-    Utility.appendToFile(this.directoryPath, Paths.get("testFile.txt"), "asdf");
+    FileSystemUtility.appendToFile(this.directoryPath, Paths.get("testFile.txt"), "asdf");
 
     // Act and Assert
     assert (this.bm.findMatches().isEmpty());
@@ -59,7 +59,7 @@ public class BoyerMooreTest {
   public void testPatternLengthZero() {
     // Arrange
     this.bm.setPattern(null);
-    Utility.appendToFile(this.directoryPath, Paths.get("testFile.txt"), "asdf");
+    FileSystemUtility.appendToFile(this.directoryPath, Paths.get("testFile.txt"), "asdf");
 
     // Act and Assert
     assert (this.bm.findMatches().isEmpty());
@@ -69,7 +69,7 @@ public class BoyerMooreTest {
   public void testPatternLongerThanText() {
     // Arrange
     this.bm.setPattern(null);
-    Utility.appendToFile(this.directoryPath, Paths.get("testFile.txt"), "a");
+    FileSystemUtility.appendToFile(this.directoryPath, Paths.get("testFile.txt"), "a");
 
     // Act and Assert
     assert (this.bm.findMatches().isEmpty());
@@ -104,7 +104,7 @@ public class BoyerMooreTest {
     // Arrange
     this.bm.setPattern("GCAGAGAG");
     this.naive.setPattern("GCAGAGAG");
-    Utility.appendToFile(this.directoryPath, Paths.get("testFile.txt"), "GCATCGCAGAGAGTATACAGTACG");
+    FileSystemUtility.appendToFile(this.directoryPath, Paths.get("testFile.txt"), "GCATCGCAGAGAGTATACAGTACG");
 
     // Act
     BFS traversal = new BFS(this.directoryPath);

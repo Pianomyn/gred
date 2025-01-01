@@ -10,7 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.pianomyn.gred.matching.Naive;
 import org.pianomyn.gred.matching.RabinKarp;
-import org.pianomyn.gred.test.Utility;
+import org.pianomyn.gred.test.FileSystemUtility;
 import org.pianomyn.gred.traversal.BFS;
 
 public class RabinKarpTest {
@@ -20,14 +20,14 @@ public class RabinKarpTest {
 
   @BeforeEach
   public void setup() {
-    this.directoryPath = Utility.createUniqueTestDirectory();
+    this.directoryPath = FileSystemUtility.createUniqueTestDirectory();
     this.rk = new RabinKarp(this.directoryPath, "abc");
     this.naive = new Naive(this.directoryPath, "abc");
   }
 
   @AfterEach
   public void teardown() {
-    Utility.deleteDirectoriesRecursive(this.directoryPath.toFile());
+    FileSystemUtility.deleteDirectoriesRecursive(this.directoryPath.toFile());
   }
 
   @Test
@@ -47,7 +47,7 @@ public class RabinKarpTest {
   public void testPatternNull() {
     // Arrange
     this.rk.setPattern(null);
-    Utility.appendToFile(this.directoryPath, Paths.get("testFile.txt"), "asdf");
+    FileSystemUtility.appendToFile(this.directoryPath, Paths.get("testFile.txt"), "asdf");
 
     // Act and Assert
     assert (this.rk.findMatches().isEmpty());
@@ -57,7 +57,7 @@ public class RabinKarpTest {
   public void testPatternLengthZero() {
     // Arrange
     this.rk.setPattern(null);
-    Utility.appendToFile(this.directoryPath, Paths.get("testFile.txt"), "asdf");
+    FileSystemUtility.appendToFile(this.directoryPath, Paths.get("testFile.txt"), "asdf");
 
     // Act and Assert
     assert (this.rk.findMatches().isEmpty());
@@ -67,7 +67,7 @@ public class RabinKarpTest {
   public void testPatternLongerThanText() {
     // Arrange
     this.rk.setPattern(null);
-    Utility.appendToFile(this.directoryPath, Paths.get("testFile.txt"), "a");
+    FileSystemUtility.appendToFile(this.directoryPath, Paths.get("testFile.txt"), "a");
 
     // Act and Assert
     assert (this.rk.findMatches().isEmpty());
@@ -78,7 +78,7 @@ public class RabinKarpTest {
     // Arrange
     this.rk.setPattern("GCAGAGAG");
     this.naive.setPattern("GCAGAGAG");
-    Utility.appendToFile(this.directoryPath, Paths.get("testFile.txt"), "GCATCGCAGAGAGTATACAGTACG");
+    FileSystemUtility.appendToFile(this.directoryPath, Paths.get("testFile.txt"), "GCATCGCAGAGAGTATACAGTACG");
 
     // Act
     BFS traversal = new BFS(this.directoryPath);

@@ -8,7 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class Utility {
+public class FileSystemUtility {
   public static Path createUniqueTestDirectory() {
     String directoryName = "test_directory";
     Path testDirectory = Paths.get(directoryName);

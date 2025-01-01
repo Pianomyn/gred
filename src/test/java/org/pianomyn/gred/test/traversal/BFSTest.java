@@ -9,7 +9,7 @@ import java.util.Queue;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.pianomyn.gred.test.Utility;
+import org.pianomyn.gred.test.FileSystemUtility;
 import org.pianomyn.gred.traversal.BFS;
 
 public class BFSTest {
@@ -36,13 +36,13 @@ public class BFSTest {
 
   @BeforeEach
   public void setup() {
-    this.directoryPath = Utility.createUniqueTestDirectory();
+    this.directoryPath = FileSystemUtility.createUniqueTestDirectory();
     this.b = new BFS(this.directoryPath);
   }
 
   @AfterEach
   public void teardown() {
-    Utility.deleteDirectoriesRecursive(new File(this.directoryPath.toString()));
+    FileSystemUtility.deleteDirectoriesRecursive(new File(this.directoryPath.toString()));
   }
 
   @Test
