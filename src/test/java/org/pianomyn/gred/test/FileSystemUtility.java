@@ -46,6 +46,12 @@ public class FileSystemUtility {
 
   public static void appendToFile(Path directoryPath, Path filePath, String textToAppend) {
     try {
+      Path fullPath = directoryPath.resolve(filePath);
+      System.out.println("HELLO");
+      if (Files.notExists(fullPath)) {
+        System.out.println("REACHED " + fullPath.toString());
+        Files.createFile(fullPath);
+      }
       // Create a FileWriter object in append mode
       FileWriter fw = new FileWriter(directoryPath.resolve(filePath).toString(), true);
 

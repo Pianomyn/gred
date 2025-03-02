@@ -1,5 +1,7 @@
 package org.pianomyn.gred.matching;
 
+import org.pianomyn.gred.reading.LineReader;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -10,33 +12,30 @@ import java.util.List;
 
 public class Naive extends MatchingAlgorithm {
 
-  public Naive(Path filePath, String pattern) {
-    super(filePath, pattern);
+  public Naive(LineReader reader, String pattern) {
+    super(reader, pattern);
   }
 
   @Override
   public List<List<Integer>> findMatches() {
     List<List<Integer>> result = new ArrayList<List<Integer>>();
-    if (pattern == null || !this.fileExists()) {
-      return result;
-    }
 
-    int m = this.pattern.length();
+    int m = this.getPattern().length();
     if (m == 0) {
       return result;
     }
 
-    try (BufferedReader br = Files.newBufferedReader(this.filePath)) {
       String line;
       int lineNumber = 1;
-      while ((line = br.readLine()) != null) {
+      try{
+      while ((line = this.getReader().readLine()) != null) {
         int n = line.length();
         if (m > n) {
           continue;
         }
 
         for (int i = 0; i <= n - m; i++) {
-          if (pattern.equals(line.substring(i, i + m))) {
+          if (this.getPattern().equals(line.substring(i, i + m))) {
             result.add(Arrays.asList(lineNumber, i));
           }
         }

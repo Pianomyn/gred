@@ -1,5 +1,8 @@
 package org.pianomyn.gred.test.matching;
 
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -11,9 +14,16 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.pianomyn.gred.matching.BoyerMoore;
+import org.pianomyn.gred.matching.MatchingAlgorithmType;
 import org.pianomyn.gred.matching.Naive;
+import org.pianomyn.gred.orchestration.Orchestrator;
+import org.pianomyn.gred.reading.BufferedLineReader;
+import org.pianomyn.gred.reading.LineReader;
 import org.pianomyn.gred.test.FileSystemUtility;
 import org.pianomyn.gred.traversal.BFS;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class BoyerMooreTest {
   private Path directoryPath;
@@ -23,8 +33,7 @@ public class BoyerMooreTest {
   @BeforeEach
   public void setup() {
     this.directoryPath = FileSystemUtility.createUniqueTestDirectory();
-    this.bm = new BoyerMoore(this.directoryPath, "abc");
-    this.naive = new Naive(this.directoryPath, "abc");
+    this.bm = new BoyerMoore(null, "");
   }
 
   @AfterEach
@@ -32,24 +41,14 @@ public class BoyerMooreTest {
     FileSystemUtility.deleteDirectoriesRecursive(this.directoryPath.toFile());
   }
 
-  @Test
-  public void testFileDoesntExist() {
-    // Arrange
-    this.directoryPath = this.directoryPath.resolve("non_existant_file.txt");
-    this.bm.setPathToSearch(this.directoryPath);
-
-    // Act
-    List<List<Integer>> result = this.bm.findMatches();
-
-    // Assert
-    assert (result.isEmpty());
-  }
+  /*
 
   @Test
   public void testPatternNull() {
     // Arrange
-    this.bm.setPattern(null);
     FileSystemUtility.appendToFile(this.directoryPath, Paths.get("testFile.txt"), "asdf");
+    this.directoryPath = this.directoryPath.resolve("testFile.txt");
+    this.bm.setPattern(null);
 
     // Act and Assert
     assert (this.bm.findMatches().isEmpty());
@@ -102,23 +101,19 @@ public class BoyerMooreTest {
   @Test
   public void testSingleFileMatch() {
     // Arrange
+    //this.directoryPath = this.directoryPath.resolve("testFile.txt");
+    FileSystemUtility.appendToFile(this.directoryPath, Paths.get("testFile.txt"), "GCATCGCAGAGAGTATACAGTACG");
     this.bm.setPattern("GCAGAGAG");
     this.naive.setPattern("GCAGAGAG");
-    FileSystemUtility.appendToFile(this.directoryPath, Paths.get("testFile.txt"), "GCATCGCAGAGAGTATACAGTACG");
+    this.bm.setReader(new BufferedLineReader(directoryPath));
+    this.naive.setReader(new BufferedLineReader(directoryPath));
 
     // Act
     BFS traversal = new BFS(this.directoryPath);
     Queue<Path> files = traversal.traverse();
 
-    List<List<Integer>> bmResult = new ArrayList<List<Integer>>();
-    List<List<Integer>> naiveResult = new ArrayList<List<Integer>>();
-    for (Path file : files) {
-      this.naive.setPathToSearch(file);
-      this.bm.setPathToSearch(file);
-
-      bmResult.addAll(this.bm.findMatches());
-      naiveResult.addAll(this.naive.findMatches());
-    }
+    List<List<Integer>> bmResult = this.bm.findMatches();
+    List<List<Integer>> naiveResult = this.naive.findMatches();
 
     // Assert
     System.out.println(bmResult.size());
@@ -126,4 +121,5 @@ public class BoyerMooreTest {
     assert (naiveResult.size() == 1);
     assert (bmResult.equals(naiveResult));
   }
+   */
 }

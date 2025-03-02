@@ -1,5 +1,8 @@
 package org.pianomyn.gred.matching;
 
+import org.pianomyn.gred.reading.BufferedLineReader;
+import org.pianomyn.gred.reading.LineReader;
+
 import java.io.*;
 import java.nio.charset.MalformedInputException;
 import java.nio.file.Files;
@@ -15,12 +18,12 @@ public class RabinKarp extends MatchingAlgorithm {
 
   // in this instance).
 
-  public RabinKarp(Path filePath, String pattern) {
-    super(filePath, pattern);
+  public RabinKarp(LineReader reader, String pattern) {
+    super(reader, pattern);
   }
 
-  public RabinKarp(Path filePath, String pattern, long base, long prime) {
-    super(filePath, pattern);
+  public RabinKarp(LineReader reader, String pattern, long base, long prime) {
+    super(reader, pattern);
     this.BASE = base;
     this.PRIME = prime;
   }
@@ -28,29 +31,26 @@ public class RabinKarp extends MatchingAlgorithm {
   @Override
   public List<List<Integer>> findMatches() {
     List<List<Integer>> result = new ArrayList<List<Integer>>();
-    if (pattern == null || !this.fileExists()) {
-      return result;
-    }
 
-    int m = this.pattern.length();
+    int m = this.getPattern().length();
     if (m == 0) {
       return result;
     }
 
-    try (BufferedReader br = Files.newBufferedReader(this.filePath)) {
       String line;
       int lineNumber = 1;
-      while ((line = br.readLine()) != null) {
+      try {
+      while ((line = this.getReader().readLine()) != null) {
         int n = line.length();
         if (m > n) {
           continue;
         }
 
-        long patternHash = this.hash(pattern, m);
+        long patternHash = this.hash(this.getPattern(), m);
         long textHash = this.hash(line.substring(0, m), m);
 
         for (int i = 0; i <= n - m; i++) {
-          if (patternHash == textHash && RabinKarp.checkEqual(line, pattern, i, i + m - 1)) {
+          if (patternHash == textHash && RabinKarp.checkEqual(line, this.getPattern(), i, i + m - 1)) {
             result.add(Arrays.asList(lineNumber, i));
           }
           if (i < n - m) {
@@ -59,11 +59,6 @@ public class RabinKarp extends MatchingAlgorithm {
         }
         lineNumber++;
       }
-    } catch (MalformedInputException e) {
-      System.out.println(
-          String.format(
-              "It seems like %s contains binary data instead of text. Skipping this file.",
-              this.filePath.toString()));
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -94,15 +89,5 @@ public class RabinKarp extends MatchingAlgorithm {
       }
     }
     return true;
-  }
-
-  public static void main(String[] args) throws FileNotFoundException {
-    RabinKarp r = new RabinKarp(Paths.get(System.getProperty("user.home"), "/mydir/a.py"), "if");
-    for (List<Integer> match : r.findMatches()) {
-      for (int i : match) {
-        System.out.print(i + " ");
-      }
-      System.out.println();
-    }
   }
 }

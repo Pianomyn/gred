@@ -1,5 +1,7 @@
 package org.pianomyn.gred.matching;
 
+import org.pianomyn.gred.reading.LineReader;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.charset.MalformedInputException;
@@ -12,8 +14,8 @@ import java.util.List;
 import java.util.Map;
 
 public class BoyerMoore extends MatchingAlgorithm {
-  public BoyerMoore(Path filePath, String pattern) {
-    super(filePath, pattern);
+  public BoyerMoore(LineReader reader, String pattern) {
+    super(reader, pattern);
   }
 
   @Override
@@ -32,11 +34,8 @@ public class BoyerMoore extends MatchingAlgorithm {
      * the mismatch For both, consult bad char table
      */
     List<List<Integer>> result = new ArrayList<List<Integer>>();
-    if (pattern == null || !this.fileExists()) {
-      return result;
-    }
 
-    int m = this.pattern.length();
+    int m = this.getPattern().length();
     if (m == 0) {
       return result;
     }
@@ -44,22 +43,22 @@ public class BoyerMoore extends MatchingAlgorithm {
     int[][] badCharTable = this.createBadCharTable();
     int[] goodSuffixTable = this.createGoodSuffixTable();
 
-    try (BufferedReader br = Files.newBufferedReader(this.filePath)) {
-      String line;
-      int lineNumber = 1;
-      while ((line = br.readLine()) != null) {
+    String line;
+    int lineNumber = 1;
+    try {
+      while ((line = this.getReader().readLine()) != null) {
         int n = line.length();
         int textIndex = m - 1;
 
         while (textIndex < n) {
           int shift =
-              this.checkMatch(
-                  line,
-                  this.pattern,
-                  this.pattern.length(),
-                  textIndex,
-                  badCharTable,
-                  goodSuffixTable);
+                  this.checkMatch(
+                          line,
+                          this.getPattern(),
+                          this.getPattern().length(),
+                          textIndex,
+                          badCharTable,
+                          goodSuffixTable);
           if (shift == 0) {
             result.add(Arrays.asList(lineNumber, textIndex - m + 1));
             textIndex++;
@@ -69,11 +68,6 @@ public class BoyerMoore extends MatchingAlgorithm {
         }
         lineNumber++;
       }
-    } catch (MalformedInputException e) {
-      System.out.println(
-          String.format(
-              "It seems like %s contains binary data instead of text. Skipping this file.",
-              this.filePath.toString()));
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -109,7 +103,7 @@ public class BoyerMoore extends MatchingAlgorithm {
 
   int[][] createBadCharTable() {
     // Alphabet size * pattern length
-    int m = this.pattern.length();
+    int m = this.getPattern().length();
     int[][] badCharTable = new int[128][m]; // ASCII 128
     Map<Character, Integer> lastSeenIndex = new HashMap<>();
 
@@ -118,7 +112,7 @@ public class BoyerMoore extends MatchingAlgorithm {
       for (int c = 0; c < m; c++) {
         char currentChar = (char) r;
 
-        if (this.pattern.charAt(c) == currentChar) {
+        if (this.getPattern().charAt(c) == currentChar) {
           badCharTable[r][c] = 0;
         } else if (lastSeenIndex.containsKey(currentChar)) {
           badCharTable[r][c] = c - lastSeenIndex.get(currentChar);
@@ -133,20 +127,20 @@ public class BoyerMoore extends MatchingAlgorithm {
   }
 
   public int[] createGoodSuffixTable() {
-    int m = this.pattern.length();
+    int m = this.getPattern().length();
     int[] goodSuffixTable = new int[m];
     Arrays.fill(goodSuffixTable, -1);
 
     // Iterate over all suffixes
     for (int i = m - 1; i > -1; i--) {
-      String suffix = this.pattern.substring(i);
+      String suffix = this.getPattern().substring(i);
       int suffixLength = m - i;
 
       // Sliding window to find the first occurrence of the suffix to the left
       int left = i - suffixLength;
 
       while (left > -1) {
-        if (this.pattern.substring(left, left + suffixLength).equals(suffix)) {
+        if (this.getPattern().substring(left, left + suffixLength).equals(suffix)) {
           goodSuffixTable[i] = i - left;
           break;
         }

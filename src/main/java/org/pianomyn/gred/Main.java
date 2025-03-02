@@ -15,8 +15,9 @@ import org.pianomyn.gred.traversal.BFS;
 public class Main {
   public record ParseArgsResult(MatchingAlgorithm matchingAlgorithm, String pattern) {}
   public static void main(String[] args) {
-    ParseArgsResult (args);
+    //ParseArgsResult (args);
 
+    /*
     int n = args.length;
     Path pathToSearch = null;
     MatchingAlgorithm matchingAlgorithm = null;
@@ -35,7 +36,7 @@ public class Main {
 
       if (arg.charAt(0) == '-') {
         if (arg.equals("-rk") || arg.equals("--rabin-karp")) {
-          matchingAlgorithm = new RabinKarp(pathToSearch, pattern);
+          //matchingAlgorithm = new RabinKarp(pathToSearch, pattern);
         }
       } else if (pattern == null) {
         pattern = arg;
@@ -52,7 +53,7 @@ public class Main {
     if (pathToSearch != null && pattern != null) {
       traversal = new BFS(pathToSearch);
       if (matchingAlgorithm == null) {
-        matchingAlgorithm = new BoyerMoore(pathToSearch, pattern);
+        //matchingAlgorithm = new BoyerMoore(pathToSearch, pattern);
       }
 
       Queue<Path> files = traversal.traverse();
@@ -76,10 +77,16 @@ public class Main {
         }
       }
     }
+     */
   }
 
+  /*
   private static ParseArgsResult parseArgs(String[] args) {
+    for(String arg : args) {
+
+    }
   }
+   */
 
   public static void printHelpMessage() {
     System.out.println("Usage: docker run gred PATTERN DIRECTORY [FLAGS]");

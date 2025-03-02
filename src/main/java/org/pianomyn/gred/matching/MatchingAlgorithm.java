@@ -16,9 +16,18 @@ public abstract class MatchingAlgorithm {
     this.pattern = pattern;
   }
 
+  public void setPattern(String pattern) {
+    this.pattern = pattern;
+  }
+
   public LineReader getReader() {return this.reader;}
 
   public String getPattern() {return this.pattern;}
+
+  public void setReader(LineReader reader) {
+    this.reader = reader;
+  }
+
 
   public abstract List<List<Integer>> findMatches(); // [[line, starting index]]
 }

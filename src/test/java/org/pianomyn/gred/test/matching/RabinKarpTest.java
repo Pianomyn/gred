@@ -1,5 +1,6 @@
 package org.pianomyn.gred.test.matching;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -10,6 +11,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.pianomyn.gred.matching.Naive;
 import org.pianomyn.gred.matching.RabinKarp;
+import org.pianomyn.gred.reading.BufferedLineReader;
+import org.pianomyn.gred.reading.LineReader;
 import org.pianomyn.gred.test.FileSystemUtility;
 import org.pianomyn.gred.traversal.BFS;
 
@@ -21,8 +24,8 @@ public class RabinKarpTest {
   @BeforeEach
   public void setup() {
     this.directoryPath = FileSystemUtility.createUniqueTestDirectory();
-    this.rk = new RabinKarp(this.directoryPath, "abc");
-    this.naive = new Naive(this.directoryPath, "abc");
+    this.rk = new RabinKarp(null, "abc");
+    this.naive = new Naive(null, "abc");
   }
 
   @AfterEach
@@ -33,8 +36,17 @@ public class RabinKarpTest {
   @Test
   public void testFileDoesntExist() {
     // Arrange
-    this.directoryPath = this.directoryPath.resolve("non_existant_file.txt");
-    this.rk.setPathToSearch(this.directoryPath);
+    Path fullPath = this.directoryPath.resolve("non_existant_file.txt");
+
+    LineReader reader = null;
+    try {
+      reader = new BufferedLineReader(fullPath);
+    } catch (IOException e) {
+      // Handle the exception
+      System.err.println("Error creating LineReader: " + e.getMessage());
+    }
+    this.rk.setReader(reader);
+    //this.rk.setPathToSearch(this.directoryPath);
 
     // Act
     List<List<Integer>> result = this.rk.findMatches();
@@ -84,15 +96,8 @@ public class RabinKarpTest {
     BFS traversal = new BFS(this.directoryPath);
     Queue<Path> files = traversal.traverse();
 
-    List<List<Integer>> rkResult = new ArrayList<List<Integer>>();
-    List<List<Integer>> naiveResult = new ArrayList<List<Integer>>();
-    for (Path file : files) {
-      this.naive.setPathToSearch(file);
-      this.rk.setPathToSearch(file);
-
-      rkResult.addAll(this.rk.findMatches());
-      naiveResult.addAll(this.naive.findMatches());
-    }
+    List<List<Integer>> rkResult = this.rk.findMatches();
+    List<List<Integer>> naiveResult = this.naive.findMatches();
 
     // Assert
     assert (rkResult.size() == 1);

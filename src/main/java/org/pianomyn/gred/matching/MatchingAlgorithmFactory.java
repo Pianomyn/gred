@@ -5,13 +5,13 @@ import org.pianomyn.gred.reading.LineReader;
 public class MatchingAlgorithmFactory {
     public static MatchingAlgorithm create(MatchingAlgorithmType algorithmType, LineReader lineReader, String pattern) {
         switch (algorithmType) {
-            case MatchingAlgorithmType.BOYER_MOORE:
+            case BOYER_MOORE:
                 return new BoyerMoore(lineReader, pattern);
-            case MatchingAlgorithmType.KMP:
+            case KMP:
                 return new KMP(lineReader, pattern);
-            case MatchingAlgorithmType.NAIVE:
+            case NAIVE:
                 return new BoyerMoore(lineReader, pattern);
-            case MatchingAlgorithmType.RABIN_KARP:
+            case RABIN_KARP:
                 return new BoyerMoore(lineReader, pattern);
             default:
                 throw new IllegalArgumentException("Unknown algorithm type: " + algorithmType);
