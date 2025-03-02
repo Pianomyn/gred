@@ -8,10 +8,15 @@ import java.util.Queue;
 import org.pianomyn.gred.matching.BoyerMoore;
 import org.pianomyn.gred.matching.MatchingAlgorithm;
 import org.pianomyn.gred.matching.RabinKarp;
+import org.pianomyn.gred.reading.BufferedLineReader;
+import org.pianomyn.gred.reading.LineReader;
 import org.pianomyn.gred.traversal.BFS;
 
 public class Main {
+  public record ParseArgsResult(MatchingAlgorithm matchingAlgorithm, String pattern) {}
   public static void main(String[] args) {
+    ParseArgsResult (args);
+
     int n = args.length;
     Path pathToSearch = null;
     MatchingAlgorithm matchingAlgorithm = null;
@@ -54,7 +59,9 @@ public class Main {
 
       while (!files.isEmpty()) {
         pathToSearch = files.poll();
-        matchingAlgorithm.setPathToSearch(pathToSearch);
+        LineReader reader = new BufferedLineReader(pathToSearch);
+
+        //matchingAlgorithm.setPathToSearch(pathToSearch);
         List<List<Integer>> matches = matchingAlgorithm.findMatches();
         for (List<Integer> match : matches) {
           if (match.size() != 2) {
@@ -69,6 +76,9 @@ public class Main {
         }
       }
     }
+  }
+
+  private static ParseArgsResult parseArgs(String[] args) {
   }
 
   public static void printHelpMessage() {

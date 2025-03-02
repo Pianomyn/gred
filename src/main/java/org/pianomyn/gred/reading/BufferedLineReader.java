@@ -11,12 +11,15 @@ public class BufferedLineReader implements LineReader {
     private BufferedReader br;
     public BufferedLineReader(Path filePath) {
         this.filePath = filePath;
-        try {
-            this.br = Files.newBufferedReader(filePath);
-        } catch(MalformedInputException e) {
 
+        try {
+            this.br = Files.newBufferedReader(this.filePath);
+        } catch(MalformedInputException e) {
+            System.out.println("The file " + filePath.toString() + " is a binary file.");
+            System.exit(1);
         } catch(IOException e) {
-            // File doesnt exist?
+            System.out.println("Error reading file " + e.toString());
+            System.exit(1);
         }
 
     }
