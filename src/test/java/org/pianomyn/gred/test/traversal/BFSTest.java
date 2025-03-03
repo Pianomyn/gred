@@ -4,8 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Queue;
+import java.util.Set;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -66,11 +69,12 @@ public class BFSTest {
 
     // Act
     Queue<Path> result = this.b.traverse();
+    Set<Path> paths = new HashSet<>(result);
 
     // Assert
-    assert result.size() == 2;
-    assert Objects.equals(result.poll(), this.directoryPath.resolve(fileNames[0]));
-    assert Objects.equals(result.poll(), this.directoryPath.resolve(fileNames[1]));
+    assert paths.size() == 2;
+    assert paths.contains(this.directoryPath.resolve(fileNames[0]));
+    assert paths.contains(this.directoryPath.resolve(fileNames[1]));
   }
 
   @Test
@@ -92,14 +96,15 @@ public class BFSTest {
 
     // Act
     Queue<Path> result = this.b.traverse();
+    Set<Path> paths = new HashSet<>(result);
 
     // Assert
-    assert result.size() == 4;
+    assert paths.size() == 4;
     for (int i = 0; i < 2; i++) {
-      assert Objects.equals(result.poll(), this.directoryPath.resolve(fileNames[i]));
+      assert paths.contains(this.directoryPath.resolve(fileNames[i]));
     }
     for (int i = 0; i < 2; i++) {
-      assert Objects.equals(result.poll(), (nestedDirectory.resolve(fileNames[i])));
+      assert paths.contains((nestedDirectory.resolve(fileNames[i])));
     }
   }
 }

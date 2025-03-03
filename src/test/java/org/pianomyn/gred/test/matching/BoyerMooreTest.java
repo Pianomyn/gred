@@ -34,6 +34,7 @@ public class BoyerMooreTest {
   public void setup() {
     this.directoryPath = FileSystemUtility.createUniqueTestDirectory();
     this.bm = new BoyerMoore(null, "");
+    this.naive = new Naive(null, "");
   }
 
   @AfterEach
@@ -41,7 +42,6 @@ public class BoyerMooreTest {
     FileSystemUtility.deleteDirectoriesRecursive(this.directoryPath.toFile());
   }
 
-  /*
 
   @Test
   public void testPatternNull() {
@@ -57,7 +57,7 @@ public class BoyerMooreTest {
   @Test
   public void testPatternLengthZero() {
     // Arrange
-    this.bm.setPattern(null);
+    this.bm.setPattern("");
     FileSystemUtility.appendToFile(this.directoryPath, Paths.get("testFile.txt"), "asdf");
 
     // Act and Assert
@@ -67,8 +67,12 @@ public class BoyerMooreTest {
   @Test
   public void testPatternLongerThanText() {
     // Arrange
-    this.bm.setPattern(null);
     FileSystemUtility.appendToFile(this.directoryPath, Paths.get("testFile.txt"), "a");
+    this.bm.setPattern("REALLY LONG PATTERN!");
+    try {
+      this.bm.setReader(new BufferedLineReader(this.directoryPath.resolve("testFile.txt")));
+    } catch(IOException e) {}
+
 
     // Act and Assert
     assert (this.bm.findMatches().isEmpty());
@@ -105,12 +109,16 @@ public class BoyerMooreTest {
     FileSystemUtility.appendToFile(this.directoryPath, Paths.get("testFile.txt"), "GCATCGCAGAGAGTATACAGTACG");
     this.bm.setPattern("GCAGAGAG");
     this.naive.setPattern("GCAGAGAG");
-    this.bm.setReader(new BufferedLineReader(directoryPath));
-    this.naive.setReader(new BufferedLineReader(directoryPath));
+    LineReader bmReader = null;
+    LineReader naiveReader = null;
+    try {
+      bmReader = new BufferedLineReader(directoryPath.resolve("testFile.txt"));
+      naiveReader = new BufferedLineReader(directoryPath.resolve("testFile.txt"));
+    } catch (IOException e) {
 
-    // Act
-    BFS traversal = new BFS(this.directoryPath);
-    Queue<Path> files = traversal.traverse();
+    }
+    this.bm.setReader(bmReader);
+    this.naive.setReader(naiveReader);
 
     List<List<Integer>> bmResult = this.bm.findMatches();
     List<List<Integer>> naiveResult = this.naive.findMatches();
@@ -121,5 +129,4 @@ public class BoyerMooreTest {
     assert (naiveResult.size() == 1);
     assert (bmResult.equals(naiveResult));
   }
-   */
 }
