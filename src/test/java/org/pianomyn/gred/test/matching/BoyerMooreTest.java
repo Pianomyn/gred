@@ -46,8 +46,6 @@ public class BoyerMooreTest {
   @Test
   public void testPatternNull() {
     // Arrange
-    FileSystemUtility.appendToFile(this.directoryPath, Paths.get("testFile.txt"), "asdf");
-    this.directoryPath = this.directoryPath.resolve("testFile.txt");
     this.bm.setPattern(null);
 
     // Act and Assert

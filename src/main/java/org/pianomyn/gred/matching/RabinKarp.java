@@ -30,7 +30,11 @@ public class RabinKarp extends MatchingAlgorithm {
 
   @Override
   public List<List<Integer>> findMatches() {
-    List<List<Integer>> result = new ArrayList<List<Integer>>();
+    List<List<Integer>> result = new ArrayList<>();
+
+    if(this.getPattern() == null || this.getPattern().isEmpty()) {
+      return result;
+    }
 
     int m = this.getPattern().length();
     if (m == 0) {

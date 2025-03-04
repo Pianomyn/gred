@@ -34,7 +34,7 @@ public class BoyerMoore extends MatchingAlgorithm {
      * the mismatch For both, consult bad char table
      */
     List<List<Integer>> result = new ArrayList<List<Integer>>();
-    if(this.getPattern() == null) {
+    if(this.getPattern() == null || this.getPattern().isEmpty()) {
       return result;
     }
 

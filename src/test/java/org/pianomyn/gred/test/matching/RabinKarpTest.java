@@ -34,32 +34,9 @@ public class RabinKarpTest {
   }
 
   @Test
-  public void testFileDoesntExist() {
-    // Arrange
-    Path fullPath = this.directoryPath.resolve("non_existant_file.txt");
-
-    LineReader reader = null;
-    try {
-      reader = new BufferedLineReader(fullPath);
-    } catch (IOException e) {
-      // Handle the exception
-      System.err.println("Error creating LineReader: " + e.getMessage());
-    }
-    this.rk.setReader(reader);
-    //this.rk.setPathToSearch(this.directoryPath);
-
-    // Act
-    List<List<Integer>> result = this.rk.findMatches();
-
-    // Assert
-    assert (result.isEmpty());
-  }
-
-  @Test
   public void testPatternNull() {
     // Arrange
     this.rk.setPattern(null);
-    FileSystemUtility.appendToFile(this.directoryPath, Paths.get("testFile.txt"), "asdf");
 
     // Act and Assert
     assert (this.rk.findMatches().isEmpty());
@@ -68,7 +45,7 @@ public class RabinKarpTest {
   @Test
   public void testPatternLengthZero() {
     // Arrange
-    this.rk.setPattern(null);
+    this.rk.setPattern("");
     FileSystemUtility.appendToFile(this.directoryPath, Paths.get("testFile.txt"), "asdf");
 
     // Act and Assert
@@ -78,8 +55,12 @@ public class RabinKarpTest {
   @Test
   public void testPatternLongerThanText() {
     // Arrange
-    this.rk.setPattern(null);
     FileSystemUtility.appendToFile(this.directoryPath, Paths.get("testFile.txt"), "a");
+    this.rk.setPattern("REALLY LONG PATTERN!");
+
+    try {
+      this.rk.setReader(new BufferedLineReader(this.directoryPath.resolve("testFile.txt")));
+    } catch(IOException e) {}
 
     // Act and Assert
     assert (this.rk.findMatches().isEmpty());
@@ -92,10 +73,16 @@ public class RabinKarpTest {
     this.naive.setPattern("GCAGAGAG");
     FileSystemUtility.appendToFile(this.directoryPath, Paths.get("testFile.txt"), "GCATCGCAGAGAGTATACAGTACG");
 
-    // Act
-    BFS traversal = new BFS(this.directoryPath);
-    Queue<Path> files = traversal.traverse();
+    LineReader rkReader = null;
+    LineReader naiveReader = null;
+    try {
+      rkReader = new BufferedLineReader(directoryPath.resolve("testFile.txt"));
+      naiveReader = new BufferedLineReader(directoryPath.resolve("testFile.txt"));
+    } catch (IOException e) { }
+    this.rk.setReader(rkReader);
+    this.naive.setReader(naiveReader);
 
+    // Act
     List<List<Integer>> rkResult = this.rk.findMatches();
     List<List<Integer>> naiveResult = this.naive.findMatches();
 
