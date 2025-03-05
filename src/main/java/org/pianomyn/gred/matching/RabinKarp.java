@@ -1,16 +1,10 @@
 package org.pianomyn.gred.matching;
 
-import org.pianomyn.gred.reading.BufferedLineReader;
-import org.pianomyn.gred.reading.LineReader;
-
 import java.io.*;
-import java.nio.charset.MalformedInputException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.pianomyn.gred.reading.LineReader;
 
 public class RabinKarp extends MatchingAlgorithm {
   private long BASE = 128; // Size of alphabet
@@ -32,7 +26,7 @@ public class RabinKarp extends MatchingAlgorithm {
   public List<List<Integer>> findMatches() {
     List<List<Integer>> result = new ArrayList<>();
 
-    if(this.getPattern() == null || this.getPattern().isEmpty()) {
+    if (this.getPattern() == null || this.getPattern().isEmpty()) {
       return result;
     }
 
@@ -41,9 +35,9 @@ public class RabinKarp extends MatchingAlgorithm {
       return result;
     }
 
-      String line;
-      int lineNumber = 1;
-      try {
+    String line;
+    int lineNumber = 1;
+    try {
       while ((line = this.getReader().readLine()) != null) {
         int n = line.length();
         if (m > n) {
@@ -54,7 +48,8 @@ public class RabinKarp extends MatchingAlgorithm {
         long textHash = this.hash(line.substring(0, m), m);
 
         for (int i = 0; i <= n - m; i++) {
-          if (patternHash == textHash && RabinKarp.checkEqual(line, this.getPattern(), i, i + m - 1)) {
+          if (patternHash == textHash
+              && RabinKarp.checkEqual(line, this.getPattern(), i, i + m - 1)) {
             result.add(Arrays.asList(lineNumber, i));
           }
           if (i < n - m) {

@@ -1,17 +1,12 @@
 package org.pianomyn.gred.matching;
 
-import org.pianomyn.gred.reading.LineReader;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.charset.MalformedInputException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.pianomyn.gred.reading.LineReader;
 
 public class BoyerMoore extends MatchingAlgorithm {
   public BoyerMoore(LineReader reader, String pattern) {
@@ -34,7 +29,7 @@ public class BoyerMoore extends MatchingAlgorithm {
      * the mismatch For both, consult bad char table
      */
     List<List<Integer>> result = new ArrayList<List<Integer>>();
-    if(this.getPattern() == null || this.getPattern().isEmpty()) {
+    if (this.getPattern() == null || this.getPattern().isEmpty()) {
       return result;
     }
 
@@ -55,13 +50,13 @@ public class BoyerMoore extends MatchingAlgorithm {
 
         while (textIndex < n) {
           int shift =
-                  this.checkMatch(
-                          line,
-                          this.getPattern(),
-                          this.getPattern().length(),
-                          textIndex,
-                          badCharTable,
-                          goodSuffixTable);
+              this.checkMatch(
+                  line,
+                  this.getPattern(),
+                  this.getPattern().length(),
+                  textIndex,
+                  badCharTable,
+                  goodSuffixTable);
           if (shift == 0) {
             result.add(Arrays.asList(lineNumber, textIndex - m + 1));
             textIndex++;

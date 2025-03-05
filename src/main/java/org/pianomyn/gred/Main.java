@@ -1,21 +1,12 @@
 package org.pianomyn.gred;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
-import java.util.Queue;
-import org.pianomyn.gred.matching.BoyerMoore;
 import org.pianomyn.gred.matching.MatchingAlgorithm;
-import org.pianomyn.gred.matching.RabinKarp;
-import org.pianomyn.gred.reading.BufferedLineReader;
-import org.pianomyn.gred.reading.LineReader;
-import org.pianomyn.gred.traversal.BFS;
 
 public class Main {
   public record ParseArgsResult(MatchingAlgorithm matchingAlgorithm, String pattern) {}
+
   public static void main(String[] args) {
-    //ParseArgsResult (args);
+    // ParseArgsResult (args);
 
     /*
     int n = args.length;

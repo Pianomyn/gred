@@ -1,14 +1,10 @@
 package org.pianomyn.gred.matching;
 
-import org.pianomyn.gred.reading.LineReader;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.pianomyn.gred.reading.LineReader;
 
 public class Naive extends MatchingAlgorithm {
 
@@ -25,9 +21,9 @@ public class Naive extends MatchingAlgorithm {
       return result;
     }
 
-      String line;
-      int lineNumber = 1;
-      try{
+    String line;
+    int lineNumber = 1;
+    try {
       while ((line = this.getReader().readLine()) != null) {
         int n = line.length();
         if (m > n) {

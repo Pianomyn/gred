@@ -1,11 +1,7 @@
 package org.pianomyn.gred.matching;
 
-import org.pianomyn.gred.reading.BufferedLineReader;
-import org.pianomyn.gred.reading.LineReader;
-
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
+import org.pianomyn.gred.reading.LineReader;
 
 public abstract class MatchingAlgorithm {
   private LineReader reader;
@@ -20,14 +16,17 @@ public abstract class MatchingAlgorithm {
     this.pattern = pattern;
   }
 
-  public LineReader getReader() {return this.reader;}
+  public LineReader getReader() {
+    return this.reader;
+  }
 
-  public String getPattern() {return this.pattern;}
+  public String getPattern() {
+    return this.pattern;
+  }
 
   public void setReader(LineReader reader) {
     this.reader = reader;
   }
-
 
   public abstract List<List<Integer>> findMatches(); // [[line, starting index]]
 }

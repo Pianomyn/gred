@@ -3,9 +3,7 @@ package org.pianomyn.gred.test.matching;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,7 +12,6 @@ import org.pianomyn.gred.matching.RabinKarp;
 import org.pianomyn.gred.reading.BufferedLineReader;
 import org.pianomyn.gred.reading.LineReader;
 import org.pianomyn.gred.test.FileSystemUtility;
-import org.pianomyn.gred.traversal.BFS;
 
 public class RabinKarpTest {
   private Path directoryPath;
@@ -60,7 +57,8 @@ public class RabinKarpTest {
 
     try {
       this.rk.setReader(new BufferedLineReader(this.directoryPath.resolve("testFile.txt")));
-    } catch(IOException e) {}
+    } catch (IOException e) {
+    }
 
     // Act and Assert
     assert (this.rk.findMatches().isEmpty());
@@ -71,14 +69,16 @@ public class RabinKarpTest {
     // Arrange
     this.rk.setPattern("GCAGAGAG");
     this.naive.setPattern("GCAGAGAG");
-    FileSystemUtility.appendToFile(this.directoryPath, Paths.get("testFile.txt"), "GCATCGCAGAGAGTATACAGTACG");
+    FileSystemUtility.appendToFile(
+        this.directoryPath, Paths.get("testFile.txt"), "GCATCGCAGAGAGTATACAGTACG");
 
     LineReader rkReader = null;
     LineReader naiveReader = null;
     try {
       rkReader = new BufferedLineReader(directoryPath.resolve("testFile.txt"));
       naiveReader = new BufferedLineReader(directoryPath.resolve("testFile.txt"));
-    } catch (IOException e) { }
+    } catch (IOException e) {
+    }
     this.rk.setReader(rkReader);
     this.naive.setReader(naiveReader);
 

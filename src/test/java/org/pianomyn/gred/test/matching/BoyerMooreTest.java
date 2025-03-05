@@ -1,29 +1,19 @@
 package org.pianomyn.gred.test.matching;
 
-import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Queue;
 import java.util.Set;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.pianomyn.gred.matching.BoyerMoore;
-import org.pianomyn.gred.matching.MatchingAlgorithmType;
 import org.pianomyn.gred.matching.Naive;
-import org.pianomyn.gred.orchestration.Orchestrator;
 import org.pianomyn.gred.reading.BufferedLineReader;
 import org.pianomyn.gred.reading.LineReader;
 import org.pianomyn.gred.test.FileSystemUtility;
-import org.pianomyn.gred.traversal.BFS;
-
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class BoyerMooreTest {
   private Path directoryPath;
@@ -41,7 +31,6 @@ public class BoyerMooreTest {
   public void teardown() {
     FileSystemUtility.deleteDirectoriesRecursive(this.directoryPath.toFile());
   }
-
 
   @Test
   public void testPatternNull() {
@@ -69,8 +58,8 @@ public class BoyerMooreTest {
     this.bm.setPattern("REALLY LONG PATTERN!");
     try {
       this.bm.setReader(new BufferedLineReader(this.directoryPath.resolve("testFile.txt")));
-    } catch(IOException e) {}
-
+    } catch (IOException e) {
+    }
 
     // Act and Assert
     assert (this.bm.findMatches().isEmpty());
@@ -103,8 +92,9 @@ public class BoyerMooreTest {
   @Test
   public void testSingleFileMatch() {
     // Arrange
-    //this.directoryPath = this.directoryPath.resolve("testFile.txt");
-    FileSystemUtility.appendToFile(this.directoryPath, Paths.get("testFile.txt"), "GCATCGCAGAGAGTATACAGTACG");
+    // this.directoryPath = this.directoryPath.resolve("testFile.txt");
+    FileSystemUtility.appendToFile(
+        this.directoryPath, Paths.get("testFile.txt"), "GCATCGCAGAGAGTATACAGTACG");
     this.bm.setPattern("GCAGAGAG");
     this.naive.setPattern("GCAGAGAG");
     LineReader bmReader = null;
