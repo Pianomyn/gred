@@ -7,6 +7,14 @@ public class Main {
 
   public static void main(String[] args) {
     // ParseArgsResult (args);
+    /*
+    Parse arguments (ensure flag combo is valid - only 1)
+      Option is like flag
+      CommandLineParser + Options
+    Create an orchestrator based on flags (defaults if none)
+    Make orchestrator do stuff
+    Fetch results (index matches) from orchestrator
+     */
 
     /*
     int n = args.length;
@@ -80,7 +88,13 @@ public class Main {
    */
 
   public static void printHelpMessage() {
-    System.out.println("Usage: docker run gred PATTERN DIRECTORY [FLAGS]");
+    System.out.println(
+        "Usage: docker run gred PATTERN DIRECTORY [FLAGS]\n"
+            + "Possible Flags:\n"
+            + "-nv: Naive\n"
+            + "-rf: Rabin-Karp\n"
+            + "-bm: Boyer-Moore\n"
+            + "-kmp: KMP\n");
   }
 
   public static void printPathDoesntExist(String path) {
