@@ -1,4 +1,4 @@
-package org.pianomyn.gred.matching.algorithms;
+package org.pianomyn.gred.matching.implementations;
 
 import java.util.List;
 import java.util.Map;

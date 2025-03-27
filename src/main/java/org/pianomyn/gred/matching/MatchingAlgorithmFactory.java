@@ -2,10 +2,10 @@ package org.pianomyn.gred.matching;
 
 import java.util.List;
 import java.util.Map;
-import org.pianomyn.gred.matching.algorithms.BoyerMoore;
-import org.pianomyn.gred.matching.algorithms.KMP;
-import org.pianomyn.gred.matching.algorithms.Naive;
-import org.pianomyn.gred.matching.algorithms.RabinKarp;
+import org.pianomyn.gred.matching.implementations.BoyerMoore;
+import org.pianomyn.gred.matching.implementations.KMP;
+import org.pianomyn.gred.matching.implementations.Naive;
+import org.pianomyn.gred.matching.implementations.RabinKarp;
 import org.pianomyn.gred.reading.LineReader;
 
 public class MatchingAlgorithmFactory {
