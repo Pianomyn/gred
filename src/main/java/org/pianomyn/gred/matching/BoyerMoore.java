@@ -29,11 +29,11 @@ public class BoyerMoore extends MatchingAlgorithm {
      * the mismatch For both, consult bad char table
      */
     List<List<Integer>> result = new ArrayList<List<Integer>>();
-    if (this.getPattern() == null || this.getPattern().isEmpty()) {
+    if (this.pattern == null || this.pattern.isEmpty()) {
       return result;
     }
 
-    int m = this.getPattern().length();
+    int m = this.pattern.length();
     if (m == 0) {
       return result;
     }
@@ -44,7 +44,7 @@ public class BoyerMoore extends MatchingAlgorithm {
     String line;
     int lineNumber = 1;
     try {
-      while ((line = this.getReader().readLine()) != null) {
+      while ((line = this.reader.readLine()) != null) {
         int n = line.length();
         int textIndex = m - 1;
 
@@ -52,8 +52,8 @@ public class BoyerMoore extends MatchingAlgorithm {
           int shift =
               this.checkMatch(
                   line,
-                  this.getPattern(),
-                  this.getPattern().length(),
+                  this.pattern,
+                  this.pattern.length(),
                   textIndex,
                   badCharTable,
                   goodSuffixTable);
@@ -101,7 +101,7 @@ public class BoyerMoore extends MatchingAlgorithm {
 
   int[][] createBadCharTable() {
     // Alphabet size * pattern length
-    int m = this.getPattern().length();
+    int m = this.pattern.length();
     int[][] badCharTable = new int[128][m]; // ASCII 128
     Map<Character, Integer> lastSeenIndex = new HashMap<>();
 
@@ -110,7 +110,7 @@ public class BoyerMoore extends MatchingAlgorithm {
       for (int c = 0; c < m; c++) {
         char currentChar = (char) r;
 
-        if (this.getPattern().charAt(c) == currentChar) {
+        if (this.pattern.charAt(c) == currentChar) {
           badCharTable[r][c] = 0;
         } else if (lastSeenIndex.containsKey(currentChar)) {
           badCharTable[r][c] = c - lastSeenIndex.get(currentChar);
@@ -125,20 +125,20 @@ public class BoyerMoore extends MatchingAlgorithm {
   }
 
   public int[] createGoodSuffixTable() {
-    int m = this.getPattern().length();
+    int m = this.pattern.length();
     int[] goodSuffixTable = new int[m];
     Arrays.fill(goodSuffixTable, -1);
 
     // Iterate over all suffixes
     for (int i = m - 1; i > -1; i--) {
-      String suffix = this.getPattern().substring(i);
+      String suffix = this.pattern.substring(i);
       int suffixLength = m - i;
 
       // Sliding window to find the first occurrence of the suffix to the left
       int left = i - suffixLength;
 
       while (left > -1) {
-        if (this.getPattern().substring(left, left + suffixLength).equals(suffix)) {
+        if (this.pattern.substring(left, left + suffixLength).equals(suffix)) {
           goodSuffixTable[i] = i - left;
           break;
         }
@@ -147,9 +147,5 @@ public class BoyerMoore extends MatchingAlgorithm {
     }
 
     return goodSuffixTable;
-  }
-
-  public List<List<Integer>> getMatches() {
-    return this.matches.get(this.reader.getFilePath().toString());
   }
 }

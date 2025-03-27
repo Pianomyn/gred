@@ -49,7 +49,7 @@ public class Orchestrator {
     List<List<Integer>> matches = new ArrayList<>();
     BFS traversal = new BFS(directoryPath);
     MatchingAlgorithm matchingAlgorithm =
-        MatchingAlgorithmFactory.create(algorithmType, reader, this.pattern);
+        MatchingAlgorithmFactory.create(this.matches, algorithmType, reader, this.pattern);
 
     Queue<Path> filePaths = traversal.traverse();
 

@@ -16,7 +16,7 @@ public class Naive extends MatchingAlgorithm {
   public List<List<Integer>> findMatches() {
     List<List<Integer>> result = new ArrayList<List<Integer>>();
 
-    int m = this.getPattern().length();
+    int m = this.pattern.length();
     if (m == 0) {
       return result;
     }
@@ -24,14 +24,14 @@ public class Naive extends MatchingAlgorithm {
     String line;
     int lineNumber = 1;
     try {
-      while ((line = this.getReader().readLine()) != null) {
+      while ((line = this.reader.readLine()) != null) {
         int n = line.length();
         if (m > n) {
           continue;
         }
 
         for (int i = 0; i <= n - m; i++) {
-          if (this.getPattern().equals(line.substring(i, i + m))) {
+          if (this.pattern.equals(line.substring(i, i + m))) {
             result.add(Arrays.asList(lineNumber, i));
           }
         }
