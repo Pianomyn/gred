@@ -7,7 +7,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class BufferedLineReader extends LineReader {
-  private Path filePath;
   private BufferedReader br;
 
   public BufferedLineReader(Path filePath) throws IOException {

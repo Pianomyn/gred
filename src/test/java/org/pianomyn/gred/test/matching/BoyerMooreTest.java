@@ -59,6 +59,7 @@ public class BoyerMooreTest {
     this.bm.setPattern("REALLY LONG PATTERN!");
     try {
       this.bm.setReader(new BufferedLineReader(this.directoryPath.resolve("testFile.txt")));
+      int a = 2;
     } catch (IOException e) {
     }
 
