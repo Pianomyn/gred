@@ -37,9 +37,10 @@ public class BoyerMooreTest {
   public void testPatternNull() {
     // Arrange
     this.bm.setPattern(null);
+    this.bm.findMatches();
 
     // Act and Assert
-    assert (this.bm.findMatches().isEmpty());
+    assert (this.bm.getMatches().isEmpty());
   }
 
   @Test
@@ -47,9 +48,10 @@ public class BoyerMooreTest {
     // Arrange
     this.bm.setPattern("");
     FileSystemUtility.appendToFile(this.directoryPath, Paths.get("testFile.txt"), "asdf");
+    this.bm.findMatches();
 
     // Act and Assert
-    assert (this.bm.findMatches().isEmpty());
+    assert (this.bm.getMatches().isEmpty());
   }
 
   @Test
@@ -62,9 +64,10 @@ public class BoyerMooreTest {
       int a = 2;
     } catch (IOException e) {
     }
+    this.bm.findMatches();
 
     // Act and Assert
-    assert (this.bm.findMatches().isEmpty());
+    assert (this.bm.getMatches().isEmpty());
   }
 
   @Test
@@ -110,8 +113,10 @@ public class BoyerMooreTest {
     this.bm.setReader(bmReader);
     this.naive.setReader(naiveReader);
 
-    List<List<Integer>> bmResult = this.bm.findMatches();
-    List<List<Integer>> naiveResult = this.naive.findMatches();
+    this.bm.findMatches();
+    this.naive.findMatches();
+    List<List<Integer>> bmResult = this.bm.getMatches();
+    List<List<Integer>> naiveResult = this.naive.getMatches();
 
     // Assert
     System.out.println(bmResult.size());

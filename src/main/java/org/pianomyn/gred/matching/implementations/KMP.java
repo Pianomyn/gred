@@ -15,7 +15,5 @@ public class KMP extends MatchingAlgorithm {
   }
 
   @Override
-  public List<List<Integer>> findMatches() {
-    return List.of();
-  }
+  public void findMatches() {}
 }

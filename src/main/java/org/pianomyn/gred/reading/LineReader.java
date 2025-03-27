@@ -14,6 +14,10 @@ public abstract class LineReader {
     return this.filePath;
   }
 
+  public String getFilePathAsString() {
+    return this.filePath.toString();
+  }
+
   public abstract String readLine() throws IOException;
 
   public abstract void close() throws IOException;

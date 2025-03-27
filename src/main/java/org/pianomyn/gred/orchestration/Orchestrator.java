@@ -62,7 +62,8 @@ public class Orchestrator {
         System.err.println("Error creating LineReader: " + e.getMessage());
       }
       matchingAlgorithm.setReader(reader);
-      matches.addAll(matchingAlgorithm.findMatches());
+      matchingAlgorithm.findMatches();
+      matches.addAll(matchingAlgorithm.getMatches());
     }
 
     return matches;

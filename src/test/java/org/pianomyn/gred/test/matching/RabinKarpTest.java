@@ -35,9 +35,10 @@ public class RabinKarpTest {
   public void testPatternNull() {
     // Arrange
     this.rk.setPattern(null);
+    this.rk.findMatches();
 
     // Act and Assert
-    assert (this.rk.findMatches().isEmpty());
+    assert (this.rk.getMatches().isEmpty());
   }
 
   @Test
@@ -45,9 +46,10 @@ public class RabinKarpTest {
     // Arrange
     this.rk.setPattern("");
     FileSystemUtility.appendToFile(this.directoryPath, Paths.get("testFile.txt"), "asdf");
+    this.rk.findMatches();
 
     // Act and Assert
-    assert (this.rk.findMatches().isEmpty());
+    assert (this.rk.getMatches().isEmpty());
   }
 
   @Test
@@ -60,9 +62,10 @@ public class RabinKarpTest {
       this.rk.setReader(new BufferedLineReader(this.directoryPath.resolve("testFile.txt")));
     } catch (IOException e) {
     }
+    this.rk.findMatches();
 
     // Act and Assert
-    assert (this.rk.findMatches().isEmpty());
+    assert (this.rk.getMatches().isEmpty());
   }
 
   @Test
@@ -84,8 +87,11 @@ public class RabinKarpTest {
     this.naive.setReader(naiveReader);
 
     // Act
-    List<List<Integer>> rkResult = this.rk.findMatches();
-    List<List<Integer>> naiveResult = this.naive.findMatches();
+    this.rk.findMatches();
+    this.naive.findMatches();
+
+    List<List<Integer>> rkResult = this.rk.getMatches();
+    List<List<Integer>> naiveResult = this.naive.getMatches();
 
     // Assert
     assert (rkResult.size() == 1);

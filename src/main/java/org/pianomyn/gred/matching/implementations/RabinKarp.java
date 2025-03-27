@@ -30,17 +30,15 @@ public class RabinKarp extends MatchingAlgorithm {
   }
 
   @Override
-  public List<List<Integer>> findMatches() {
-    List<List<Integer>> result = new ArrayList<>();
-
-    if (this.pattern == null || this.pattern.isEmpty()) {
-      return result;
+  public void findMatches() {
+    if (this.pattern == null || this.pattern.isEmpty() || this.reader == null) {
+      return;
     }
+
+    String matchKey = this.reader.getFilePathAsString();
+    this.matches.computeIfAbsent(matchKey, k -> new ArrayList<>()).clear();
 
     int m = this.pattern.length();
-    if (m == 0) {
-      return result;
-    }
 
     String line;
     int lineNumber = 1;
@@ -56,7 +54,7 @@ public class RabinKarp extends MatchingAlgorithm {
 
         for (int i = 0; i <= n - m; i++) {
           if (patternHash == textHash && RabinKarp.checkEqual(line, this.pattern, i, i + m - 1)) {
-            result.add(Arrays.asList(lineNumber, i));
+            this.matches.get(matchKey).add(Arrays.asList(lineNumber, i));
           }
           if (i < n - m) {
             textHash = recomputeHash(line, i, textHash, m);
@@ -67,8 +65,6 @@ public class RabinKarp extends MatchingAlgorithm {
     } catch (IOException e) {
       e.printStackTrace();
     }
-
-    return result;
   }
 
   private long hash(String str, int length) {

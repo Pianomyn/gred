@@ -15,13 +15,15 @@ public class Naive extends MatchingAlgorithm {
   }
 
   @Override
-  public List<List<Integer>> findMatches() {
-    List<List<Integer>> result = new ArrayList<List<Integer>>();
+  public void findMatches() {
+    if (this.pattern.isEmpty()) {
+      return;
+    }
+
+    String matchKey = this.reader.getFilePathAsString();
+    this.matches.computeIfAbsent(matchKey, k -> new ArrayList<>()).clear();
 
     int m = this.pattern.length();
-    if (m == 0) {
-      return result;
-    }
 
     String line;
     int lineNumber = 1;
@@ -34,7 +36,7 @@ public class Naive extends MatchingAlgorithm {
 
         for (int i = 0; i <= n - m; i++) {
           if (this.pattern.equals(line.substring(i, i + m))) {
-            result.add(Arrays.asList(lineNumber, i));
+            this.matches.get(matchKey).add(Arrays.asList(lineNumber, i));
           }
         }
         lineNumber++;
@@ -42,7 +44,5 @@ public class Naive extends MatchingAlgorithm {
     } catch (IOException e) {
       e.printStackTrace();
     }
-
-    return result;
   }
 }

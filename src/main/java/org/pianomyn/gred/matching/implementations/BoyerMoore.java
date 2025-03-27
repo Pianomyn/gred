@@ -15,7 +15,7 @@ public class BoyerMoore extends MatchingAlgorithm {
   }
 
   @Override
-  public List<List<Integer>> findMatches() {
+  public void findMatches() {
     /*
      * Bad char table
      *   Should be matrix (all chars in alphabet vs all chars in pattern)
@@ -29,15 +29,14 @@ public class BoyerMoore extends MatchingAlgorithm {
      * remaining pattern If exists, shift to rightmost occurrence to the left of
      * the mismatch For both, consult bad char table
      */
-    List<List<Integer>> result = new ArrayList<List<Integer>>();
-    if (this.pattern == null || this.pattern.isEmpty()) {
-      return result;
+    if (this.pattern == null || this.pattern.isEmpty() || this.reader == null) {
+      return;
     }
 
+    String matchKey = this.reader.getFilePathAsString();
+    this.matches.computeIfAbsent(matchKey, k -> new ArrayList<>()).clear();
+
     int m = this.pattern.length();
-    if (m == 0) {
-      return result;
-    }
 
     int[][] badCharTable = this.createBadCharTable();
     int[] goodSuffixTable = this.createGoodSuffixTable();
@@ -59,7 +58,7 @@ public class BoyerMoore extends MatchingAlgorithm {
                   badCharTable,
                   goodSuffixTable);
           if (shift == 0) {
-            result.add(Arrays.asList(lineNumber, textIndex - m + 1));
+            this.matches.get(matchKey).add(Arrays.asList(lineNumber, textIndex - m + 1));
             textIndex++;
           } else {
             textIndex += shift;
@@ -70,7 +69,6 @@ public class BoyerMoore extends MatchingAlgorithm {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    return result;
   }
 
   int checkMatch(

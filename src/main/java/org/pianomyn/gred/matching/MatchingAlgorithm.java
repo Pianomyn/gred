@@ -1,5 +1,6 @@
 package org.pianomyn.gred.matching;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.pianomyn.gred.reading.LineReader;
@@ -24,9 +25,10 @@ public abstract class MatchingAlgorithm {
     this.reader = reader;
   }
 
-  public abstract List<List<Integer>> findMatches(); // [[line, starting index]]
+  public abstract void findMatches(); // [[line, starting index]]
 
   public List<List<Integer>> getMatches() {
-    return this.matches.get(this.reader.getFilePath().toString());
+    if (this.reader == null) return new ArrayList<>();
+    return this.matches.getOrDefault(this.reader.getFilePathAsString(), new ArrayList<>());
   }
 }
