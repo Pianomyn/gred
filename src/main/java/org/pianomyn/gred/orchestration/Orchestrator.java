@@ -24,6 +24,13 @@ public class Orchestrator {
   }
 
   // Getters
+  public Map<String, List<List<Integer>>> getMatches() {
+    return this.matches;
+  }
+
+  public Path getDirectoryPath() {
+    return this.directoryPath;
+  }
 
   // Setters
   public void setAlgorithmType(Algorithm algorithm) {
@@ -38,7 +45,7 @@ public class Orchestrator {
     this.pattern = pattern;
   }
 
-  public List<List<Integer>> traverseAndFindMatches() throws IOException {
+  public void traverseAndFindMatches() throws IOException {
     LineReader reader = null;
     try {
       reader = new BufferedLineReader(directoryPath);
@@ -46,7 +53,6 @@ public class Orchestrator {
       e.printStackTrace();
       throw (e);
     }
-    List<List<Integer>> matches = new ArrayList<>();
     BFS traversal = new BFS(directoryPath);
     MatchingAlgorithm matchingAlgorithm =
         MatchingAlgorithmFactory.create(this.matches, algorithmType, reader, this.pattern);
@@ -63,9 +69,6 @@ public class Orchestrator {
       }
       matchingAlgorithm.setReader(reader);
       matchingAlgorithm.findMatches();
-      matches.addAll(matchingAlgorithm.getMatches());
     }
-
-    return matches;
   }
 }
