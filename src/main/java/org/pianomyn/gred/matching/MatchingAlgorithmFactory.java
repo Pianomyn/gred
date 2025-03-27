@@ -2,7 +2,6 @@ package org.pianomyn.gred.matching;
 
 import java.util.List;
 import java.util.Map;
-
 import org.pianomyn.gred.matching.algorithms.BoyerMoore;
 import org.pianomyn.gred.matching.algorithms.KMP;
 import org.pianomyn.gred.matching.algorithms.Naive;

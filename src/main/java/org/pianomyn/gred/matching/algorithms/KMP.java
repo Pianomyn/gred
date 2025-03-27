@@ -2,7 +2,6 @@ package org.pianomyn.gred.matching.algorithms;
 
 import java.util.List;
 import java.util.Map;
-
 import org.pianomyn.gred.matching.MatchingAlgorithm;
 import org.pianomyn.gred.reading.LineReader;
 

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
 import org.pianomyn.gred.matching.MatchingAlgorithm;
 import org.pianomyn.gred.reading.LineReader;
 
@@ -19,7 +18,12 @@ public class RabinKarp extends MatchingAlgorithm {
     super(matches, reader, pattern);
   }
 
-  public RabinKarp(Map<String, List<List<Integer>>> matches, LineReader reader, String pattern, long base, long prime) {
+  public RabinKarp(
+      Map<String, List<List<Integer>>> matches,
+      LineReader reader,
+      String pattern,
+      long base,
+      long prime) {
     super(matches, reader, pattern);
     this.BASE = base;
     this.PRIME = prime;
@@ -51,8 +55,7 @@ public class RabinKarp extends MatchingAlgorithm {
         long textHash = this.hash(line.substring(0, m), m);
 
         for (int i = 0; i <= n - m; i++) {
-          if (patternHash == textHash
-              && RabinKarp.checkEqual(line, this.pattern, i, i + m - 1)) {
+          if (patternHash == textHash && RabinKarp.checkEqual(line, this.pattern, i, i + m - 1)) {
             result.add(Arrays.asList(lineNumber, i));
           }
           if (i < n - m) {
