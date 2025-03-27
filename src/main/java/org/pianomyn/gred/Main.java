@@ -39,7 +39,11 @@ public class Main {
     // directory, pattern, algorithm
     Orchestrator orchestrator = new Orchestrator(null, null, null);
 
-    if(line.hasOption(Algorithm.NAIVE.flag)) {
+    if(line.hasOption("-h") || line.hasOption("--help")) {
+      printHelpMessage();
+      exit(0);
+    }
+    else if(line.hasOption(Algorithm.NAIVE.flag)) {
       orchestrator.setAlgorithmType(Algorithm.NAIVE);
     }
     else if(line.hasOption(Algorithm.RABIN_KARP.flag)) {
