@@ -1,15 +1,14 @@
 package org.pianomyn.gred;
 
-import org.apache.commons.cli.*;
-import org.pianomyn.gred.matching.Algorithm;
-import org.pianomyn.gred.orchestration.Orchestrator;
+import static java.lang.System.exit;
 
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-
-import static java.lang.System.exit;
+import org.apache.commons.cli.*;
+import org.pianomyn.gred.matching.Algorithm;
+import org.pianomyn.gred.orchestration.Orchestrator;
 
 public class Main {
   public static void main(String[] args) {
@@ -33,10 +32,10 @@ public class Main {
     CommandLine line = null;
     try {
       line = parser.parse(options, args);
-    } catch(ParseException e) {
+    } catch (ParseException e) {
       System.err.println("Uh oh. " + e.getMessage());
     }
-    if(line == null) {
+    if (line == null) {
       System.out.println("Uh oh 2. Should not reach here.");
       exit(1);
     }
@@ -45,39 +44,35 @@ public class Main {
     // directory, pattern, algorithm
     Orchestrator orchestrator = new Orchestrator(null, null, null);
 
-    if(remainingArgs[0].equals("docker")) {
-      if(remainingArgs.length < 4 || remainingArgs.length > 5) {
+    if (remainingArgs[0].equals("docker")) {
+      if (remainingArgs.length < 4 || remainingArgs.length > 5) {
         printHelpMessage();
         exit(2);
       }
-      //TODO: Docker usage
+      // TODO: Docker usage
 
     } else {
-      if(remainingArgs.length < 3 || remainingArgs.length > 4) {
+      if (remainingArgs.length < 3 || remainingArgs.length > 4) {
         printHelpMessage();
         exit(2);
       }
       String pattern = remainingArgs[2];
-      String directoryPath = remainingArgs.length == 4 ? remainingArgs[3] : ".";  // TODO: check
+      String directoryPath = remainingArgs.length == 4 ? remainingArgs[3] : "."; // TODO: check
 
       orchestrator.setPattern(pattern);
       orchestrator.setDirectoryPath(Paths.get(directoryPath));
     }
 
-    if(line.hasOption("-h") || line.hasOption("--help")) {
+    if (line.hasOption("-h") || line.hasOption("--help")) {
       printHelpMessage();
       exit(0);
-    }
-    else if(line.hasOption(Algorithm.NAIVE.flag)) {
+    } else if (line.hasOption(Algorithm.NAIVE.flag)) {
       orchestrator.setAlgorithmType(Algorithm.NAIVE);
-    }
-    else if(line.hasOption(Algorithm.RABIN_KARP.flag)) {
+    } else if (line.hasOption(Algorithm.RABIN_KARP.flag)) {
       orchestrator.setAlgorithmType(Algorithm.RABIN_KARP);
-    }
-    else if(line.hasOption(Algorithm.BOYER_MOORE.flag)) {
+    } else if (line.hasOption(Algorithm.BOYER_MOORE.flag)) {
       orchestrator.setAlgorithmType(Algorithm.BOYER_MOORE);
-    }
-    else if(line.hasOption(Algorithm.KMP.flag)) {
+    } else if (line.hasOption(Algorithm.KMP.flag)) {
       orchestrator.setAlgorithmType(Algorithm.KMP);
     } else {
       orchestrator.setAlgorithmType(Algorithm.BOYER_MOORE);
@@ -86,12 +81,12 @@ public class Main {
     List<List<Integer>> matches = new ArrayList<>();
     try {
       matches = orchestrator.traverseAndFindMatches();
-    } catch(IOException e) {
+    } catch (IOException e) {
       System.out.println(e.getMessage());
     }
 
     for (List<Integer> match : matches) {
-      //printMatch(pathToSearch.toString(), match.get(0), match.get(1));
+      // printMatch(pathToSearch.toString(), match.get(0), match.get(1));
     }
 
     /*
@@ -167,16 +162,15 @@ public class Main {
 
   public static void printHelpMessage() {
     System.out.println(
-      "Usage:\n"
-        + "  docker run -v gred PATTERN [DIRECTORY] [FLAGS]\n"
-        + "Or\n"
-        + "  java Main PATTERN [DIRECTORY] [FLAGS]\n"
-        + "Possible Flags:\n"
-        + "  -nv: Naive\n"
-        + "  -rf: Rabin-Karp\n"
-        + "  -bm: Boyer-Moore\n"
-        + "  -kmp: KMP\n"
-    );
+        "Usage:\n"
+            + "  docker run -v gred PATTERN [DIRECTORY] [FLAGS]\n"
+            + "Or\n"
+            + "  java Main PATTERN [DIRECTORY] [FLAGS]\n"
+            + "Possible Flags:\n"
+            + "  -nv: Naive\n"
+            + "  -rf: Rabin-Karp\n"
+            + "  -bm: Boyer-Moore\n"
+            + "  -kmp: KMP\n");
   }
 
   public static void printPathDoesntExist(String path) {

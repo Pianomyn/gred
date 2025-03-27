@@ -6,12 +6,12 @@ import java.nio.charset.MalformedInputException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class BufferedLineReader implements LineReader {
+public class BufferedLineReader extends LineReader {
   private Path filePath;
   private BufferedReader br;
 
   public BufferedLineReader(Path filePath) throws IOException {
-    this.filePath = filePath;
+    super(filePath);
 
     try {
       this.br = Files.newBufferedReader(this.filePath);

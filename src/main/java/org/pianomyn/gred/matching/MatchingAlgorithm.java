@@ -2,15 +2,15 @@ package org.pianomyn.gred.matching;
 
 import java.util.List;
 import java.util.Map;
-
 import org.pianomyn.gred.reading.LineReader;
 
 public abstract class MatchingAlgorithm {
-  private LineReader reader;
-  private String pattern;
-  private Map<String, List<List<Integer>>> matches;
+  protected LineReader reader;
+  protected String pattern;
+  protected Map<String, List<List<Integer>>> matches;
 
-  public MatchingAlgorithm(Map<String, List<List<Integer>>> matches, LineReader reader, String pattern) {
+  public MatchingAlgorithm(
+      Map<String, List<List<Integer>>> matches, LineReader reader, String pattern) {
     this.matches = matches;
     this.reader = reader;
     this.pattern = pattern;
@@ -33,4 +33,6 @@ public abstract class MatchingAlgorithm {
   }
 
   public abstract List<List<Integer>> findMatches(); // [[line, starting index]]
+
+  public abstract List<List<Integer>> getMatches();
 }

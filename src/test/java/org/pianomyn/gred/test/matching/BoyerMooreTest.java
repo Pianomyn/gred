@@ -3,6 +3,7 @@ package org.pianomyn.gred.test.matching;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,7 +24,7 @@ public class BoyerMooreTest {
   @BeforeEach
   public void setup() {
     this.directoryPath = FileSystemUtility.createUniqueTestDirectory();
-    this.bm = new BoyerMoore(null, "");
+    this.bm = new BoyerMoore(new HashMap<>(), null, "");
     this.naive = new Naive(null, "");
   }
 

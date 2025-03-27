@@ -3,10 +3,9 @@ package org.pianomyn.gred.orchestration;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.*;
-
+import org.pianomyn.gred.matching.Algorithm;
 import org.pianomyn.gred.matching.MatchingAlgorithm;
 import org.pianomyn.gred.matching.MatchingAlgorithmFactory;
-import org.pianomyn.gred.matching.Algorithm;
 import org.pianomyn.gred.reading.BufferedLineReader;
 import org.pianomyn.gred.reading.LineReader;
 import org.pianomyn.gred.traversal.BFS;
@@ -38,7 +37,6 @@ public class Orchestrator {
   public void setPattern(String pattern) {
     this.pattern = pattern;
   }
-
 
   public List<List<Integer>> traverseAndFindMatches() throws IOException {
     LineReader reader = null;

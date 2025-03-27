@@ -148,4 +148,8 @@ public class BoyerMoore extends MatchingAlgorithm {
 
     return goodSuffixTable;
   }
+
+  public List<List<Integer>> getMatches() {
+    return this.matches.get(this.reader.getFilePath().toString());
+  }
 }
