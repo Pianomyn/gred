@@ -1,9 +1,11 @@
-package org.pianomyn.gred.matching;
+package org.pianomyn.gred.matching.algorithms;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import org.pianomyn.gred.matching.MatchingAlgorithm;
 import org.pianomyn.gred.reading.LineReader;
 
 public class Naive extends MatchingAlgorithm {
