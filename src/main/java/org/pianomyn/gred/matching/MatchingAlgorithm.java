@@ -1,13 +1,17 @@
 package org.pianomyn.gred.matching;
 
 import java.util.List;
+import java.util.Map;
+
 import org.pianomyn.gred.reading.LineReader;
 
 public abstract class MatchingAlgorithm {
   private LineReader reader;
   private String pattern;
+  private Map<String, List<List<Integer>>> matches;
 
-  public MatchingAlgorithm(LineReader reader, String pattern) {
+  public MatchingAlgorithm(Map<String, List<List<Integer>>> matches, LineReader reader, String pattern) {
+    this.matches = matches;
     this.reader = reader;
     this.pattern = pattern;
   }

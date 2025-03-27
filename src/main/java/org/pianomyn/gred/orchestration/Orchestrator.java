@@ -2,9 +2,8 @@ package org.pianomyn.gred.orchestration;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
+
 import org.pianomyn.gred.matching.MatchingAlgorithm;
 import org.pianomyn.gred.matching.MatchingAlgorithmFactory;
 import org.pianomyn.gred.matching.Algorithm;
@@ -16,18 +15,28 @@ public class Orchestrator {
   Path directoryPath;
   String pattern;
   Algorithm algorithmType;
+  Map<String, List<List<Integer>>> matches;
 
   public Orchestrator(Path directoryPath, String pattern, Algorithm algorithmType) {
     this.directoryPath = directoryPath;
     this.pattern = pattern;
     this.algorithmType = algorithmType;
+    this.matches = new HashMap<>();
   }
 
   // Getters
 
   // Setters
-  public void setAlgorithmType(Algorithm type) {
-    this.algorithmType = type;
+  public void setAlgorithmType(Algorithm algorithm) {
+    this.algorithmType = algorithm;
+  }
+
+  public void setDirectoryPath(Path directoryPath) {
+    this.directoryPath = directoryPath;
+  }
+
+  public void setPattern(String pattern) {
+    this.pattern = pattern;
   }
 
 

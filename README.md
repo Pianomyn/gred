@@ -24,11 +24,11 @@ Install the Java 17 JRE
 java build/libs/gred-1.0-SNAPSHOT.jar PATTERN DIRECTORY
 ```
 
-### Using Docker
+### Using Docker (WIP)
 Install the docker command line tool.
 ```
-docker build -t IMAGE_NAME .
-docker run -v DIRECTORY:/MOUNTED_DIR IMAGE_NAME PATTERN MOUNTED_DIR
+docker build -t gred-docker .
+sh docker_run.sh
 ```
 
 ## Development

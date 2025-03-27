@@ -4,6 +4,11 @@ import org.apache.commons.cli.*;
 import org.pianomyn.gred.matching.Algorithm;
 import org.pianomyn.gred.orchestration.Orchestrator;
 
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+
 import static java.lang.System.exit;
 
 public class Main {
@@ -22,6 +27,7 @@ public class Main {
     options.addOption(Algorithm.RABIN_KARP.flag, "Rabin-Karp");
     options.addOption(Algorithm.BOYER_MOORE.flag, "Boyer-Moore");
     options.addOption(Algorithm.KMP.flag, "Knuth-Morris-Pratt");
+    options.addOption("v", "Mount Docker directory");
 
     CommandLineParser parser = new DefaultParser();
     CommandLine line = null;
@@ -38,6 +44,25 @@ public class Main {
     String[] remainingArgs = line.getArgs();
     // directory, pattern, algorithm
     Orchestrator orchestrator = new Orchestrator(null, null, null);
+
+    if(remainingArgs[0].equals("docker")) {
+      if(remainingArgs.length < 4 || remainingArgs.length > 5) {
+        printHelpMessage();
+        exit(2);
+      }
+      //TODO: Docker usage
+
+    } else {
+      if(remainingArgs.length < 3 || remainingArgs.length > 4) {
+        printHelpMessage();
+        exit(2);
+      }
+      String pattern = remainingArgs[2];
+      String directoryPath = remainingArgs.length == 4 ? remainingArgs[3] : ".";  // TODO: check
+
+      orchestrator.setPattern(pattern);
+      orchestrator.setDirectoryPath(Paths.get(directoryPath));
+    }
 
     if(line.hasOption("-h") || line.hasOption("--help")) {
       printHelpMessage();
@@ -56,6 +81,17 @@ public class Main {
       orchestrator.setAlgorithmType(Algorithm.KMP);
     } else {
       orchestrator.setAlgorithmType(Algorithm.BOYER_MOORE);
+    }
+
+    List<List<Integer>> matches = new ArrayList<>();
+    try {
+      matches = orchestrator.traverseAndFindMatches();
+    } catch(IOException e) {
+      System.out.println(e.getMessage());
+    }
+
+    for (List<Integer> match : matches) {
+      //printMatch(pathToSearch.toString(), match.get(0), match.get(1));
     }
 
     /*
@@ -131,12 +167,16 @@ public class Main {
 
   public static void printHelpMessage() {
     System.out.println(
-        "Usage: docker run gred PATTERN DIRECTORY [FLAGS]\n"
-            + "Possible Flags:\n"
-            + "-nv: Naive\n"
-            + "-rf: Rabin-Karp\n"
-            + "-bm: Boyer-Moore\n"
-            + "-kmp: KMP\n");
+      "Usage:\n"
+        + "  docker run -v gred PATTERN [DIRECTORY] [FLAGS]\n"
+        + "Or\n"
+        + "  java Main PATTERN [DIRECTORY] [FLAGS]\n"
+        + "Possible Flags:\n"
+        + "  -nv: Naive\n"
+        + "  -rf: Rabin-Karp\n"
+        + "  -bm: Boyer-Moore\n"
+        + "  -kmp: KMP\n"
+    );
   }
 
   public static void printPathDoesntExist(String path) {

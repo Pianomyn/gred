@@ -9,8 +9,8 @@ import java.util.Map;
 import org.pianomyn.gred.reading.LineReader;
 
 public class BoyerMoore extends MatchingAlgorithm {
-  public BoyerMoore(LineReader reader, String pattern) {
-    super(reader, pattern);
+  public BoyerMoore(Map<String, List<List<Integer>>> matches, LineReader reader, String pattern) {
+    super(matches, reader, pattern);
   }
 
   @Override
