@@ -4,7 +4,7 @@ import org.pianomyn.gred.reading.LineReader;
 
 public class MatchingAlgorithmFactory {
   public static MatchingAlgorithm create(
-      MatchingAlgorithmType algorithmType, LineReader lineReader, String pattern) {
+          Algorithm algorithmType, LineReader lineReader, String pattern) {
     switch (algorithmType) {
       case BOYER_MOORE:
         return new BoyerMoore(lineReader, pattern);

@@ -1,12 +1,13 @@
 package org.pianomyn.gred;
 
-import org.pianomyn.gred.matching.MatchingAlgorithm;
+import org.apache.commons.cli.*;
+import org.pianomyn.gred.matching.Algorithm;
+import org.pianomyn.gred.orchestration.Orchestrator;
+
+import static java.lang.System.exit;
 
 public class Main {
-  public record ParseArgsResult(MatchingAlgorithm matchingAlgorithm, String pattern) {}
-
   public static void main(String[] args) {
-    // ParseArgsResult (args);
     /*
     Parse arguments (ensure flag combo is valid - only 1)
       Option is like flag
@@ -15,6 +16,43 @@ public class Main {
     Make orchestrator do stuff
     Fetch results (index matches) from orchestrator
      */
+
+    Options options = new Options();
+    options.addOption(Algorithm.NAIVE.flag, "Naive");
+    options.addOption(Algorithm.RABIN_KARP.flag, "Rabin-Karp");
+    options.addOption(Algorithm.BOYER_MOORE.flag, "Boyer-Moore");
+    options.addOption(Algorithm.KMP.flag, "Knuth-Morris-Pratt");
+
+    CommandLineParser parser = new DefaultParser();
+    CommandLine line = null;
+    try {
+      line = parser.parse(options, args);
+    } catch(ParseException e) {
+      System.err.println("Uh oh. " + e.getMessage());
+    }
+    if(line == null) {
+      System.out.println("Uh oh 2. Should not reach here.");
+      exit(1);
+    }
+
+    String[] remainingArgs = line.getArgs();
+    // directory, pattern, algorithm
+    Orchestrator orchestrator = new Orchestrator(null, null, null);
+
+    if(line.hasOption(Algorithm.NAIVE.flag)) {
+      orchestrator.setAlgorithmType(Algorithm.NAIVE);
+    }
+    else if(line.hasOption(Algorithm.RABIN_KARP.flag)) {
+      orchestrator.setAlgorithmType(Algorithm.RABIN_KARP);
+    }
+    else if(line.hasOption(Algorithm.BOYER_MOORE.flag)) {
+      orchestrator.setAlgorithmType(Algorithm.BOYER_MOORE);
+    }
+    else if(line.hasOption(Algorithm.KMP.flag)) {
+      orchestrator.setAlgorithmType(Algorithm.KMP);
+    } else {
+      orchestrator.setAlgorithmType(Algorithm.BOYER_MOORE);
+    }
 
     /*
     int n = args.length;
