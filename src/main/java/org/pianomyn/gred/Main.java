@@ -35,7 +35,6 @@ public class Main {
     options.addOption(Algorithm.RABIN_KARP.flag, "Rabin-Karp");
     options.addOption(Algorithm.BOYER_MOORE.flag, "Boyer-Moore");
     options.addOption(Algorithm.KMP.flag, "Knuth-Morris-Pratt");
-    options.addOption("v", "Mount Docker directory");
 
     CommandLineParser parser = new DefaultParser();
     CommandLine line = null;
