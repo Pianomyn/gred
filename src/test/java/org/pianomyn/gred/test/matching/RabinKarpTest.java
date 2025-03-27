@@ -3,6 +3,7 @@ package org.pianomyn.gred.test.matching;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,8 +22,8 @@ public class RabinKarpTest {
   @BeforeEach
   public void setup() {
     this.directoryPath = FileSystemUtility.createUniqueTestDirectory();
-    this.rk = new RabinKarp(null, "abc");
-    this.naive = new Naive(null, "abc");
+    this.rk = new RabinKarp(new HashMap<>(), null, "abc");
+    this.naive = new Naive(new HashMap<>(), null, "abc");
   }
 
   @AfterEach

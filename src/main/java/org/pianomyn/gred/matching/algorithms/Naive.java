@@ -4,14 +4,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.pianomyn.gred.matching.MatchingAlgorithm;
 import org.pianomyn.gred.reading.LineReader;
 
 public class Naive extends MatchingAlgorithm {
 
-  public Naive(LineReader reader, String pattern) {
-    super(reader, pattern);
+  public Naive(Map<String, List<List<Integer>>> matches, LineReader reader, String pattern) {
+    super(matches, reader, pattern);
   }
 
   @Override

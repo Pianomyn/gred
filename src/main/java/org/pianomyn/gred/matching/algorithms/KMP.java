@@ -1,13 +1,14 @@
 package org.pianomyn.gred.matching.algorithms;
 
 import java.util.List;
+import java.util.Map;
 
 import org.pianomyn.gred.matching.MatchingAlgorithm;
 import org.pianomyn.gred.reading.LineReader;
 
 public class KMP extends MatchingAlgorithm {
-  public KMP(LineReader reader, String pattern) {
-    super(reader, pattern);
+  public KMP(Map<String, List<List<Integer>>> matches, LineReader reader, String pattern) {
+    super(matches, reader, pattern);
   }
 
   private int[] constructPrefix() {

@@ -25,7 +25,7 @@ public class BoyerMooreTest {
   public void setup() {
     this.directoryPath = FileSystemUtility.createUniqueTestDirectory();
     this.bm = new BoyerMoore(new HashMap<>(), null, "");
-    this.naive = new Naive(null, "");
+    this.naive = new Naive(new HashMap<>(), null, "");
   }
 
   @AfterEach

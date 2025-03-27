@@ -17,13 +17,13 @@ public class MatchingAlgorithmFactory {
       String pattern) {
     switch (algorithmType) {
       case NAIVE:
-        return new Naive(lineReader, pattern);
+        return new Naive(matches, lineReader, pattern);
       case RABIN_KARP:
-        return new RabinKarp(lineReader, pattern);
+        return new RabinKarp(matches, lineReader, pattern);
       case BOYER_MOORE:
         return new BoyerMoore(matches, lineReader, pattern);
       case KMP:
-        return new KMP(lineReader, pattern);
+        return new KMP(matches, lineReader, pattern);
       default:
         throw new IllegalArgumentException("Unknown algorithm type: " + algorithmType);
     }
