@@ -40,6 +40,7 @@ sh docker_run.sh
     - `./gradlew format` Uses spotless
 
 ## Future Work
+- Measure performance against grep
 - Multi-threading
 - Handle utf chars in boyer moore table
 - Regex support

@@ -3,6 +3,7 @@ package org.pianomyn.gred;
 import static java.lang.System.exit;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
@@ -20,13 +21,7 @@ public class Main {
       System.out.println(e.getMessage());
     }
 
-    for (Map.Entry<String, List<List<Integer>>> entry : orchestrator.getMatches().entrySet()) {
-      String fileNameAsString = entry.getKey();
-      List<List<Integer>> matches = entry.getValue();
-      for (List<Integer> match : matches) {
-        printMatch(fileNameAsString, match.get(0), match.get(1));
-      }
-    }
+    printMatches(orchestrator.getMatches());
   }
 
   private static Orchestrator initialiseOrchestrator(String[] args) {
@@ -88,6 +83,29 @@ public class Main {
     }
 
     return orchestrator;
+  }
+
+  public static void printMatches(Map<String, List<List<Integer>>> matches) {
+    for (Map.Entry<String, List<List<Integer>>> entry : matches.entrySet()) {
+      String filename = entry.getKey();
+      List<List<Integer>> positions = entry.getValue();
+
+      try {
+        List<String> allLines = Files.readAllLines(Paths.get(filename));
+
+        for (List<Integer> pos : positions) {
+          int lineNum = pos.get(0);
+          int charPos = pos.get(1);
+
+          if (lineNum > -1 && lineNum <= allLines.size() - 1) {
+            String line = allLines.get(lineNum);
+            System.out.printf("%s:%d:%d: %s%n", filename, lineNum, charPos, line);
+          }
+        }
+      } catch (IOException e) {
+        System.err.println("Error reading file: " + filename);
+      }
+    }
   }
 
   private static void printHelpMessage() {
