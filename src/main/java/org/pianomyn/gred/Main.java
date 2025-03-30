@@ -53,6 +53,7 @@ public class Main {
     Orchestrator orchestrator = new Orchestrator(null, null, null);
 
     if (remainingArgs[0].equals("docker")) {
+      // TODO: WIP
       if (remainingArgs.length < 4 || remainingArgs.length > 5) {
         printHelpMessage();
         exit(3);
@@ -60,12 +61,12 @@ public class Main {
       // TODO: Docker usage
 
     } else {
-      if (remainingArgs.length < 3 || remainingArgs.length > 4) {
+      if (remainingArgs.length > 2) {
         printHelpMessage();
         exit(4);
       }
-      String pattern = remainingArgs[2];
-      String directoryPath = remainingArgs.length == 4 ? remainingArgs[3] : "."; // TODO: check
+      String pattern = remainingArgs[0];
+      String directoryPath = remainingArgs.length == 2 ? remainingArgs[1] : "."; // TODO: check
 
       orchestrator.setPattern(pattern);
       orchestrator.setDirectoryPath(Paths.get(directoryPath));
