@@ -1,5 +1,6 @@
 plugins {
     id("java")
+    id("com.gradleup.shadow") version "8.3.6"
     id("checkstyle")
     id("com.diffplug.spotless") version "6.25.0"
 }
@@ -9,6 +10,7 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
+    gradlePluginPortal()
 }
 
 
@@ -30,6 +32,14 @@ tasks.jar {
         attributes["Main-Class"] = "org.pianomyn.gred.Main"
     }
 }
+
+tasks.shadowJar {
+    archiveClassifier.set("all")
+    manifest {
+        attributes["Main-Class"] = "org.pianomyn.gred.Main"
+    }
+}
+
 
 apply {
   plugin("checkstyle")

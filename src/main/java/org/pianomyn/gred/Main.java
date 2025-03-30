@@ -35,6 +35,7 @@ public class Main {
     options.addOption(Algorithm.RABIN_KARP.flag, "Rabin-Karp");
     options.addOption(Algorithm.BOYER_MOORE.flag, "Boyer-Moore");
     options.addOption(Algorithm.KMP.flag, "Knuth-Morris-Pratt");
+    options.addOption("jar", "Needed to run bundled file");
 
     CommandLineParser parser = new DefaultParser();
     CommandLine line = null;
@@ -42,26 +43,26 @@ public class Main {
       line = parser.parse(options, args);
     } catch (ParseException e) {
       System.err.println("Uh oh. " + e.getMessage());
+      exit(1);
     }
     if (line == null) {
       System.out.println("Uh oh 2. Should not reach here.");
-      exit(1);
+      exit(2);
     }
     String[] remainingArgs = line.getArgs();
-    // directory, pattern, algorithm
     Orchestrator orchestrator = new Orchestrator(null, null, null);
 
     if (remainingArgs[0].equals("docker")) {
       if (remainingArgs.length < 4 || remainingArgs.length > 5) {
         printHelpMessage();
-        exit(2);
+        exit(3);
       }
       // TODO: Docker usage
 
     } else {
       if (remainingArgs.length < 3 || remainingArgs.length > 4) {
         printHelpMessage();
-        exit(2);
+        exit(4);
       }
       String pattern = remainingArgs[2];
       String directoryPath = remainingArgs.length == 4 ? remainingArgs[3] : "."; // TODO: check
