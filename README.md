@@ -1,4 +1,4 @@
-# Gred - A Java Pattern Matching Tool
+# Gred - A Pattern Matching Tool
 Many everyday computing tasks like running plagiarism checks, searching with Control+F and filtering emails rely on efficient pattern matching algorithms.
 
 Gred is a fast pattern matching tool inspired by the popular
