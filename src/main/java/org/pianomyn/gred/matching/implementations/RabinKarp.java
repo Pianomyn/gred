@@ -41,7 +41,7 @@ public class RabinKarp extends MatchingAlgorithm {
     int m = this.pattern.length();
 
     String line;
-    int lineNumber = 1;
+    int lineNumber = 0;
     try {
       while ((line = this.reader.readLine()) != null) {
         int n = line.length();

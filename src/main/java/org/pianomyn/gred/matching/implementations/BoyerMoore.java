@@ -42,7 +42,7 @@ public class BoyerMoore extends MatchingAlgorithm {
     int[] goodSuffixTable = this.createGoodSuffixTable();
 
     String line;
-    int lineNumber = 1;
+    int lineNumber = 0;
     try {
       while ((line = this.reader.readLine()) != null) {
         int n = line.length();

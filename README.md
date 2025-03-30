@@ -41,6 +41,7 @@ sh docker_run.sh
 
 ## Future Work
 - Multi-threading
+- Handle utf chars in boyer moore table
 - Regex support
 
 ## Note to self
