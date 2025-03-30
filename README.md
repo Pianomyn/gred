@@ -9,16 +9,16 @@ Searching is done with either the Rabin-Karp algorithm or the Boyer-Moore algori
 
 The returned output will be formatted like
 
-filename:lineNumber:characterIndex: matchedLineText
-...
+`filename:lineNumber:characterIndex: matchedLineText`
 
+![usage_example](https://github.com/user-attachments/assets/55207c5a-88bb-46c9-a594-4ebb34a17b35)
 
 ## Usage
 ### Using Java
 Install the Java 17 JRE
 ``` bash
-./gradlew build
-java build/libs/gred-1.0-SNAPSHOT.jar PATTERN DIRECTORY
+./gradlew clean build shadowJar
+java -jar build/libs/gred-1.0-SNAPSHOT-all.jar PATTERN [DIRECTORY]
 ```
 
 ### Using Docker (WIP)
