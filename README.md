@@ -12,21 +12,24 @@ while also getting familiar with the structure of Java projects and learning
 about the fascinating and well-researched field of pattern matching.
 
 ## Features
-- Pattern matching with well optimized pattern matching algorithms. Currently implemented (Benchmark WIP)
-  - Rabin-Karp
-  - Boyer-Moore
-  - KMP (WIP)
+- Pattern matching with well optimized pattern matching algorithms. Currently implemented
+  - <u><b>Rabin-Karp</b></u>
+    - Uses a rolling hash (Usually moving sum) to avoid pointless checks. Hard to pick a good rolling hash that balances correctness and speed.
+  - <u><b>Boyer-Moore</b></u> ([Primer](https://www.youtube.com/watch?v=4Xyhb72LCX4&t=200s))
+      - Precomputation on the pattern to skip redundant matches. 2 well known precomputations are described below.
+      - <b>Bad Char Table</b>:
+        - Create a matrix of size `pattern_length` * `|alphabet|`.
+        - For each i in range \[0, pattern_length\], compute the distance that each character in the alphabet was last seen.
+        - Line the pattern up with the start of the text and in each iteration, compare from right to left.
+        - When a mismatch occurs, move the pattern forwards so the closest-on-the-left occurrence of the mismatching character in the pattern lines up with the mismatching character in the text.
+      - <b>Good Suffix Table</b>
+        - fdfd
+  - <u><b>KMP</b></u> (WIP)
+    - Precomputation on the pattern to skip redundant matches.
+    - <b>Last Prefix Suffix</b>: Precomputation on the pattern to skip redundant matches.
 - Recursive directory traversal
 - Clearly formatted output
 
-## Motivations
-
-
-The returned output will be formatted like
-
-`filename:lineNumber:characterIndex: matchedLineText`
-
-![usage_example](https://github.com/user-attachments/assets/55207c5a-88bb-46c9-a594-4ebb34a17b35)
 
 ## Usage
 ### Using Java
@@ -49,6 +52,12 @@ Install the docker command line tool.
 docker build -t gred-docker .
 sh docker_run.sh
 ```
+
+The returned output will be formatted like
+
+`filename:lineNumber:characterIndex: matchedLineText`
+
+![usage_example](https://github.com/user-attachments/assets/55207c5a-88bb-46c9-a594-4ebb34a17b35)
 
 ## Development
 - Github Actions is used for CI. Create a PR to
