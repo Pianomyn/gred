@@ -16,17 +16,25 @@ about the fascinating and well-researched field of pattern matching.
   - <u><b>Rabin-Karp</b></u>
     - Uses a rolling hash (Usually moving sum) to avoid pointless checks. Hard to pick a good rolling hash that balances correctness and speed.
   - <u><b>Boyer-Moore</b></u> ([Primer](https://www.youtube.com/watch?v=4Xyhb72LCX4&t=200s))
-      - Precomputation on the pattern to skip redundant matches. 2 well known precomputations are described below.
-      - <b>Bad Char Table</b>:
-        - Create a matrix of size `pattern_length` * `|alphabet|`.
-        - For each i in range \[0, pattern_length\], compute the distance that each character in the alphabet was last seen.
-        - Line the pattern up with the start of the text and in each iteration, compare from right to left.
-        - When a mismatch occurs, move the pattern forwards so the closest-on-the-left occurrence of the mismatching character in the pattern lines up with the mismatching character in the text.
-      - <b>Good Suffix Table</b>
-        - fdfd
+      - Precomputation on the pattern to skip redundant matches. 2 well known precomputations are described below. Take the best of the 2 suggestions.
+      - <b>Bad Char Table</b> (Skip until mismatch becomes match):
+        - Computation
+          - Classic approach is to use map to track last index occurrence. Less space, worse time complexity. Alternatively, create a matrix of size `pattern_length` * `|alphabet|`.
+          - For each i in range \[0, pattern_length\], compute the distance that each character in the alphabet was last seen based on i-1.
+        - Usage
+          - Line the pattern up with the start of the text and in each iteration, compare from right to left.
+          - When a mismatch occurs, move the pattern forwards so the closest-on-the-left occurrence of the mismatching character in the pattern lines up with the mismatching character in the text.
+      - <b>Good Suffix Table</b> ([Primer](https://web.archive.org/web/20200427070016/https://www.inf.hs-flensburg.de/lang/algorithmen/pattern/bmen.htm) Don't turn any existing matches into a mismatch)
+        - Computation
+        - Usage
   - <u><b>KMP</b></u> (WIP)
-    - Precomputation on the pattern to skip redundant matches.
+    - If a mismatch occurs, 
     - <b>Last Prefix Suffix</b>: Precomputation on the pattern to skip redundant matches.
+      - Computation
+        - Create an array of size `pattern_length` called `lps`.
+        - Use 2 pointers, `left` and `right` and start both at 0.
+        - If `pattern[right]` == `pattern[left]`, Set `lps`
+      - Usage
 - Recursive directory traversal
 - Clearly formatted output
 

@@ -1,11 +1,8 @@
 package org.pianomyn.gred.matching.implementations;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 import org.pianomyn.gred.matching.MatchingAlgorithm;
 import org.pianomyn.gred.reading.LineReader;
 
@@ -86,7 +83,12 @@ public class BoyerMoore extends MatchingAlgorithm {
         if (patternIndex + 1 < m) {
           goodSuffixSuggestion = goodSuffixTable[patternIndex + 1];
         }
-        return Math.max(badCharSuggestion, goodSuffixSuggestion);
+        return Math.max(
+                1,
+                Math.max(
+                  badCharSuggestion, goodSuffixSuggestion
+                )
+        );
       }
 
       m--;
@@ -124,27 +126,52 @@ public class BoyerMoore extends MatchingAlgorithm {
   }
 
   public int[] createGoodSuffixTable() {
+    /*
+    If a mismatch at i-1, index i tells us how much to shift to
+    - Preserve the entire suffix from i to m-1
+    - Preserve some part of the suffix (different start position to i).
+    */
     int m = this.pattern.length();
-    int[] goodSuffixTable = new int[m];
-    Arrays.fill(goodSuffixTable, -1);
+    int[] goodSuffixTable = new int[m+1];
+    int[] shiftTable = new int[m+1];
 
-    // Iterate over all suffixes
-    for (int i = m - 1; i > -1; i--) {
-      String suffix = this.pattern.substring(i);
-      int suffixLength = m - i;
-
-      // Sliding window to find the first occurrence of the suffix to the left
-      int left = i - suffixLength;
-
-      while (left > -1) {
-        if (this.pattern.substring(left, left + suffixLength).equals(suffix)) {
-          goodSuffixTable[i] = i - left;
-          break;
-        }
-        left--;
-      }
-    }
+    createGoodSuffixTableCase1(shiftTable, goodSuffixTable);
+    createGoodSuffixTableCase2And3(shiftTable, goodSuffixTable);
 
     return goodSuffixTable;
   }
+
+  private void createGoodSuffixTableCase1(int[] shiftTable, int[] goodSuffixTable) {
+    int m = this.pattern.length();
+    int left = m;
+    int right = m+1;
+    shiftTable[left] = right;
+
+    while(left > 0) {
+      while(right <= m && this.pattern.charAt(left-1) != this.pattern.charAt(right-1)) {
+        if(goodSuffixTable[right] == 0) {
+          goodSuffixTable[right] = right-left;
+        }
+        right = shiftTable[right];
+      }
+      left--;
+      right--;
+      shiftTable[left] = right;
+    }
+  }
+
+  private void createGoodSuffixTableCase2And3(int[] shiftTable, int[] goodSuffixTable) {
+    int m = this.pattern.length();
+    int left, right=shiftTable[0];
+
+    for(left = 0; left <= m; left++) {
+      if(goodSuffixTable[left] == 0) goodSuffixTable[left] = right;
+      if(left == right) right = shiftTable[right];
+    }
+
+    for(int i = 0; i <= m; i++) {
+      if(goodSuffixTable[i] == 0) goodSuffixTable[i] = m;
+    }
+  }
+
 }

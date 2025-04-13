@@ -73,24 +73,17 @@ public class BoyerMooreTest {
   @Test
   public void testCreateGoodSuffixTableSimple() {
     // Arrange
-    String pattern = "sirhellofadhello";
-    int m = pattern.length();
-    Set<Integer> suffixIndices = new HashSet<>();
+    String pattern = "ANPANMAN";
     this.bm.setPattern(pattern);
-
+    int m = pattern.length();
+    int[] expectedGoodSuffixTable = {6, 6, 6,6, 6, 6, 3, 8, 1};
     // Act
-    for (int i = 1; i < 6; i++) {
-      suffixIndices.add(m - i);
-    }
     int[] goodSuffixTable = this.bm.createGoodSuffixTable();
 
     // Assert
-    for (int i = m - 1; i > -1; i--) {
-      if (suffixIndices.contains(i)) {
-        assert goodSuffixTable[i] == 8;
-      } else {
-        assert goodSuffixTable[i] == -1;
-      }
+    assert expectedGoodSuffixTable.length == goodSuffixTable.length;
+    for (int i = 0; i <= m; i++) {
+      assert goodSuffixTable[i] == expectedGoodSuffixTable[i];
     }
   }
 
