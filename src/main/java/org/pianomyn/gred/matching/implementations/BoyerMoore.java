@@ -97,7 +97,7 @@ public class BoyerMoore extends MatchingAlgorithm {
         } else if (lastSeenIndex.containsKey(currentChar)) {
           badCharTable[r][c] = c - lastSeenIndex.get(currentChar);
         } else {
-          badCharTable[r][c] = Math.max(c+1, m-c);
+          badCharTable[r][c] = Math.max(c + 1, m - c);
         }
 
         lastSeenIndex.put(currentChar, c);
@@ -123,8 +123,7 @@ public class BoyerMoore extends MatchingAlgorithm {
     */
     int m = this.pattern.length();
     // Index m can be treated as the "empty string", AKA no such border match.
-    int[] borderPositions =
-        new int[m + 1];
+    int[] borderPositions = new int[m + 1];
     int[] goodSuffixTable = new int[m + 1];
 
     createStrongGoodSuffixRule(borderPositions, goodSuffixTable);
