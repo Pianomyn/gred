@@ -126,13 +126,17 @@ public class BoyerMoore extends MatchingAlgorithm {
     int[] borderPositions = new int[m + 1];
     int[] goodSuffixTable = new int[m + 1];
 
-    createStrongGoodSuffixRule(borderPositions, goodSuffixTable);
-    createWeakGoodSuffixRule(borderPositions, goodSuffixTable);
+    applyGoodSuffixRules(borderPositions, goodSuffixTable);
 
     return goodSuffixTable;
   }
 
-  private void createStrongGoodSuffixRule(int[] borderPositions, int[] goodSuffixTable) {
+  private void applyGoodSuffixRules(int[] borderPositions, int[] goodSuffixTable) {
+    applyStrongGoodSuffixRule(borderPositions, goodSuffixTable);
+    applyWeakGoodSuffixRule(borderPositions, goodSuffixTable);
+  }
+
+  private void applyStrongGoodSuffixRule(int[] borderPositions, int[] goodSuffixTable) {
     /*
      For each substring beginning at `left`, what is the longest border?
      If char before suffix and prefix are same, we can expand border.
@@ -164,7 +168,7 @@ public class BoyerMoore extends MatchingAlgorithm {
     }
   }
 
-  private void createWeakGoodSuffixRule(int[] borderPositions, int[] goodSuffixTable) {
+  private void applyWeakGoodSuffixRule(int[] borderPositions, int[] goodSuffixTable) {
     int m = this.pattern.length();
     int left, right = borderPositions[0];
 
