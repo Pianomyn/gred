@@ -11,32 +11,6 @@ I'm working on this project to improve my coding skills (splitting concerns acro
 while also getting familiar with the structure of Java projects and learning
 about the fascinating and well-researched field of pattern matching.
 
-## Features
-- Pattern matching with well optimized pattern matching algorithms. Currently implemented
-  - <u><b>Rabin-Karp</b></u>
-    - Uses a rolling hash (Usually moving sum) to avoid pointless checks. Hard to pick a good rolling hash that balances correctness and speed.
-  - <u><b>Boyer-Moore</b></u> ([Primer](https://www.youtube.com/watch?v=4Xyhb72LCX4&t=200s))
-      - Precomputation on the pattern to skip redundant matches. 2 well known precomputations are described below. Take the best of the 2 suggestions.
-      - <b>Bad Char Table</b> (Skip until mismatch becomes match):
-        - Computation
-          - Classic approach is to use map to track last index occurrence. Less space, worse time complexity. Alternatively, create a matrix of size `pattern_length` * `|alphabet|`.
-          - For each i in range \[0, pattern_length\], compute the distance that each character in the alphabet was last seen based on i-1.
-        - Usage
-          - Line the pattern up with the start of the text and in each iteration, compare from right to left.
-          - When a mismatch occurs, move the pattern forwards so the closest-on-the-left occurrence of the mismatching character in the pattern lines up with the mismatching character in the text.
-      - <b>Good Suffix Table</b> ([Primer](https://web.archive.org/web/20200427070016/https://www.inf.hs-flensburg.de/lang/algorithmen/pattern/bmen.htm) Don't turn any existing matches into a mismatch)
-        - Computation
-        - Usage
-  - <u><b>KMP</b></u> (WIP)
-    - If a mismatch occurs, 
-    - <b>Last Prefix Suffix</b>: Precomputation on the pattern to skip redundant matches.
-      - Computation
-        - Create an array of size `pattern_length` called `lps`.
-        - Use 2 pointers, `left` and `right` and start both at 0.
-        - If `pattern[right]` == `pattern[left]`, Set `lps`
-      - Usage
-- Recursive directory traversal
-- Clearly formatted output
 
 
 ## Usage
@@ -75,6 +49,38 @@ The returned output will be formatted like
     - `./gradlew lint` Uses checkstyle and spotless
     - `./gradlew format` Uses spotless
 
+## Notes (For myself so I don't forget!)
+- Pattern matching with well optimized pattern matching algorithms. Currently implemented
+  - <u><b>Rabin-Karp</b></u>
+    - Average Case: O(m + n) Assuming a good hash function that avoids collisions.
+    - Worst Case: O(mn) If there are many collisions.
+    - Uses a rolling hash (usually moving sum) to avoid pointless checks. Hard to pick a good rolling hash that balances correctness and speed.
+  - <u><b>Boyer-Moore</b></u> ([Primer](https://www.youtube.com/watch?v=4Xyhb72LCX4&t=200s))
+    - Average Case: O(n/m) esp when |alphabet| >> |unique_pattern_chars| as the Bad Character rule will often trigger large jumps.
+    - Worst Case: O(mn) eg if pattern and text are all same characters. Can guarantee linear bound with Apostolico-Giancarlo version (Not implemented).
+    - Precomputation on the pattern to skip redundant matches. Take the best of the 2 suggestions.
+    - <b>Bad Char Table Precomputation</b> (Skip until mismatch becomes match):
+      - Right to left
+      - Classic approach is to use map to track last index occurrence. Less space, worse time complexity. Alternatively, create a matrix of size `pattern_length` * `|alphabet|`.
+      - For each i in range \[0, pattern_length\], compute the distance that each character in the alphabet was last seen based on i-1.
+    - <b>Good Suffix Table Precomputation</b> ([Primer](https://medium.com/@neethamadhu.ma/good-suffix-rule-in-boyer-moore-algorithm-explained-simply-9d9b6d20a773) Don't turn any existing matches into a mismatch)
+      - Right to left
+      - Case 1 (Weak): The **entire suffix matched before the mismatch** occurs **elsewhere in the pattern**.
+        - Shift the pattern so that this earlier occurrence of the suffix lines up with the text.
+      - Case 2 (Strong): A **proper suffix** of the matched part is also a **prefix** of the pattern.
+        - Shift the pattern so that this prefix lines up with the suffix in the text.
+      - A shift table is computed using both cases to determine how far the pattern can be safely shifted on a mismatch, **while preserving suffix matches**.
+  - <u><b>KMP</b></u> (WIP)
+    - Average Case: O(n)
+    - Worst Case: O(m + n)
+    - <b>Last Prefix Suffix</b>: Precomputation on the pattern to skip redundant matches.
+      - Computation
+        - Create an array of size `pattern_length` called `lps`.
+        - Use 2 pointers, `left` and `right` and start both at 0.
+        - If `pattern[right]` == `pattern[left]`, Set `lps`
+- Recursive directory traversal
+- Clearly formatted output
+- `sudo docker run --rm -it --entrypoint=/bin/sh gred`
 ## Future Work
 - Measure performance against grep
 - Multi-threading
@@ -82,4 +88,3 @@ The returned output will be formatted like
 - Regex support
 
 ## Note to self
-sudo docker run --rm -it --entrypoint=/bin/sh gred
