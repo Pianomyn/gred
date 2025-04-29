@@ -12,7 +12,6 @@ while also getting familiar with the structure of Java projects and learning
 about the fascinating and well-researched field of pattern matching.
 
 
-
 ## Usage
 ### Using Java
 Install the Java 17 JRE
@@ -40,6 +39,17 @@ The returned output will be formatted like
 `filename:lineNumber:characterIndex: matchedLineText`
 
 ![usage_example](https://github.com/user-attachments/assets/55207c5a-88bb-46c9-a594-4ebb34a17b35)
+
+## Algorithm Summaries
+- Rabin-Karp
+  - Uses a rolling hash (usually moving sum) to avoid pointless checks. Hard to pick a good rolling hash that balances correctness and speed.
+  - Average Case: O(m + n) Assuming a good hash function that avoids collisions.
+  - Worst Case: O(mn) If there are many collisions.
+- Boyer-Moore
+  - 2 Precomputations, Bad Char Rule to skip char mismatches that don't occur again in the pattern and Good Suffix Rule to maintain existing suffix matches.
+  - Average Case: O(n/m) esp when |alphabet| >> |unique_pattern_chars| as the Bad Character rule will often trigger large jumps.
+  - Worst Case: O(mn) if pattern and text are all same characters. Can guarantee linear bound with Apostolico-Giancarlo version (Not implemented).
+- Knuth-Morris-Pratt
 
 ## Development
 - Github Actions is used for CI. Create a PR to

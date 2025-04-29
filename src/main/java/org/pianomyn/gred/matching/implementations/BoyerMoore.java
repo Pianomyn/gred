@@ -171,9 +171,9 @@ public class BoyerMoore extends MatchingAlgorithm {
 
   private void applyWeakGoodSuffixRule(int[] borderPositions, int[] goodSuffixTable) {
     int m = this.pattern.length();
-    int left, right = borderPositions[0];
+    int right = borderPositions[0];
 
-    for (left = 0; left <= m; left++) {
+    for (int left = 0; left <= m; left++) {
       if (goodSuffixTable[left] == 0) goodSuffixTable[left] = right;
       if (left == right) right = borderPositions[right];
     }
