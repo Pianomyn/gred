@@ -115,10 +115,11 @@ public class BoyerMoore extends MatchingAlgorithm {
     If a mismatch at i-1, there are 2 cases
     - Weak Good Suffix Rule
       - Preserve the entire suffix (proper prefix) from i to m-1 (Another instance of the entirely matched suffix exists earlier in the pattern).
+      - Sliding window technique to create largest border for each i.
       - The i-1 char must be different, otherwise, same mismatch would occur.
       - Line up that occurrence with the suffix. Less useful as it's less likely for this to happen.
     - Strong Good Suffix Rule
-      - Some part of the suffix exists as a prefix (ends at m-1, starts at index greater than i).
+      - Similar idea but keep a borderPositions array to see if a border of a smaller size can be created from prev borders.
       - Line the occurrences up.
     */
     int m = this.pattern.length();
