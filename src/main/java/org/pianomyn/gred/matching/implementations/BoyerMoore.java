@@ -2,7 +2,6 @@ package org.pianomyn.gred.matching.implementations;
 
 import java.io.IOException;
 import java.util.*;
-
 import org.pianomyn.gred.matching.MatchingAlgorithm;
 import org.pianomyn.gred.reading.LineReader;
 
@@ -83,12 +82,7 @@ public class BoyerMoore extends MatchingAlgorithm {
         if (patternIndex + 1 < m) {
           goodSuffixSuggestion = goodSuffixTable[patternIndex + 1];
         }
-        return Math.max(
-                1,
-                Math.max(
-                  badCharSuggestion, goodSuffixSuggestion
-                )
-        );
+        return Math.max(1, Math.max(badCharSuggestion, goodSuffixSuggestion));
       }
 
       m--;
@@ -142,35 +136,37 @@ public class BoyerMoore extends MatchingAlgorithm {
     */
     int m = this.pattern.length();
     // Index m+1 can be treated as the "empty string", AKA no such border match.
-    int[] borderPositions = new int[m+1];  // For each i, the start position of its border suffix for substring (i, m).
-    int[] goodSuffixTable = new int[m+1];
+    int[] borderPositions =
+        new int[m + 1]; // For each i, the start position of its border suffix for substring (i, m).
+    int[] goodSuffixTable = new int[m + 1];
 
-    createWeakGoodSuffixRule(borderPositions, goodSuffixTable);
     createStrongGoodSuffixRule(borderPositions, goodSuffixTable);
+    createWeakGoodSuffixRule(borderPositions, goodSuffixTable);
 
     return goodSuffixTable;
   }
 
   private void createStrongGoodSuffixRule(int[] borderPositions, int[] goodSuffixTable) {
     /*
-      For each substring beginning at `left`, what is the longest border?
-      If char before suffix and prefix are same, we can expand border.
-      Else, try to find valid prev border.
+     For each substring beginning at `left`, what is the longest border?
+     If char before suffix and prefix are same, we can expand border.
+     Else, try to find valid prev border.
 
-      Time: O(m)
-        Outer loop: O(m)
-        Inner Loop: O(m) ammortized across all outer loop iterations.
-     */
+     Time: O(m)
+       Outer loop: O(m)
+       Inner Loop: O(m) ammortized across all outer loop iterations.
+    */
     int m = this.pattern.length();
     int left = m;
-    int right = m+1;
+    int right = m + 1;
     borderPositions[left] = right;
 
-    while(left > 0) {
-      // Unable to expand current border. Recursively try to find next longest border (each one smaller than current border).
-      while(right <= m && this.pattern.charAt(left-1) != this.pattern.charAt(right-1)) {
-        if(goodSuffixTable[right] == 0) {
-          goodSuffixTable[right] = right-left;
+    while (left > 0) {
+      // Unable to expand current border. Recursively try to find next longest border (each one
+      // smaller than current border).
+      while (right <= m && this.pattern.charAt(left - 1) != this.pattern.charAt(right - 1)) {
+        if (goodSuffixTable[right] == 0) {
+          goodSuffixTable[right] = right - left;
         }
         right = borderPositions[right];
       }
@@ -184,16 +180,15 @@ public class BoyerMoore extends MatchingAlgorithm {
 
   private void createWeakGoodSuffixRule(int[] borderPositions, int[] goodSuffixTable) {
     int m = this.pattern.length();
-    int left, right=borderPositions[0];
+    int left, right = borderPositions[0];
 
-    for(left = 0; left <= m; left++) {
-      if(goodSuffixTable[left] == 0) goodSuffixTable[left] = right;
-      if(left == right) right = borderPositions[right];
+    for (left = 0; left <= m; left++) {
+      if (goodSuffixTable[left] == 0) goodSuffixTable[left] = right;
+      if (left == right) right = borderPositions[right];
     }
 
-    for(int i = 0; i <= m; i++) {
-      if(goodSuffixTable[i] == 0) goodSuffixTable[i] = m;
+    for (int i = 0; i <= m; i++) {
+      if (goodSuffixTable[i] == 0) goodSuffixTable[i] = m;
     }
   }
-
 }

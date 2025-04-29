@@ -4,9 +4,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -76,7 +74,7 @@ public class BoyerMooreTest {
     String pattern = "ANPANMAN";
     this.bm.setPattern(pattern);
     int m = pattern.length();
-    int[] expectedGoodSuffixTable = {6, 6, 6,6, 6, 6, 3, 8, 1};
+    int[] expectedGoodSuffixTable = {6, 6, 6, 6, 6, 6, 3, 8, 1};
     // Act
     int[] goodSuffixTable = this.bm.createGoodSuffixTable();
 
