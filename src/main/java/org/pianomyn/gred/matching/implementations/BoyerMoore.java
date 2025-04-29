@@ -12,19 +12,6 @@ public class BoyerMoore extends MatchingAlgorithm {
 
   @Override
   public void findMatches() {
-    /*
-     * Bad char table
-     *   Should be matrix (all chars in alphabet vs all chars in pattern)
-     * TODO: Good suffix table
-     *
-     * Line up pattern with left side of text
-     * Iterate from right to left
-     *  If match, advance pattern by 1 (as pattern could overlap with itself)
-     *  Else (Idea is to shift pattern right to make the mismatch a match)
-     *    If mismatching character doesnt exist in pattern, shift by length of
-     * remaining pattern If exists, shift to rightmost occurrence to the left of
-     * the mismatch For both, consult bad char table
-     */
     if (this.pattern == null || this.pattern.isEmpty() || this.reader == null) {
       return;
     }
@@ -135,7 +122,7 @@ public class BoyerMoore extends MatchingAlgorithm {
       - Line the occurrences up.
     */
     int m = this.pattern.length();
-    // Index m+1 can be treated as the "empty string", AKA no such border match.
+    // Index m can be treated as the "empty string", AKA no such border match.
     int[] borderPositions =
         new int[m + 1]; // For each i, the start position of its border suffix for substring (i, m).
     int[] goodSuffixTable = new int[m + 1];
