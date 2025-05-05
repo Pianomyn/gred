@@ -3,7 +3,7 @@ package org.pianomyn.gred.orchestration;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.*;
-import org.pianomyn.gred.matching.Algorithm;
+import org.pianomyn.gred.matching.AlgorithmType;
 import org.pianomyn.gred.matching.MatchingAlgorithm;
 import org.pianomyn.gred.matching.MatchingAlgorithmFactory;
 import org.pianomyn.gred.reading.BufferedLineReader;
@@ -13,10 +13,10 @@ import org.pianomyn.gred.traversal.BFS;
 public class Orchestrator {
   Path directoryPath;
   String pattern;
-  Algorithm algorithmType;
+  AlgorithmType algorithmType;
   Map<String, List<List<Integer>>> matches;
 
-  public Orchestrator(Path directoryPath, String pattern, Algorithm algorithmType) {
+  public Orchestrator(Path directoryPath, String pattern, AlgorithmType algorithmType) {
     this.directoryPath = directoryPath;
     this.pattern = pattern;
     this.algorithmType = algorithmType;
@@ -33,8 +33,8 @@ public class Orchestrator {
   }
 
   // Setters
-  public void setAlgorithmType(Algorithm algorithm) {
-    this.algorithmType = algorithm;
+  public void setAlgorithmType(AlgorithmType algorithmType) {
+    this.algorithmType = algorithmType;
   }
 
   public void setDirectoryPath(Path directoryPath) {

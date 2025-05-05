@@ -19,7 +19,7 @@ Install the Java 17 JRE
 ./gradlew clean build shadowJar
 java -jar build/libs/gred-1.0-SNAPSHOT-all.jar PATTERN [DIRECTORY]
 ```
-You can specify the pattern matching algorithm you want to use with flags
+You can specify the pattern matching algorithmType you want to use with flags
 ``` bash
 -nv Naive
 -rk Rabin-Karp
@@ -73,7 +73,7 @@ The returned output will be formatted like
       - Right to left
       - Classic approach is to use map to track last index occurrence. Less space, worse time complexity. Alternatively, create a matrix of size `pattern_length` * `|alphabet|`.
       - For each i in range \[0, pattern_length\], compute the distance that each character in the alphabet was last seen based on i-1.
-    - <b>Good Suffix Table Precomputation</b> ([Primer](https://medium.com/@neethamadhu.ma/good-suffix-rule-in-boyer-moore-algorithm-explained-simply-9d9b6d20a773) Don't turn any existing matches into a mismatch)
+    - <b>Good Suffix Table Precomputation</b> ([Primer](https://medium.com/@neethamadhu.ma/good-suffix-rule-in-boyer-moore-algorithmType-explained-simply-9d9b6d20a773) Don't turn any existing matches into a mismatch)
       - Right to left
       - Case 1 (Weak): The **entire suffix matched before the mismatch** occurs **elsewhere in the pattern**.
         - Shift the pattern so that this earlier occurrence of the suffix lines up with the text.

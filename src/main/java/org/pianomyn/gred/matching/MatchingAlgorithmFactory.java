@@ -11,7 +11,7 @@ import org.pianomyn.gred.reading.LineReader;
 public class MatchingAlgorithmFactory {
   public static MatchingAlgorithm create(
       Map<String, List<List<Integer>>> matches,
-      Algorithm algorithmType,
+      AlgorithmType algorithmType,
       LineReader lineReader,
       String pattern) {
     switch (algorithmType) {

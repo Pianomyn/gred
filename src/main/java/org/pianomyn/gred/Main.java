@@ -8,7 +8,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.cli.*;
-import org.pianomyn.gred.matching.Algorithm;
+import org.pianomyn.gred.matching.AlgorithmType;
 import org.pianomyn.gred.orchestration.Orchestrator;
 
 public class Main {
@@ -26,10 +26,10 @@ public class Main {
 
   private static Orchestrator initialiseOrchestrator(String[] args) {
     Options options = new Options();
-    options.addOption(Algorithm.NAIVE.flag, "Naive");
-    options.addOption(Algorithm.RABIN_KARP.flag, "Rabin-Karp");
-    options.addOption(Algorithm.BOYER_MOORE.flag, "Boyer-Moore");
-    options.addOption(Algorithm.KMP.flag, "Knuth-Morris-Pratt");
+    options.addOption(AlgorithmType.NAIVE.flag, "Naive");
+    options.addOption(AlgorithmType.RABIN_KARP.flag, "Rabin-Karp");
+    options.addOption(AlgorithmType.BOYER_MOORE.flag, "Boyer-Moore");
+    options.addOption(AlgorithmType.KMP.flag, "Knuth-Morris-Pratt");
     options.addOption("jar", "Needed to run bundled file");
 
     CommandLineParser parser = new DefaultParser();
@@ -70,16 +70,16 @@ public class Main {
     if (line.hasOption("-h") || line.hasOption("--help")) {
       printHelpMessage();
       exit(0);
-    } else if (line.hasOption(Algorithm.NAIVE.flag)) {
-      orchestrator.setAlgorithmType(Algorithm.NAIVE);
-    } else if (line.hasOption(Algorithm.RABIN_KARP.flag)) {
-      orchestrator.setAlgorithmType(Algorithm.RABIN_KARP);
-    } else if (line.hasOption(Algorithm.BOYER_MOORE.flag)) {
-      orchestrator.setAlgorithmType(Algorithm.BOYER_MOORE);
-    } else if (line.hasOption(Algorithm.KMP.flag)) {
-      orchestrator.setAlgorithmType(Algorithm.KMP);
+    } else if (line.hasOption(AlgorithmType.NAIVE.flag)) {
+      orchestrator.setAlgorithmType(AlgorithmType.NAIVE);
+    } else if (line.hasOption(AlgorithmType.RABIN_KARP.flag)) {
+      orchestrator.setAlgorithmType(AlgorithmType.RABIN_KARP);
+    } else if (line.hasOption(AlgorithmType.BOYER_MOORE.flag)) {
+      orchestrator.setAlgorithmType(AlgorithmType.BOYER_MOORE);
+    } else if (line.hasOption(AlgorithmType.KMP.flag)) {
+      orchestrator.setAlgorithmType(AlgorithmType.KMP);
     } else {
-      orchestrator.setAlgorithmType(Algorithm.BOYER_MOORE);
+      orchestrator.setAlgorithmType(AlgorithmType.BOYER_MOORE);
     }
 
     return orchestrator;

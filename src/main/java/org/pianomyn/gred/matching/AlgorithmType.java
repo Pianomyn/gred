@@ -1,6 +1,6 @@
 package org.pianomyn.gred.matching;
 
-public enum Algorithm {
+public enum AlgorithmType {
   NAIVE("nv"),
   RABIN_KARP("rk"),
   BOYER_MOORE("bm"),
@@ -8,7 +8,7 @@ public enum Algorithm {
 
   public final String flag;
 
-  Algorithm(String flag) {
+  AlgorithmType(String flag) {
     this.flag = flag;
   }
 }
