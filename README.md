@@ -1,16 +1,14 @@
 # Gred - A Pattern Matching Tool
-Many everyday computing tasks like running plagiarism checks, searching with Control+F and filtering emails rely on efficient pattern matching algorithms.
+Many everyday computing tasks like running plagiarism checks and searching with Control+F rely on pattern matching algorithms.
 
-Gred is a fast pattern matching tool inspired by the popular
-Unix command-line utility `grep`.
+Gred is a Java project inspired by `grep`, a famous pattern matching tool that recursively traverses directories
+and searches for occurrences of a pattern in each file. It is fast and lightweight due to efficient pattern matching algorithms (Typically Boyer-Moore).
 
-It recursively traverses a directory (current directory by default)
-and search all descendant files for occurrences of a given pattern.
+This project is a "multithreaded `grep`" implementation, where multithreading is used to speed up directory
+traversal and file reading.
 
-I'm working on this project to improve my coding skills (splitting concerns across domains, testing and problem-solving) </br>
-while also getting familiar with the structure of Java projects and learning
-about the fascinating and well-researched field of pattern matching.
-
+This is not a production-level project, it's just for me to practice my coding skills and learn about multi-threading in Java. </br>
+For a fast, modern implementation of `grep` that makes use of modern computer architecture, please check out [ripgrep](https://github.com/BurntSushi/ripgrep).
 
 ## Usage
 ### Using Java
