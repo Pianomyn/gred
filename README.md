@@ -59,8 +59,7 @@ The returned output will be formatted like
 
 ## Concurrency
 Currently using a single producer (directory traversal) and multiple consumer (reading and matching) approach.
-I think this works best for a realistic file system with some files that may be very large.
-Can try other approaches for specific file system characteristics.
+I think this works best for a realistic file system with some files that may be very large and where I/O is the main blocker.
 
 ## Future Work
 - Handle utf chars in boyer moore bad char table
