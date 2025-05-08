@@ -7,8 +7,8 @@ and searches for occurrences of a pattern in each file. It is fast and lightweig
 This project is a "multithreaded `grep`" implementation, where multithreading is used to speed up directory
 traversal and file reading.
 
-This is not a production-level project, it's just for me to practice my coding skills and learn about multi-threading in Java. </br>
-For a fast, modern implementation of `grep` that makes use of modern computer architecture, please check out [ripgrep](https://github.com/BurntSushi/ripgrep).
+This is not a production-level project (Java, not C++ or Rust), it's just for me to practice my coding skills and learn about multi-threading in Java. </br>
+For a fast implementation of `grep` that makes use of modern computer architecture, please check out [ripgrep](https://github.com/BurntSushi/ripgrep).
 
 ## Usage
 ### Using Java
@@ -38,6 +38,14 @@ The returned output will be formatted like
 
 ![usage_example](https://github.com/user-attachments/assets/55207c5a-88bb-46c9-a594-4ebb34a17b35)
 
+## Development
+- Github Actions is used for CI. Create a PR to
+  - Run all tests
+  - Run lint checks using checkstyle
+- Gradle tasks exist for linting and formatting locally
+  - `./gradlew lint` Uses checkstyle and spotless
+  - `./gradlew format` Uses spotless
+
 ## Algorithm Summaries
 - Rabin-Karp
   - Uses a rolling hash (usually moving sum) to avoid pointless checks. Hard to pick a good rolling hash that balances correctness and speed.
@@ -49,50 +57,14 @@ The returned output will be formatted like
   - Worst Case: O(mn) if pattern and text are all same characters. Can guarantee linear bound with Apostolico-Giancarlo version (Not implemented).
 - Knuth-Morris-Pratt
 
-## Development
-- Github Actions is used for CI. Create a PR to
-    - Run all tests
-    - Run lint checks using checkstyle
-- Gradle tasks exist for linting and formatting locally
-    - `./gradlew lint` Uses checkstyle and spotless
-    - `./gradlew format` Uses spotless
+## Concurrency
+Currently using a single producer (directory traversal) and multiple consumer (reading and matching) approach.
+I think this works best for a realistic file system with some files that may be very large.
+Can try other approaches for specific file system characteristics.
 
-## Notes (For myself so I don't forget!)
-- Pattern matching with well optimized pattern matching algorithms. Currently implemented
-  - <u><b>Rabin-Karp</b></u>
-    - Average Case: O(m + n) Assuming a good hash function that avoids collisions.
-    - Worst Case: O(mn) If there are many collisions.
-    - Uses a rolling hash (usually moving sum) to avoid pointless checks. Hard to pick a good rolling hash that balances correctness and speed.
-  - <u><b>Boyer-Moore</b></u> ([Primer](https://www.youtube.com/watch?v=4Xyhb72LCX4&t=200s))
-    - Average Case: O(n/m) esp when |alphabet| >> |unique_pattern_chars| as the Bad Character rule will often trigger large jumps.
-    - Worst Case: O(mn) eg if pattern and text are all same characters. Can guarantee linear bound with Apostolico-Giancarlo version (Not implemented).
-    - Precomputation on the pattern to skip redundant matches. Take the best of the 2 suggestions.
-    - <b>Bad Char Table Precomputation</b> (Skip until mismatch becomes match):
-      - Right to left
-      - Classic approach is to use map to track last index occurrence. Less space, worse time complexity. Alternatively, create a matrix of size `pattern_length` * `|alphabet|`.
-      - For each i in range \[0, pattern_length\], compute the distance that each character in the alphabet was last seen based on i-1.
-    - <b>Good Suffix Table Precomputation</b> ([Primer](https://medium.com/@neethamadhu.ma/good-suffix-rule-in-boyer-moore-algorithmType-explained-simply-9d9b6d20a773) Don't turn any existing matches into a mismatch)
-      - Right to left
-      - Case 1 (Weak): The **entire suffix matched before the mismatch** occurs **elsewhere in the pattern**.
-        - Shift the pattern so that this earlier occurrence of the suffix lines up with the text.
-      - Case 2 (Strong): A **proper suffix** of the matched part is also a **prefix** of the pattern.
-        - Shift the pattern so that this prefix lines up with the suffix in the text.
-      - A shift table is computed using both cases to determine how far the pattern can be safely shifted on a mismatch, **while preserving suffix matches**.
-  - <u><b>KMP</b></u> (WIP)
-    - Average Case: O(n)
-    - Worst Case: O(m + n)
-    - <b>Last Prefix Suffix</b>: Precomputation on the pattern to skip redundant matches.
-      - Computation
-        - Create an array of size `pattern_length` called `lps`.
-        - Use 2 pointers, `left` and `right` and start both at 0.
-        - If `pattern[right]` == `pattern[left]`, Set `lps`
-- Recursive directory traversal
-- Clearly formatted output
-- `sudo docker run --rm -it --entrypoint=/bin/sh gred`
 ## Future Work
-- Measure performance against grep
-- Multi-threading
-- Handle utf chars in boyer moore table
+- Handle utf chars in boyer moore bad char table
 - Regex support
 
 ## Note to self
+- `sudo docker run --rm -it --entrypoint=/bin/sh gred`
