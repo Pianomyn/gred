@@ -21,8 +21,8 @@ public class BufferedLineReader extends LineReader {
       // System.out.println("Error reading file " + e.toString());
       // System.exit(1);
       // System.err.println("Error reading file " + e.toString());
-      throw new IOException("Error reading file " + e.toString());
       // throw new FileNotFoundException(filePath.toString());
+      throw e;
     }
   }
 

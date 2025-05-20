@@ -14,11 +14,9 @@ import org.pianomyn.gred.orchestration.Orchestrator;
 public class Main {
   public static void main(String[] args) {
     Orchestrator orchestrator = initialiseOrchestrator(args);
-
     try {
-      orchestrator.traverseAndFindMatches();
+      orchestrator.findMatches();
     } catch (IOException e) {
-      System.out.println(e.getMessage());
     }
 
     printMatches(orchestrator.getMatches());
@@ -31,6 +29,8 @@ public class Main {
     options.addOption(AlgorithmType.BOYER_MOORE.flag, "Boyer-Moore");
     options.addOption(AlgorithmType.KMP.flag, "Knuth-Morris-Pratt");
     options.addOption("jar", "Needed to run bundled file");
+    options.addOption("j", "jar", false, "Needed to run bundled file");
+    options.addOption("t", "consumer-threads", true, "Needed to run bundled file");
 
     CommandLineParser parser = new DefaultParser();
     CommandLine line = null;
@@ -45,8 +45,13 @@ public class Main {
       exit(2);
     }
     String[] remainingArgs = line.getArgs();
-    Orchestrator orchestrator = new Orchestrator(null, null, null);
 
+    int numConsumers = 1;
+    if (line.hasOption("t") || line.hasOption("consumer-threads")) {
+      numConsumers = Integer.parseInt(line.getOptionValue("t"));
+    }
+
+    Orchestrator orchestrator = new Orchestrator(null, null, null, numConsumers);
     if (remainingArgs[0].equals("docker")) {
       // TODO: WIP
       if (remainingArgs.length < 4 || remainingArgs.length > 5) {

@@ -6,7 +6,7 @@ import java.nio.file.Path;
 public abstract class LineReader {
   protected Path filePath;
 
-  public LineReader(Path filePath) throws IOException {
+  public LineReader(Path filePath) {
     this.filePath = filePath;
   }
 

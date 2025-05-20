@@ -58,10 +58,14 @@ public class RabinKarpTest {
     FileSystemUtility.appendToFile(this.directoryPath, Paths.get("testFile.txt"), "a");
     this.rk.setPattern("REALLY LONG PATTERN!");
 
+    LineReader reader = null;
     try {
-      this.rk.setReader(new BufferedLineReader(this.directoryPath.resolve("testFile.txt")));
+      reader = new BufferedLineReader(this.directoryPath.resolve("testFile.txt"));
     } catch (IOException e) {
+
     }
+
+    this.rk.setReader(reader);
     this.rk.findMatches();
 
     // Act and Assert
@@ -83,6 +87,7 @@ public class RabinKarpTest {
       naiveReader = new BufferedLineReader(directoryPath.resolve("testFile.txt"));
     } catch (IOException e) {
     }
+
     this.rk.setReader(rkReader);
     this.naive.setReader(naiveReader);
 

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Set;
 import org.junit.jupiter.api.AfterEach;
@@ -38,7 +39,7 @@ public class BFSTest {
   @BeforeEach
   public void setup() {
     this.directoryPath = FileSystemUtility.createUniqueTestDirectory();
-    this.b = new BFS(this.directoryPath);
+    this.b = new BFS(this.directoryPath, new LinkedList<>());
   }
 
   @AfterEach
@@ -48,7 +49,8 @@ public class BFSTest {
 
   @Test
   public void testTraverseEmpty() {
-    Queue<Path> result = this.b.traverse();
+    this.b.traverse();
+    Queue<Path> result = this.b.getFilePaths();
     assert result.isEmpty();
   }
 
@@ -66,7 +68,8 @@ public class BFSTest {
     }
 
     // Act
-    Queue<Path> result = this.b.traverse();
+    this.b.traverse();
+    Queue<Path> result = this.b.getFilePaths();
     Set<Path> paths = new HashSet<>(result);
 
     // Assert
@@ -93,7 +96,8 @@ public class BFSTest {
     }
 
     // Act
-    Queue<Path> result = this.b.traverse();
+    this.b.traverse();
+    Queue<Path> result = this.b.getFilePaths();
     Set<Path> paths = new HashSet<>(result);
 
     // Assert

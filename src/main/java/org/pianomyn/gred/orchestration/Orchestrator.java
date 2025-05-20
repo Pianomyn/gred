@@ -3,24 +3,35 @@ package org.pianomyn.gred.orchestration;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.concurrent.*;
 import org.pianomyn.gred.matching.AlgorithmType;
 import org.pianomyn.gred.matching.MatchingAlgorithm;
 import org.pianomyn.gred.matching.MatchingAlgorithmFactory;
+import org.pianomyn.gred.orchestration.consumer.Consumer;
+import org.pianomyn.gred.orchestration.consumer.MatchConsumer;
+import org.pianomyn.gred.orchestration.producer.Producer;
+import org.pianomyn.gred.orchestration.producer.TraversalProducer;
 import org.pianomyn.gred.reading.BufferedLineReader;
 import org.pianomyn.gred.reading.LineReader;
-import org.pianomyn.gred.traversal.BFS;
 
 public class Orchestrator {
   Path directoryPath;
   String pattern;
   AlgorithmType algorithmType;
+  Queue<Path> filePaths;
   Map<String, List<List<Integer>>> matches;
+  int numConsumers = 1;
 
-  public Orchestrator(Path directoryPath, String pattern, AlgorithmType algorithmType) {
+  public Orchestrator(
+      Path directoryPath, String pattern, AlgorithmType algorithmType, int numConsumers) {
     this.directoryPath = directoryPath;
     this.pattern = pattern;
     this.algorithmType = algorithmType;
-    this.matches = new HashMap<>();
+    // Blocking queue to not waste CPU cycles while waiting for producer.
+    this.filePaths = numConsumers == 1 ? new LinkedList<>() : new LinkedBlockingQueue<>();
+    this.matches = numConsumers == 1 ? new HashMap<>() : new ConcurrentHashMap<>();
+    this.numConsumers = numConsumers;
+    System.out.println(numConsumers);
   }
 
   // Getters
@@ -45,30 +56,69 @@ public class Orchestrator {
     this.pattern = pattern;
   }
 
-  public void traverseAndFindMatches() throws IOException {
+  public void setNumConsumers(int numConsumers) {
+    this.numConsumers = numConsumers;
+  }
+
+  public void findMatches() throws IOException {
+    if (this.numConsumers == 1) {
+      this.findMatchesSequentially();
+    } else {
+      this.findMatchesConcurrently();
+    }
+  }
+
+  public void findMatchesSequentially() throws IOException {
     LineReader reader = null;
     try {
       reader = new BufferedLineReader(directoryPath);
     } catch (IOException e) {
-      e.printStackTrace();
-      throw (e);
+      throw e;
     }
-    BFS traversal = new BFS(directoryPath);
     MatchingAlgorithm matchingAlgorithm =
-        MatchingAlgorithmFactory.create(this.matches, algorithmType, reader, this.pattern);
+        MatchingAlgorithmFactory.create(this.matches, this.algorithmType, reader, this.pattern);
 
-    Queue<Path> filePaths = traversal.traverse();
+    Producer p = new TraversalProducer(this.filePaths, this.directoryPath, this.numConsumers);
+    Consumer c =
+        new MatchConsumer(this.filePaths, matchingAlgorithm, this.matches, this.numConsumers);
 
-    while (!filePaths.isEmpty()) {
-      Path path = filePaths.poll();
+    p.produce();
+    c.consume();
+  }
+
+  public void findMatchesConcurrently() throws IOException {
+    Thread producerThread =
+        new Thread(new TraversalProducer(this.filePaths, this.directoryPath, this.numConsumers));
+    producerThread.start();
+
+    Thread[] consumers = new Thread[this.numConsumers];
+    for (int i = 0; i < this.numConsumers; i++) {
+      LineReader reader = null;
       try {
-        reader = new BufferedLineReader(path);
+        reader = new BufferedLineReader(directoryPath);
       } catch (IOException e) {
-        // Handle the exception
-        System.err.println("Error creating LineReader: " + e.getMessage());
+        throw e;
       }
-      matchingAlgorithm.setReader(reader);
-      matchingAlgorithm.findMatches();
+      MatchingAlgorithm matchingAlgorithm =
+          MatchingAlgorithmFactory.create(this.matches, this.algorithmType, reader, this.pattern);
+      consumers[i] =
+          new Thread(
+              new MatchConsumer(
+                  this.filePaths, matchingAlgorithm, this.matches, this.numConsumers));
+      consumers[i].start();
+    }
+
+    try {
+      producerThread.join();
+      for (int i = 0; i < this.numConsumers; i++) {
+        this.filePaths.offer(PoisonPill.POISON_PILL);
+      }
+      for (Thread consumer : consumers) {
+        consumer.join();
+      }
+    } catch (InterruptedException e) {
+      System.out.println("Main thread interrupted");
+      Thread.currentThread().interrupt();
     }
   }
 }

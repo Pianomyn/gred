@@ -55,13 +55,15 @@ public class BoyerMooreTest {
   @Test
   public void testPatternLongerThanText() {
     // Arrange
-    FileSystemUtility.appendToFile(this.directoryPath, Paths.get("testFile.txt"), "a");
-    this.bm.setPattern("REALLY LONG PATTERN!");
+    LineReader reader = null;
     try {
-      this.bm.setReader(new BufferedLineReader(this.directoryPath.resolve("testFile.txt")));
-      int a = 2;
+      reader = new BufferedLineReader(this.directoryPath.resolve("testFile.txt"));
     } catch (IOException e) {
     }
+    FileSystemUtility.appendToFile(this.directoryPath, Paths.get("testFile.txt"), "a");
+    this.bm.setPattern("REALLY LONG PATTERN!");
+    this.bm.setReader(reader);
+    int a = 2;
     this.bm.findMatches();
 
     // Act and Assert
