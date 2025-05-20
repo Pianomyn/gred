@@ -83,6 +83,7 @@ public class Orchestrator {
         new MatchConsumer(this.filePaths, matchingAlgorithm, this.matches, this.numConsumers);
 
     p.produce();
+    this.filePaths.offer(PoisonPill.POISON_PILL);
     c.consume();
   }
 
