@@ -61,10 +61,6 @@ The returned output will be formatted like
   - Worst Case: O(mn) if pattern and text are all same characters. Can guarantee linear bound with Apostolico-Giancarlo version (Not implemented).
 - Knuth-Morris-Pratt
 
-## Concurrency
-Currently using a single producer (directory traversal) and multiple consumer (reading and matching) approach.
-
-
 ## Future Work
 - Handle utf chars in boyer moore bad char table
 - Regex support
