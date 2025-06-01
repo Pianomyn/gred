@@ -8,7 +8,11 @@ This is not a production-level project (Java, not C++ or Rust), it's just for me
 For a fast implementation of `grep` that makes use of modern computer architecture, please check out [ripgrep](https://github.com/BurntSushi/ripgrep).
 
 ## Architecture
-This project is a "multithreaded `grep`" implementation, with 1 producer thread traversing the directory and writing file names to a blocking queue and multiple consumer threads consuming from the queue and doing file I/O and pattern matching, writing results to a concurrent map. I think this works best for a realistic file system with some files that may be very large and where I/O is the main blocker.
+Gred uses a producer-consumer model
+- A single producer thread recursively traverses the directory tree and enqueues file paths into a `BlockingQueue`.
+- Multiple consumer threads dequeue file paths, perform file I/O and pattern matching, and store matches in a shared `ConcurrentHashMap`.
+
+I think this works best for a realistic file system where files vary in size and I/O is the main blocker - however, benchmarking is still in progress.
 
 ## Usage
 ### Using Java
