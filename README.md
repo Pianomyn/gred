@@ -4,11 +4,11 @@ Many everyday computing tasks like running plagiarism checks and searching with 
 Gred is a Java project inspired by `grep`, a famous pattern matching tool that recursively traverses directories
 and searches for occurrences of a pattern in each file. It is fast and lightweight due to efficient pattern matching algorithms (Typically Boyer-Moore).
 
-This project is a "multithreaded `grep`" implementation, where multithreading is used to speed up directory
-traversal and file reading.
-
-This is not a production-level project (Java, not C++ or Rust), it's just for me to practice my coding skills and learn about multi-threading in Java. </br>
+This is not a production-level project (Java, not C++ or Rust), it's just for me to practice my design + coding skills and learn about pattern matching algorithms + multi-threading in Java. </br>
 For a fast implementation of `grep` that makes use of modern computer architecture, please check out [ripgrep](https://github.com/BurntSushi/ripgrep).
+
+## Architecture
+This project is a "multithreaded `grep`" implementation, with 1 producer thread traversing the directory and writing file names to a blocking queue and multiple consumer threads consuming from the queue and doing file I/O and pattern matching, writing results to a concurrent map. I think this works best for a realistic file system with some files that may be very large and where I/O is the main blocker.
 
 ## Usage
 ### Using Java
@@ -17,7 +17,7 @@ Install the Java 17 JRE
 ./gradlew clean build shadowJar
 java -jar build/libs/gred-1.0-SNAPSHOT-all.jar PATTERN [DIRECTORY]
 ```
-You can specify the pattern matching algorithmType you want to use with flags
+You can specify the pattern matching algorithm you want to use with flags (Default is Boyer-Moore).
 ``` bash
 -nv Naive
 -rk Rabin-Karp
@@ -59,7 +59,7 @@ The returned output will be formatted like
 
 ## Concurrency
 Currently using a single producer (directory traversal) and multiple consumer (reading and matching) approach.
-I think this works best for a realistic file system with some files that may be very large and where I/O is the main blocker.
+
 
 ## Future Work
 - Handle utf chars in boyer moore bad char table
