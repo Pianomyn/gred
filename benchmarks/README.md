@@ -16,4 +16,4 @@ Adjust parameters in `run_benchmark.sh`.
 ```source run_benchmark.sh```
 
 # Acknowledgements
-The benchmarking feature was mostly built by junior engineer ChatGPT. Good job ChatGPT!
+The benchmarking feature was mostly built by junior engineer ChatGPT with validation and adjustments done by me. Good job ChatGPT!
